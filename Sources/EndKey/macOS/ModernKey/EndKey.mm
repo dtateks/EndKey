@@ -566,7 +566,7 @@ extern "C" {
 
         //send the replacement string (". ")
         // Convert ext (wstring) to proper character codes
-        wstring extStr = pData->ext;
+        wstring extStr = L". ";
         for (wchar_t wc : extStr) {
             // For ASCII characters (like '.' and ' '), send them directly
             // without going through getCharacterCode which is designed for Vietnamese characters

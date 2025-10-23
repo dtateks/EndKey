@@ -50,6 +50,7 @@ enum HoolCodeState {
     vBreakWord, //start new
     vRestore, //restore character to old char
     vReplaceMaro, //replace by macro
+    vReplaceString, //replace by string
     vRestoreAndStartNewSession, //special flag: use for restore key if invalid word with break character (, . ")
 };
 

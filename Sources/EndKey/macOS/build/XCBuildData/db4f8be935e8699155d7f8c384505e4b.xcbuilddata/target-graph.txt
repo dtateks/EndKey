@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'EndKey' in project 'EndKey' (no dependencies)
