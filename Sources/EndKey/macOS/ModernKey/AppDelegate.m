@@ -38,7 +38,7 @@ int vUseMacro = 1;
 int vUseMacroInEnglishMode = 1;
 int vAutoCapsMacro = 0;
 int vSendKeyStepByStep = 0;
-//int vUseSmartSwitchKey = 1; // Feature removed
+int vUseSmartSwitchKey = 1;
 int vUpperCaseFirstChar = 0;
 int vTempOffSpelling = 0;
 int vAllowConsonantZFWJ = 0;
@@ -47,6 +47,7 @@ int vQuickEndConsonant = 0;
 int vRememberCode = 1; //new on version 2.0
 int vOtherLanguage = 1; //new on version 2.0
 int vTempOffEndKey = 0; //new on version 2.0
+int vDoubleSpacePeriod = 1; //double space -> period feature
 
 int vShowIconOnDock = 0; //new on version 2.0
 
@@ -166,6 +167,7 @@ extern bool convertToolDontAlertWhenCompleted;
     }
     
     vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
+    vDoubleSpacePeriod = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
     if (vShowIconOnDock)
         [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
     
@@ -318,7 +320,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vUseMacro = 1; [[NSUserDefaults standardUserDefaults] setInteger:vUseMacro forKey:@"UseMacro"];
     vUseMacroInEnglishMode = 0; [[NSUserDefaults standardUserDefaults] setInteger:vUseMacroInEnglishMode forKey:@"UseMacroInEnglishMode"];
     vSendKeyStepByStep = 0;[[NSUserDefaults standardUserDefaults] setInteger:vUseMacroInEnglishMode forKey:@"SendKeyStepByStep"];
-    //vUseSmartSwitchKey = 1;[[NSUserDefaults standardUserDefaults] setInteger:vUseSmartSwitchKey forKey:@"UseSmartSwitchKey"]; // Feature removed
+    vUseSmartSwitchKey = 1;[[NSUserDefaults standardUserDefaults] setInteger:vUseSmartSwitchKey forKey:@"UseSmartSwitchKey"];
     vUpperCaseFirstChar = 0;[[NSUserDefaults standardUserDefaults] setInteger:vUpperCaseFirstChar forKey:@"UpperCaseFirstChar"];
     vTempOffSpelling = 0;[[NSUserDefaults standardUserDefaults] setInteger:vTempOffSpelling forKey:@"vTempOffSpelling"];
     vAllowConsonantZFWJ = 0;[[NSUserDefaults standardUserDefaults] setInteger:vAllowConsonantZFWJ forKey:@"vAllowConsonantZFWJ"];
@@ -327,6 +329,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vRememberCode = 1;[[NSUserDefaults standardUserDefaults] setInteger:vRememberCode forKey:@"vRememberCode"];
     vOtherLanguage = 1;[[NSUserDefaults standardUserDefaults] setInteger:vOtherLanguage forKey:@"vOtherLanguage"];
     vTempOffEndKey = 0;[[NSUserDefaults standardUserDefaults] setInteger:vTempOffEndKey forKey:@"vTempOffEndKey"];
+    vDoubleSpacePeriod = 1;[[NSUserDefaults standardUserDefaults] setInteger:vDoubleSpacePeriod forKey:@"vDoubleSpacePeriod"];
     vShowIconOnDock = 0;[[NSUserDefaults standardUserDefaults] setInteger:vShowIconOnDock forKey:@"vShowIconOnDock"];
     vFixChromiumBrowser = 0;[[NSUserDefaults standardUserDefaults] setInteger:vFixChromiumBrowser forKey:@"vFixChromiumBrowser"];
     vPerformLayoutCompat = 0;[[NSUserDefaults standardUserDefaults] setInteger:vPerformLayoutCompat forKey:@"vPerformLayoutCompat"];
@@ -566,7 +569,7 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 -(void)activeAppChanged: (NSNotification*)note {
-    if (0 && [EndKeyManager isInited]) { // vUseSmartSwitchKey removed
+    if (vUseSmartSwitchKey && [EndKeyManager isInited]) {
         OnActiveAppChanged();
     }
 }

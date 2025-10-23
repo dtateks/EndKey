@@ -63,6 +63,7 @@
 @property (weak) IBOutlet NSButton *ShowIconOnDock;
 @property (weak) IBOutlet NSButton *CheckNewVersionOnStartup;
 @property (weak) IBOutlet NSButton *FixChromiumBrowser;
+@property (weak) IBOutlet NSButton *DoubleSpacePeriod;
 @property (weak) IBOutlet NSButton *PerformLayoutCompat;
 
 @property (weak) IBOutlet NSButton *CheckNewVersionButton;

@@ -25,7 +25,7 @@ extern int vFixRecommendBrowser;
 extern int vUseMacro;
 extern int vUseMacroInEnglishMode;
 extern int vSendKeyStepByStep;
-//extern int vUseSmartSwitchKey; // Feature removed
+extern int vUseSmartSwitchKey;
 extern int vUpperCaseFirstChar;
 extern int vTempOffSpelling;
 extern int vAllowConsonantZFWJ;
@@ -34,6 +34,7 @@ extern int vQuickEndConsonant;
 extern int vRememberCode;
 extern int vOtherLanguage;
 extern int vTempOffEndKey;
+extern int vDoubleSpacePeriod;
 extern int vShowIconOnDock;
 extern int vAutoCapsMacro;
 extern int vFixChromiumBrowser;
@@ -46,6 +47,7 @@ extern int vPerformLayoutCompat;
     __weak IBOutlet NSButton *CustomSwitchShift;
     __weak IBOutlet MyTextField *CustomSwitchKey;
     __weak IBOutlet NSButton *CustomBeepSound;
+    __weak IBOutlet NSButton *DoubleSpacePeriod;
     NSArray* tabviews, *tabbuttons;
     NSRect tabViewRect;
 }
@@ -301,9 +303,10 @@ extern int vPerformLayoutCompat;
     vUseMacroInEnglishMode = (int)val;
 }
 
-// - (IBAction)onAutoRememberSwitchKey:(NSButton *)sender {
-//     // Feature removed completely
-// }
+- (IBAction)onAutoRememberSwitchKey:(NSButton *)sender {
+    NSInteger val = [self setCustomValue:sender keyToSet:@"UseSmartSwitchKey"];
+    vUseSmartSwitchKey = (int)val;
+}
 
 - (IBAction)onUpperCaseFirstChar:(NSButton *)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"UpperCaseFirstChar"];
@@ -361,6 +364,11 @@ extern int vPerformLayoutCompat;
 
 - (IBAction)onTerminateApp:(id)sender {
     [NSApp terminate:0];
+}
+
+- (IBAction)onDoubleSpacePeriod:(id)sender {
+    NSInteger val = [self setCustomValue:sender keyToSet:@"vDoubleSpacePeriod"];
+    vDoubleSpacePeriod = (int)val;
 }
 
 -(void)fillData {
@@ -425,8 +433,8 @@ extern int vPerformLayoutCompat;
     NSInteger sendKeySbS = [[NSUserDefaults standardUserDefaults] integerForKey:@"SendKeyStepByStep"];
     self.SendKeyStepByStep.state = sendKeySbS ? NSControlStateValueOn : NSControlStateValueOff;
     
-    //NSInteger useSmartSwitchKey = [[NSUserDefaults standardUserDefaults] integerForKey:@"UseSmartSwitchKey"]; // Feature removed
-    //self.AutoRememberSwitchKey.state = useSmartSwitchKey ? NSControlStateValueOn : NSControlStateValueOff; // Feature removed
+    NSInteger useSmartSwitchKey = [[NSUserDefaults standardUserDefaults] integerForKey:@"UseSmartSwitchKey"];
+    self.AutoRememberSwitchKey.state = useSmartSwitchKey ? NSControlStateValueOn : NSControlStateValueOff;
     
     NSInteger upperCaseFirstChar = [[NSUserDefaults standardUserDefaults] integerForKey:@"UpperCaseFirstChar"];
     self.UpperCaseFirstChar.state = upperCaseFirstChar ? NSControlStateValueOn : NSControlStateValueOff;
@@ -458,6 +466,9 @@ extern int vPerformLayoutCompat;
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vFixChromiumBrowser"];
     self.FixChromiumBrowser.state = value ? NSControlStateValueOn : NSControlStateValueOff;
     self.FixChromiumBrowser.enabled = fixRecommendBrowser ? YES : NO;
+
+    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
+    self.DoubleSpacePeriod.state = value ? NSControlStateValueOn : NSControlStateValueOff;
     
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vPerformLayoutCompat"];
     self.PerformLayoutCompat.state = value ? NSControlStateValueOn : NSControlStateValueOff;

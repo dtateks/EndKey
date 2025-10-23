@@ -48,6 +48,7 @@ extern int vFixChromiumBrowser;
 extern int vPerformLayoutCompat;
 
 extern "C" {
+    void handleStringReplace();
     //app which must sent special empty character
     NSArray* _niceSpaceApp = @[@"com.sublimetext.3",
                                @"com.sublimetext.2",
@@ -66,6 +67,9 @@ extern "C" {
     CGEventRef _newEventDown, _newEventUp;
     CGKeyCode _keycode;
     CGEventFlags _flag, _lastFlag = 0, _privateFlag;
+
+    // Double space period handling
+    int _consecutiveSpaceCount = 0;
     CGEventTapProxy _proxy;
     
     Uint16 _newCharString[MAX_UNICODE_STRING];
@@ -212,18 +216,17 @@ extern "C" {
     }
     
     void OnInputMethodChanged() {
-        // Temporarily disable Smart Switch Key due to crash
-        // if (vUseSmartSwitchKey) {
-        //     @try {
-        //         queryFrontMostApp();
-        //         if (_frontMostApp != nil && [_frontMostApp length] > 0) {
-        //             setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage | (vCodeTable << 1));
-        //             saveSmartSwitchKeyData();
-        //         }
-        //     } @catch (NSException *exception) {
-        //         // Ignore Smart Switch Key errors to prevent crash
-        //     }
-        // }
+        if (vUseSmartSwitchKey) {
+            @try {
+                queryFrontMostApp();
+                if (_frontMostApp != nil && [_frontMostApp length] > 0) {
+                    setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage | (vCodeTable << 1));
+                    saveSmartSwitchKeyData();
+                }
+            } @catch (NSException *exception) {
+                // Ignore Smart Switch Key errors to prevent crash
+            }
+        }
     }
     
     void OnSpellCheckingChanged() {
@@ -553,6 +556,30 @@ extern "C" {
         SendKeyCode(_keycode | (_flag & kCGEventFlagMaskShift ? CAPS_MASK : 0));
     }
 
+    void handleStringReplace() {
+        //send backspace to delete the second space
+        if (pData->backspaceCount > 0) {
+            for (int i = 0; i < pData->backspaceCount; i++) {
+                SendBackspace();
+            }
+        }
+
+        //send the replacement string (". ")
+        // Convert ext (wstring) to proper character codes
+        wstring extStr = pData->ext;
+        for (wchar_t wc : extStr) {
+            // For ASCII characters (like '.' and ' '), send them directly
+            // without going through getCharacterCode which is designed for Vietnamese characters
+            if (wc < 128) {
+                SendKeyCode((Uint32)wc | PURE_CHARACTER_MASK);
+            } else {
+                // For non-ASCII characters, use the engine's conversion
+                Uint32 charCode = getCharacterCode((Uint32)wc);
+                SendKeyCode(charCode | PURE_CHARACTER_MASK);
+            }
+        }
+    }
+
     // TODO: Research API to convert character into CGKeyCode more elegantly!
     int ConvertKeyStringToKeyCode(NSString *keyString, CGKeyCode fallback) {
         // Infomation about capitalization (shift/caps) is already included
@@ -762,10 +789,18 @@ extern "C" {
                 }
             } else if (pData->code == vReplaceMaro) { //MACRO
                 handleMacro();
+            } else if (pData->code == vReplaceString) { //DOUBLE SPACE PERIOD
+                handleStringReplace();
+            } else if (pData->code == vDoNothing && pData->extCode == 6) { //SIMPLE DOUBLE SPACE
+                // Just send period directly
+                SendKeyCode(46 | PURE_CHARACTER_MASK); // '.'
+            } else if (pData->code == vDoNothing) { //Regular vDoNothing
+                // Regular processing
             }
-            
+
             return NULL;
         }
+
         
         return event;
     }
