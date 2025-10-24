@@ -176,7 +176,31 @@ enum HoolCodeState {
 
 ### macOS Build
 
-**Development Build:**
+**Quick Rebuild Script (Recommended):**
+```bash
+# Complete rebuild workflow - use this for most development
+# 1. Kill all running instances
+killall -9 EndKey EndKeyHelper 2>/dev/null
+
+# 2. Clean build directory
+rm -rf Sources/EndKey/macOS/build/
+
+# 3. Build with clean
+xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
+  -target EndKey \
+  -configuration Debug \
+  CODE_SIGNING_ALLOWED=NO \
+  clean build
+
+# 4. Install to Applications
+rm -rf /Applications/EndKey.app
+cp -a Sources/EndKey/macOS/build/Debug/EndKey.app /Applications/
+
+# 5. Sign for permissions persistence
+codesign --force --deep --sign - /Applications/EndKey.app
+```
+
+**Development Build (Step-by-step):**
 ```bash
 # Build without signing
 xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj -target EndKey -configuration Debug CODE_SIGNING_ALLOWED=NO
@@ -215,14 +239,20 @@ open Sources/EndKey/win32/EndKey/EndKey.sln
 
 ### Debug Commands
 ```bash
-# Kill all EndKey processes
-killall EndKey EndKeyHelper 2>/dev/null
+# Force kill all EndKey processes
+killall -9 EndKey EndKeyHelper 2>/dev/null
 
 # Restart EndKey
 open /Applications/EndKey.app
 
 # Manual launch (for debugging)
 /Applications/EndKey.app/Contents/MacOS/EndKey &
+
+# Check running processes
+ps aux | grep -E "EndKey|EndKeyHelper" | grep -v grep
+
+# View live logs
+log stream --predicate 'process == "EndKey"' --level debug
 ```
 
 ## 🎯 Features & Capabilities

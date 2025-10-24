@@ -798,12 +798,6 @@ extern "C" {
                 handleMacro();
             } else if (pData->code == vReplaceString) { //DOUBLE SPACE PERIOD
                 handleStringReplace();
-            } else if (pData->code == vDoNothing && pData->extCode == 6) { //DOUBLE SPACE
-                // Send period + space (". ")
-                // Use SendKeyCode with PURE_CHARACTER_MASK to send characters correctly
-                // PURE_CHARACTER_MASK tells SendKeyCode to use CGEventKeyboardSetUnicodeString
-                SendKeyCode(46 | PURE_CHARACTER_MASK);  // '.' (period)
-                SendKeyCode(32 | PURE_CHARACTER_MASK);  // ' ' (space)
             } else if (pData->code == vDoNothing) { //Regular vDoNothing
                 // Regular processing
             }

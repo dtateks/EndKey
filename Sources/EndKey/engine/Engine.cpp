@@ -1436,9 +1436,8 @@ void vKeyHandleEvent(const vKeyEvent& event,
         }
 
         // Check double space for period feature
-        // ALWAYS ENABLED FOR TESTING - remove vDoubleSpacePeriod check
         // When user hits space twice consecutively, replace second space with ". "
-        if (_spaceCount == 1) {
+        if (vDoubleSpacePeriod && _spaceCount == 1) {
             // Double space detected! Use vReplaceString to trigger handleStringReplace()
             // This will send backspace to delete 2nd space, then send ". "
             hCode = vReplaceString;
