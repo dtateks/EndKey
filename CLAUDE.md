@@ -668,9 +668,9 @@ cat version.json
 
 ---
 
-**Last Updated**: 2025-10-24 (Buffer Desync Fix + Enhanced Error Recovery)
+**Last Updated**: 2025-10-24 (Enhanced Build Scripts + Debug Commands)
 **Fork Status**: ⚠️ OUTDATED - 2 versions behind upstream (v2.0.3 vs v2.0.5)
 **Upstream Status**: 🟢 Active - Latest v2.0.5 (March 2022)
-**Current Branch**: feature_fix_buffer_reset
+**Current Branch**: main
 **Project**: OpenKey/EndKey Vietnamese Input Method Engine
-**Documentation Version**: 2.1 (Comprehensive + Buffer Desync Fix)
+**Documentation Version**: 2.2 (Enhanced Build Workflow)
