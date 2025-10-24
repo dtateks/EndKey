@@ -188,6 +188,12 @@ extern int vOtherLanguage;
 extern int vTempOffEndKey;
 
 /**
+ * 0: No; 1: Yes
+ * Double space to add period and space (". ")
+ */
+extern int vDoubleSpacePeriod;
+
+/**
  * Call this function first to receive data pointer
  */
 void* vKeyInit();
@@ -215,6 +221,24 @@ void vKeyHandleEvent(const vKeyEvent& event,
  * Start a new word
  */
 void startNewSession();
+
+/**
+ * Validate buffer state integrity
+ * Returns true if buffer state is valid, false otherwise
+ */
+bool validateBufferState();
+
+/**
+ * Detect buffer desynchronization between internal buffer and external input
+ * Returns true if desync detected, false otherwise
+ */
+bool detectBufferDesync();
+
+/**
+ * Emergency buffer reset on critical errors
+ * More aggressive than startNewSession() - clears ALL state
+ */
+void emergencyReset();
 
 /**
  * do some task in english mode (use for macro)

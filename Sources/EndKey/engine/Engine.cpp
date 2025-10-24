@@ -27,8 +27,17 @@ static vector<Uint8> _breakCode = {
 #endif
 };
 
+// Full list of special characters that trigger macro expansion
+// Includes all punctuation, symbols, and control keys
 static vector<Uint8> _macroBreakCode = {
-    KEY_RETURN, KEY_COMMA, KEY_DOT, KEY_SLASH, KEY_SEMICOLON, KEY_QUOTE, KEY_BACK_SLASH, KEY_MINUS, KEY_EQUALS
+    // Control keys
+    KEY_RETURN, KEY_SPACE, KEY_TAB,
+    // Numbers (Shift + number = !, @, #, $, %, ^, &, *, (, ))
+    KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0,
+    // Punctuation and symbols (, . / ; ' \ - = [ ] `)
+    KEY_COMMA, KEY_DOT, KEY_SLASH, KEY_SEMICOLON, KEY_QUOTE,
+    KEY_BACK_SLASH, KEY_MINUS, KEY_EQUALS,
+    KEY_LEFT_BRACKET, KEY_RIGHT_BRACKET, KEY_BACKQUOTE
 };
 
 static Uint16 ProcessingChar[][11] = {
@@ -462,14 +471,105 @@ void restoreLastTypingState() {
 }
 
 void startNewSession() {
+    // Clear buffers completely to prevent buffer corruption
+    memset(TypingWord, 0, sizeof(TypingWord));
+    memset(KeyStates, 0, sizeof(KeyStates));
+
+    // Reset indices
     _index = 0;
+    _stateIndex = 0;
+
+    // Reset HookState completely
     hBPC = 0;
     hNCC = 0;
+    hCode = vDoNothing;
+    hExt = 0;
+
+    // Reset state flags
     tempDisableKey = false;
-    _stateIndex = 0;
     _hasHandledMacro = false;
     _hasHandleQuickConsonant = false;
+
+    // Reset vowel tracking to prevent desync
+    vowelCount = 0;
+    vowelStartIndex = 0;
+    vowelEndIndex = 0;
+    vowelWillSetMark = 0;
+
+    // Clear helper structures
     _longWordHelper.clear();
+    hMacroKey.clear();
+    hMacroData.clear();
+}
+
+/**
+ * Validate buffer state integrity
+ * Returns true if buffer state is valid, false otherwise
+ */
+bool validateBufferState() {
+    // Check index bounds - critical for preventing buffer overflow
+    if (_index >= MAX_BUFF) {
+        return false;
+    }
+
+    // Check vowel indices consistency
+    if (vowelStartIndex > _index || vowelEndIndex > _index) {
+        return false;
+    }
+
+    // Vowel end must be >= vowel start
+    if (vowelEndIndex < vowelStartIndex) {
+        return false;
+    }
+
+    // State index should not exceed buffer index
+    if (_stateIndex > _index) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Detect buffer desynchronization between internal buffer and external input
+ * Returns true if desync detected, false otherwise
+ */
+bool detectBufferDesync() {
+    // Excessive backspace count - indicates desync with external buffer
+    // Allow some tolerance (+5) for valid Vietnamese composition
+    if (hBPC > _index + 5) {
+        return true;
+    }
+
+    // Invalid state: backspace requested but buffer is empty
+    if (_index == 0 && hBPC > 0) {
+        return true;
+    }
+
+    // Invalid state: new char count exceeds buffer capacity
+    if (hNCC > MAX_BUFF) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Emergency buffer reset on critical errors
+ * More aggressive than startNewSession() - clears ALL state
+ */
+void emergencyReset() {
+    // Start with normal session reset
+    startNewSession();
+
+    // Force clear ALL accumulated state
+    _specialChar.clear();
+    _typingStates.clear();
+    _spaceCount = 0;
+    _upperCaseStatus = 0;
+
+    // Reset spelling check to default
+    vCheckSpelling = _useSpellCheckingBefore;
 }
 
 void checkCorrectVowel(vector<vector<Uint16>>& charset, int& i, int& k, const Uint16& markKey) {
@@ -1348,6 +1448,14 @@ void vKeyHandleEvent(const vKeyEvent& event,
                      const Uint16& data,
                      const Uint8& capsStatus,
                      const bool& otherControlKey) {
+    // CRITICAL: Validate buffer structure integrity before processing
+    // Only check indices here - hBPC check moved to end (prevents false positives from old values)
+    if (!validateBufferState()) {
+        emergencyReset();
+        hCode = vDoNothing;
+        return;
+    }
+
     _isCaps = (capsStatus == 1 || //shift
                capsStatus == 2); //caps lock
     if ((IS_NUMBER_KEY(data) && capsStatus == 1)
@@ -1421,6 +1529,25 @@ void vKeyHandleEvent(const vKeyEvent& event,
         if (!tempDisableKey && vCheckSpelling) {
             checkSpelling(true); //force check spelling
         }
+
+        // Check double space for period feature
+        // When user hits space twice consecutively after a word, replace second space with ". "
+        // Only trigger if _index > 0 (has typed word) to avoid triggering after punctuation
+        if (vDoubleSpacePeriod && _spaceCount == 1 && _index > 0) {
+            // Double space detected! Send period + space instead of second space
+            hCode = vDoNothing;
+            hBPC = 0;
+            hNCC = 0;
+            hExt = 6;  // Signal double space to platform layer
+            _spaceCount = 0;  // Reset space counter
+            if (vUseMacro) {
+                hMacroKey.clear();
+            }
+            vCheckSpelling = _useSpellCheckingBefore;
+            _skipMacroNextBreak = false;
+            return; // Early return, skip normal space processing
+        }
+
         if (vUseMacro && !_hasHandledMacro && !_skipMacroNextBreak && findMacro(hMacroKey, hMacroData)) { //macro
             hCode = vReplaceMaro;
             hBPC = (Byte)hMacroKey.size();
@@ -1595,7 +1722,17 @@ void vKeyHandleEvent(const vKeyEvent& event,
             hMacroKey.clear();
         }
     }
-    
+
+    // FINAL VALIDATION: Check if processing caused buffer desync
+    // This catches errors that occurred during processing
+    if (detectBufferDesync()) {
+        // Desync detected after processing - reset and abort
+        emergencyReset();
+        hCode = vDoNothing;
+        hBPC = 0;
+        hNCC = 0;
+    }
+
     //Debug
     //cout<<"index "<<(int)_index<< ", stateIndex "<<(int)_stateIndex<<", word "<<_typingStates.size()<<", long word "<<_longWordHelper.size()<< endl;
     //cout<<"backspace "<<(int)hBPC<<endl;

@@ -791,9 +791,12 @@ extern "C" {
                 handleMacro();
             } else if (pData->code == vReplaceString) { //DOUBLE SPACE PERIOD
                 handleStringReplace();
-            } else if (pData->code == vDoNothing && pData->extCode == 6) { //SIMPLE DOUBLE SPACE
-                // Just send period directly
-                SendKeyCode(46 | PURE_CHARACTER_MASK); // '.'
+            } else if (pData->code == vDoNothing && pData->extCode == 6) { //DOUBLE SPACE
+                // Send period + space (". ")
+                // Use SendPureCharacter to send Unicode characters directly
+                // This avoids keycode mapping issues (ASCII 46 ≠ Mac keycode 46)
+                SendPureCharacter(46);  // '.' (period)
+                SendPureCharacter(32);  // ' ' (space)
             } else if (pData->code == vDoNothing) { //Regular vDoNothing
                 // Regular processing
             }
