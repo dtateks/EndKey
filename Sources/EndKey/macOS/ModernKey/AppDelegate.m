@@ -167,7 +167,16 @@ extern bool convertToolDontAlertWhenCompleted;
     }
     
     vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
-    vDoubleSpacePeriod = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
+
+    // Load vDoubleSpacePeriod with proper default handling
+    // If key doesn't exist in NSUserDefaults, use default value = 1 (enabled)
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"vDoubleSpacePeriod"] != nil) {
+        vDoubleSpacePeriod = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
+    } else {
+        vDoubleSpacePeriod = 1; // Default: enabled
+        [[NSUserDefaults standardUserDefaults] setInteger:vDoubleSpacePeriod forKey:@"vDoubleSpacePeriod"];
+    }
+
     if (vShowIconOnDock)
         [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
     
