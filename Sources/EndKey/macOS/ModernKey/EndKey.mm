@@ -680,7 +680,7 @@ extern "C" {
                 if (vTempOffSpelling && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskControl) {
                     vTempOffSpellChecking();
                 }
-                if (vTempOffEndKey && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskCommand) {
+                if (vTempOffEndKey && !_hasJustUsedHotKey && (_lastFlag & kCGEventFlagMaskCommand || _lastFlag & kCGEventFlagMaskAlternate)) {
                     vSkipMacroNextBreak();
                 }
                 _lastFlag = 0;

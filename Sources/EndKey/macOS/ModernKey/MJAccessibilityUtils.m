@@ -49,55 +49,6 @@ void MJAccessibilityOpenPanel(void) {
 }
 
 BOOL MJIsEditableTextFieldFocused(void) {
-    // If accessibility is not enabled, assume focused (don't block typing)
-    if (!MJAccessibilityIsEnabled()) {
-        return YES;
-    }
-
-    // Get the system-wide accessibility element
-    AXUIElementRef systemWideElement = AXUIElementCreateSystemWide();
-    if (!systemWideElement) {
-        return YES; // Assume focused if we can't check
-    }
-
-    // Get the currently focused UI element
-    AXUIElementRef focusedElement = NULL;
-    AXError error = AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedUIElementAttribute, (CFTypeRef *)&focusedElement);
-    CFRelease(systemWideElement);
-
-    if (error != kAXErrorSuccess || !focusedElement) {
-        return YES; // Assume focused if we can't determine
-    }
-
-    // Get the role of the focused element
-    CFTypeRef roleValue = NULL;
-    error = AXUIElementCopyAttributeValue(focusedElement, kAXRoleAttribute, &roleValue);
-
-    BOOL isEditable = NO;
-    if (error == kAXErrorSuccess && roleValue) {
-        NSString *role = (__bridge NSString *)roleValue;
-
-        // Check if the role is an editable text field
-        if ([role isEqualToString:(__bridge NSString *)kAXTextFieldRole] ||
-            [role isEqualToString:(__bridge NSString *)kAXTextAreaRole] ||
-            [role isEqualToString:(__bridge NSString *)kAXComboBoxRole]) {
-            isEditable = YES;
-        }
-        // For web areas, check if it's actually editable
-        else if ([role isEqualToString:(__bridge NSString *)kAXWebAreaRole]) {
-            // Check for contenteditable attribute
-            CFTypeRef descriptionValue = NULL;
-            AXUIElementCopyAttributeValue(focusedElement, kAXDescriptionAttribute, &descriptionValue);
-            if (descriptionValue) {
-                CFRelease(descriptionValue);
-            }
-            // Web areas can be editable (contenteditable), assume yes for now
-            isEditable = YES;
-        }
-
-        CFRelease(roleValue);
-    }
-
-    CFRelease(focusedElement);
-    return isEditable;
+    // ALWAYS return YES - no focus detection required
+    return YES;
 }
