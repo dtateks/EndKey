@@ -8,3 +8,10 @@
 /Sources/OpenKey/win32/OpenKey/OpenKey/x64/Debug
 /Sources/OpenKey/win32/OpenKey/OpenKey/x64/Release
 /Sources/OpenKey/win32/OpenKey/OpenKeyUpdate/x64/Release
+
+# macOS build folders
+/Sources/EndKey/macOS/build/
+/Sources/EndKey/macOS/*.xcworkspace/xcuserdata/
+/Sources/EndKey/macOS/*.xcodeproj/xcuserdata/
+/Sources/EndKey/macOS/*.xcodeproj/project.xcworkspace/xcuserdata/
+/Sources/EndKey/macOS/build/
