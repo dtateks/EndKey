@@ -1507,6 +1507,18 @@
                                                 <action selector="onFixChromiumBrowser:" target="XfG-lQ-9wD" id="ZNU-JT-e9K"/>
                                             </connections>
                                         </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DSP-01-BTN">
+                                            <rect key="frame" x="283" y="142" width="224" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <string key="toolTip">Khi bấm phím Space hai lần liên tiếp, tự động thêm dấu chấm và khoảng trắng (". ") thay vì khoảng trắng thứ hai. Tiện lợi khi kết thúc câu.</string>
+                                            <buttonCell key="cell" type="check" title="Double space để thêm dấu chấm" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="DSP-01-CELL">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="onDoubleSpacePeriod:" target="XfG-lQ-9wD" id="DSP-01-ACT"/>
+                                            </connections>
+                                        </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FLh-VP-qtU" userLabel="Perform Layout Compat">
                                             <rect key="frame" x="18" y="25" width="395" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1681,6 +1693,7 @@
                         <outlet property="CustomSwitchKey" destination="F2s-m3-A6w" id="xrK-un-OiP"/>
                         <outlet property="CustomSwitchOption" destination="Mox-UL-j9u" id="iCB-jD-eQG"/>
                         <outlet property="CustomSwitchShift" destination="wh2-uV-nSn" id="uJw-Tj-F5N"/>
+                        <outlet property="DoubleSpacePeriod" destination="DSP-01-BTN" id="DSP-01-OUT"/>
                         <outlet property="EngButton" destination="yUA-UQ-mxx" id="QKJ-tU-dsA"/>
                         <outlet property="FixChromiumBrowser" destination="efe-07-OlS" id="PMH-MH-7Ea"/>
                         <outlet property="FixRecommendBrowser" destination="BKq-hz-RRL" id="V6H-kl-20B"/>
