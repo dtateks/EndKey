@@ -1436,8 +1436,8 @@ void vKeyHandleEvent(const vKeyEvent& event,
         }
 
         // Check double space for period feature
-        // When user hits space twice consecutively, replace second space with ". "
-        if (vDoubleSpacePeriod && _spaceCount == 1) {
+        // TEMPORARY DEBUG: Remove _spaceCount check to test if logic works
+        if (vDoubleSpacePeriod) {
             // Double space detected! Send period + space instead of second space
             hCode = vDoNothing;
             hBPC = 0;
