@@ -1394,7 +1394,11 @@ void vKeyHandleEvent(const vKeyEvent& event,
                 saveWord();
             }
             _specialChar.push_back(data | (_isCaps ? CAPS_MASK : 0));
-            hExt = 3;//normal word
+            // Only set hExt = 3 if macro/quick consonant was NOT handled
+            // Otherwise it would overwrite hExt = 1 (word break) set earlier
+            if (hCode != vReplaceMaro && !_hasHandleQuickConsonant) {
+                hExt = 3;//normal word
+            }
         }
         
         if (hCode == vDoNothing) {
