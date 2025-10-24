@@ -1368,11 +1368,11 @@ void vKeyHandleEvent(const vKeyEvent& event,
         hExt = 1; //word break
         
         //check macro feature
-        if (vUseMacro && isMacroBreakCode(data) && !_hasHandledMacro && !_skipMacroNextBreak && findMacro(hMacroKey, hMacroData)) {
+        if (vUseMacro && isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0) && !_hasHandledMacro && !_skipMacroNextBreak && findMacro(hMacroKey, hMacroData)) {
             hCode = vReplaceMaro;
             hBPC = (Byte)hMacroKey.size();
             _hasHandledMacro = true;
-        } else if ((vQuickStartConsonant || vQuickEndConsonant) && !tempDisableKey && !_skipMacroNextBreak && isMacroBreakCode(data)) {
+        } else if ((vQuickStartConsonant || vQuickEndConsonant) && !tempDisableKey && !_skipMacroNextBreak && isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0)) {
             checkQuickConsonant();
         } else if (vRestoreIfWrongSpelling && isWordBreak(event, state, data)) { //restore key if wrong spelling with break-key
             if (!tempDisableKey && vCheckSpelling) {
@@ -1414,7 +1414,7 @@ void vKeyHandleEvent(const vKeyEvent& event,
 
         //insert key for macro function
         if (vUseMacro) {
-            if (isMacroBreakCode(data)) {
+            if (isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0)) {
                 // For macro break codes, clear macro key AFTER checking macro
                 hMacroKey.clear();
             } else if (_isCharKeyCode) {
@@ -1619,7 +1619,7 @@ void vKeyHandleEvent(const vKeyEvent& event,
         }
 
         // Handle macro for bracket keys if they are macro break codes
-        if (vUseMacro && isMacroBreakCode(data)) {
+        if (vUseMacro && isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0)) {
             // Check macro before clearing on bracket break codes
             if (findMacro(hMacroKey, hMacroData)) {
                 hCode = vReplaceMaro;
