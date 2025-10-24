@@ -11,6 +11,7 @@
 #import "Engine.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MJAccessibilityUtils.h"
 
 #define FRONT_APP [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier
 #define OTHER_CONTROL_KEY (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskControl) || \
@@ -651,6 +652,15 @@ extern "C" {
             _hasJustUsedHotKey = _lastFlag != 0;
         } else if (type == kCGEventFlagsChanged) {
             if (_lastFlag == 0 || _lastFlag < _flag) {
+                // NEW: Temp off ngay khi nhấn Cmd/Alt (không cần đợi nhả)
+                // Only trigger on transition: no Cmd/Alt → has Cmd/Alt
+                BOOL hadCmdOrAlt = (_lastFlag & kCGEventFlagMaskCommand) || (_lastFlag & kCGEventFlagMaskAlternate);
+                BOOL hasCmdOrAlt = (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskAlternate);
+
+                if (vTempOffEndKey && !hadCmdOrAlt && hasCmdOrAlt) {
+                    vSkipMacroNextBreak();
+                    vTempOffSpellChecking();
+                }
                 _lastFlag = _flag;
             } else if (_lastFlag > _flag)  {
                 //check switch
@@ -729,6 +739,12 @@ extern "C" {
         
         //handle keyboard
         if (type == kCGEventKeyDown) {
+            // NEW: Only process if focused on editable text field
+            // This prevents EndKey from interfering with keyboard shortcuts in web apps
+            if (!MJIsEditableTextFieldFocused()) {
+                return event; // Skip EndKey processing, let the app handle the key normally
+            }
+
             //send event signal to Engine
             vKeyHandleEvent(vKeyEvent::Keyboard,
                             vKeyEventState::KeyDown,
