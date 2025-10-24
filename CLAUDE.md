@@ -269,6 +269,7 @@ log stream --predicate 'process == "EndKey"' --level debug
    - **Quick Start Consonant** (`vQuickStartConsonant`): f→ph, j→gi, w→qu
    - **Quick End Consonant** (`vQuickEndConsonant`): g→ng, h→nh, k→ch
    - **Upper Case First Char** (`vUpperCaseFirstChar`): Auto-capitalize sentence start
+   - **Double Space Period** (`vDoubleSpacePeriod`): SPACE + SPACE → ". " (period + space) - iOS-like behavior
 
 3. **Spelling & Grammar**
    - **Spelling Check** (`vCheckSpelling`): Validate Vietnamese words
@@ -335,6 +336,7 @@ extern int vQuickTelex;            // 0=No, 1=Yes - cc→ch, gg→gi, etc.
 extern int vUpperCaseFirstChar;    // 0=No, 1=Yes - Auto capitalize
 extern int vQuickStartConsonant;   // 0=No, 1=Yes - f→ph, j→gi, w→qu
 extern int vQuickEndConsonant;     // 0=No, 1=Yes - g→ng, h→nh, k→ch
+extern int vDoubleSpacePeriod;     // 0=No, 1=Yes - SPACE+SPACE → ". "
 extern int vAllowConsonantZFWJ;    // 0=No, 1=Yes - Allow Z,F,W,J as consonants
 ```
 
@@ -566,6 +568,12 @@ Multiple buffer overflow issues have been fixed in `Engine.cpp`:
 **🟢 Stable and Production Ready** - All major crashes and buffer overflows have been fixed.
 
 ### Recent Major Changes (2025-10-24)
+- ✅ **NEW: Double Space to Period Feature** - iOS-like behavior: SPACE + SPACE → ". "
+  - Implemented using `vReplaceString` event code → `handleStringReplace()`
+  - Reused existing, tested code path instead of custom signal (hExt=6)
+  - Fixed `SendKeyCode()` to handle `PURE_CHARACTER_MASK` for macro characters
+  - UI checkbox in Settings → "Gõ tắt" tab
+  - **Key Learning**: In event-driven systems with platform abstraction, reuse existing event handlers instead of creating custom signals that fail silently
 - ✅ **NEW: Fixed buffer desync with Claude Code CLI** - Giải quyết race condition causing mất chữ khi gõ tiếng Việt
   - Enhanced buffer reset logic với complete state clear
   - Added buffer validation & desync detection mechanisms
@@ -668,9 +676,9 @@ cat version.json
 
 ---
 
-**Last Updated**: 2025-10-24 (Enhanced Build Scripts + Debug Commands)
+**Last Updated**: 2025-10-24 (Double Space to Period Feature Complete)
 **Fork Status**: ⚠️ OUTDATED - 2 versions behind upstream (v2.0.3 vs v2.0.5)
 **Upstream Status**: 🟢 Active - Latest v2.0.5 (March 2022)
 **Current Branch**: main
 **Project**: OpenKey/EndKey Vietnamese Input Method Engine
-**Documentation Version**: 2.2 (Enhanced Build Workflow)
+**Documentation Version**: 2.3 (Double Space Feature + Event Handler Pattern)
