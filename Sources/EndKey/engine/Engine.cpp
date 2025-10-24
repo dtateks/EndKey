@@ -1439,11 +1439,12 @@ void vKeyHandleEvent(const vKeyEvent& event,
         // ALWAYS ENABLED FOR TESTING - remove vDoubleSpacePeriod check
         // When user hits space twice consecutively, replace second space with ". "
         if (_spaceCount == 1) {
-            // Double space detected! Send period + space instead of second space
-            hCode = vDoNothing;
-            hBPC = 0;
+            // Double space detected! Use vReplaceString to trigger handleStringReplace()
+            // This will send backspace to delete 2nd space, then send ". "
+            hCode = vReplaceString;
+            hBPC = 1;  // Delete 1 character (the second space we just pressed)
             hNCC = 0;
-            hExt = 6;  // Signal double space to platform layer
+            hExt = 0;
             _spaceCount = 0;  // Reset space counter
             if (vUseMacro) {
                 hMacroKey.clear();
