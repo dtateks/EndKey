@@ -252,6 +252,13 @@ extern "C" {
     }
     
     void SendKeyCode(Uint32 data) {
+        // If this is a pure character (from macro or double space feature)
+        // use CGEventKeyboardSetUnicodeString to send it directly
+        if (data & PURE_CHARACTER_MASK) {
+            SendPureCharacter((Uint16)(data & 0xFFFF));
+            return;
+        }
+
         _newChar = (Uint16)data;
         if (!(data & CHAR_CODE_MASK)) {
             if (IS_DOUBLE_CODE(vCodeTable)) //VNI
@@ -793,10 +800,10 @@ extern "C" {
                 handleStringReplace();
             } else if (pData->code == vDoNothing && pData->extCode == 6) { //DOUBLE SPACE
                 // Send period + space (". ")
-                // Use SendPureCharacter to send Unicode characters directly
-                // This avoids keycode mapping issues (ASCII 46 ≠ Mac keycode 46)
-                SendPureCharacter(46);  // '.' (period)
-                SendPureCharacter(32);  // ' ' (space)
+                // Use SendKeyCode with PURE_CHARACTER_MASK to send characters correctly
+                // PURE_CHARACTER_MASK tells SendKeyCode to use CGEventKeyboardSetUnicodeString
+                SendKeyCode(46 | PURE_CHARACTER_MASK);  // '.' (period)
+                SendKeyCode(32 | PURE_CHARACTER_MASK);  // ' ' (space)
             } else if (pData->code == vDoNothing) { //Regular vDoNothing
                 // Regular processing
             }
