@@ -223,24 +223,6 @@ void vKeyHandleEvent(const vKeyEvent& event,
 void startNewSession();
 
 /**
- * Validate buffer state integrity
- * Returns true if buffer state is valid, false otherwise
- */
-bool validateBufferState();
-
-/**
- * Detect buffer desynchronization between internal buffer and external input
- * Returns true if desync detected, false otherwise
- */
-bool detectBufferDesync();
-
-/**
- * Emergency buffer reset on critical errors
- * More aggressive than startNewSession() - clears ALL state
- */
-void emergencyReset();
-
-/**
  * do some task in english mode (use for macro)
  */
 void vEnglishMode(const vKeyEventState& state, const Uint16& data, const bool& isCaps, const bool& otherControlKey);
