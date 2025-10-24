@@ -1431,6 +1431,15 @@ void vKeyHandleEvent(const vKeyEvent& event,
                 _upperCaseStatus = 0;
         }
     } else if (data == KEY_SPACE) {
+        // ULTRA SIMPLE TEST: ALWAYS send ". " on ANY space key
+        // This tests if the send character logic works at all
+        hCode = vDoNothing;
+        hBPC = 0;
+        hNCC = 0;
+        hExt = 6;  // Signal double space to platform layer
+        _spaceCount = 0;
+        return;
+
         if (!tempDisableKey && vCheckSpelling) {
             checkSpelling(true); //force check spelling
         }
