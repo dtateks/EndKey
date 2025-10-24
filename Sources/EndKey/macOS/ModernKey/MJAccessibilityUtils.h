@@ -14,6 +14,7 @@
 
 BOOL MJAccessibilityIsEnabled(void);
 void MJAccessibilityOpenPanel(void);
+BOOL MJIsEditableTextFieldFocused(void);
 
 #define MJAccessibilityUtils_h
 
