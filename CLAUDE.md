@@ -214,7 +214,7 @@ Focus development trên macOS target.
 - ONLY when browser rendering required
 
 **sequential-thinking**
-- planning, refactoring, debugging, researching, analyzing
+- thinking, planning, refactoring, debugging, researching, analyzing,..
 - ALWAYS start complex/multi-step tasks with sequential-thinking BEFORE taking action
 
 **zai-mcp-server**
