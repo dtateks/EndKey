@@ -663,12 +663,16 @@ extern "C" {
             }
         } else if (type == kCGEventFlagsChanged) {
             if (_lastFlag == 0 || _lastFlag < _flag) {
-                // NEW: Temp off ngay khi nhấn Cmd/Alt (không cần đợi nhả)
-                // Only trigger on transition: no Cmd/Alt → has Cmd/Alt
-                BOOL hadCmdOrAlt = (_lastFlag & kCGEventFlagMaskCommand) || (_lastFlag & kCGEventFlagMaskAlternate);
-                BOOL hasCmdOrAlt = (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskAlternate);
+                // NEW: Temp off ngay khi nhấn Ctrl/Cmd/Alt (không cần đợi nhả)
+                // Only trigger on transition: no modifier → has modifier
+                BOOL hadModifier = (_lastFlag & kCGEventFlagMaskControl) ||
+                                   (_lastFlag & kCGEventFlagMaskCommand) ||
+                                   (_lastFlag & kCGEventFlagMaskAlternate);
+                BOOL hasModifier = (_flag & kCGEventFlagMaskControl) ||
+                                   (_flag & kCGEventFlagMaskCommand) ||
+                                   (_flag & kCGEventFlagMaskAlternate);
 
-                if (vTempOffEndKey && !hadCmdOrAlt && hasCmdOrAlt) {
+                if (vTempOffEndKey && !hadModifier && hasModifier) {
                     vSkipMacroNextBreak();
                     vTempOffSpellChecking();
                 }
@@ -687,13 +691,8 @@ extern "C" {
                     _hasJustUsedHotKey = true;
                     return NULL;
                 }
-                //check temporarily turn off spell checking
-                if (vTempOffSpelling && !_hasJustUsedHotKey && _lastFlag & kCGEventFlagMaskControl) {
-                    vTempOffSpellChecking();
-                }
-                if (vTempOffEndKey && !_hasJustUsedHotKey && (_lastFlag & kCGEventFlagMaskCommand || _lastFlag & kCGEventFlagMaskAlternate)) {
-                    vSkipMacroNextBreak();
-                }
+                // NOTE: Keyup logic removed - all tempOff triggers now happen on keydown only
+                // This prevents double-triggering and ensures consistent behavior
                 _lastFlag = 0;
                 _hasJustUsedHotKey = false;
             }
