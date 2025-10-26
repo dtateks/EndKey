@@ -622,15 +622,20 @@ extern "C" {
         if (CGEventGetIntegerValueField(event, kCGEventSourceStateID) == CGEventSourceGetSourceStateID(myEventSource)) {
             return event;
         }
-        
+
         _flag = CGEventGetFlags(event);
         _keycode = (CGKeyCode)CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
-        
+
+        // Store if this is Esc/Arrow key - will set flag AFTER vKeyHandleEvent
+        BOOL isEscOrArrow = vTempOffEndKey &&
+                            (_keycode == 53 || _keycode == 126 || _keycode == 125 ||
+                             _keycode == 123 || _keycode == 124);
+
         if (type == kCGEventKeyDown && vPerformLayoutCompat) {
             // If conversion fail, use current keycode
            _keycode = ConvertEventToKeyboadLayoutCompatKeyCode(event, _keycode);
         }
-        
+
         //switch language shortcut; convert hotkey
         if (type == kCGEventKeyDown) {
             if (GET_SWITCH_KEY(vSwitchKeyStatus) != _keycode && GET_SWITCH_KEY(convertToolHotKey) != _keycode) {
@@ -650,11 +655,6 @@ extern "C" {
                 }
             }
             _hasJustUsedHotKey = _lastFlag != 0;
-
-            // Store if this is Esc/Arrow key - will set flag AFTER vKeyHandleEvent
-            BOOL isEscOrArrow = vTempOffEndKey &&
-                                (_keycode == 53 || _keycode == 126 || _keycode == 125 ||
-                                 _keycode == 123 || _keycode == 124);
         } else if (type == kCGEventFlagsChanged) {
             if (_lastFlag == 0 || _lastFlag < _flag) {
                 // NEW: Temp off ngay khi nhấn Ctrl/Cmd/Alt (không cần đợi nhả)
