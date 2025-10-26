@@ -996,14 +996,14 @@
                             <popUpButton toolTip="Lựa chọn kiểu gõ của bạn" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pSJ-2j-2yI">
                                 <rect key="frame" x="130" y="1112" width="129" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Telex" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="y7i-dK-uIA" id="fLB-yN-zN7">
+                                <popUpButtonCell key="cell" type="push" title="VNI" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="fLB-yN-zN7">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="oB3-G4-wgH">
                                         <items>
-                                            <menuItem title="Telex" state="on" id="y7i-dK-uIA"/>
-                                            <menuItem title="VNI" id="chN-yL-Ibb"/>
-                                            <menuItem id="VEV-Ye-Df9"/>
+                                            <menuItem title="VNI" state="on" id="chN-yL-Ibb"/>
+                                            <menuItem title="Simple Telex" id="VEV-Ye-Df9"/>
+                                            <menuItem title="Telex" id="y7i-dK-uIA"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>

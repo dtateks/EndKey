@@ -76,8 +76,7 @@ extern bool convertToolDontAlertWhenCompleted;
     NSMenu *theMenu;
     
     NSMenuItem* menuInputMethod;
-    
-    NSMenuItem* mnuTelex;
+
     NSMenuItem* mnuVNI;
     NSMenuItem* mnuSimpleTelex1;
     NSMenuItem* mnuSimpleTelex2;
@@ -361,13 +360,11 @@ extern bool convertToolDontAlertWhenCompleted;
     //sub for Kieu Go
     NSMenu *sub = [[NSMenu alloc] initWithTitle:@""];
     [sub setAutoenablesItems:NO];
-    mnuTelex = [sub addItemWithTitle:@"Telex" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
-    mnuTelex.tag = 0;
     mnuVNI = [sub addItemWithTitle:@"VNI" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
     mnuVNI.tag = 1;
-    mnuSimpleTelex1 = [sub addItemWithTitle:@"Simple Telex 1" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
+    mnuSimpleTelex1 = [sub addItemWithTitle:@"Simple Telex" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
     mnuSimpleTelex1.tag = 2;
-    mnuSimpleTelex2 = [sub addItemWithTitle:@"Simple Telex 2" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
+    mnuSimpleTelex2 = [sub addItemWithTitle:@"Telex" action:@selector(onInputTypeSelected:) keyEquivalent:@""];
     mnuSimpleTelex2.tag = 3;
     [theMenu setSubmenu:sub forItem:parent];
 }
@@ -402,13 +399,16 @@ extern bool convertToolDontAlertWhenCompleted;
     vLanguage = (int)intInputMethod;
     
     NSInteger intInputType = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputType"];
-    [mnuTelex setState:NSControlStateValueOff];
+    // Migrate old Telex (tag=0) to new Telex (tag=3)
+    if (intInputType == 0) {
+        intInputType = 3;
+        [[NSUserDefaults standardUserDefaults] setInteger:3 forKey:@"InputType"];
+    }
+
     [mnuVNI setState:NSControlStateValueOff];
     [mnuSimpleTelex1 setState:NSControlStateValueOff];
     [mnuSimpleTelex2 setState:NSControlStateValueOff];
-    if (intInputType == 0) {
-        [mnuTelex setState:NSControlStateValueOn];
-    } else if (intInputType == 1) {
+    if (intInputType == 1) {
         [mnuVNI setState:NSControlStateValueOn];
     } else if (intInputType == 2) {
         [mnuSimpleTelex1 setState:NSControlStateValueOn];

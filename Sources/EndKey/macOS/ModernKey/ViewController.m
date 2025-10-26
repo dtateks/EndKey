@@ -75,7 +75,8 @@ extern int vPerformLayoutCompat;
     
     [self showTab:0];
     
-    NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"Telex", @"VNI", @"Simple Telex 1", @"Simple Telex 2", nil];
+    // Array matches AppDelegate menu tags: index 0→tag 1, index 1→tag 2, index 2→tag 3
+    NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"VNI", @"Simple Telex", @"Telex", nil];
     NSArray* codeData = [EndKeyManager getTableCodes];
     
     //preset data
@@ -139,7 +140,9 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onInputTypeChanged:(NSPopUpButton *)sender {
-    [appDelegate onInputTypeSelectedIndex:(int)[self.popupInputType indexOfSelectedItem]];
+    // Convert popup index (0,1,2) to tag (1,2,3) to match AppDelegate menu tags
+    int selectedIndex = (int)[self.popupInputType indexOfSelectedItem];
+    [appDelegate onInputTypeSelectedIndex:selectedIndex + 1];
 }
 
 - (IBAction)onCodeTableChanged:(NSPopUpButton *)sender {
@@ -312,7 +315,11 @@ extern int vPerformLayoutCompat;
     }
     
     NSInteger intInputType = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputType"];
-    [self.popupInputType selectItemAtIndex:intInputType];
+    // Convert tag (1,2,3) to popup index (0,1,2)
+    // intInputType is already migrated (0→3) by AppDelegate
+    if (intInputType >= 1 && intInputType <= 3) {
+        [self.popupInputType selectItemAtIndex:intInputType - 1];
+    }
     
     NSInteger intCodeTable = [[NSUserDefaults standardUserDefaults] integerForKey:@"CodeTable"];
     [self.popupCode selectItemAtIndex:intCodeTable];
