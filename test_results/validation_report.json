@@ -1,0 +1,27 @@
+{
+    "validation_summary": {
+        "timestamp": "2025-10-26T23:09:28+07:00",
+        "duration_seconds": 7,
+        "total_tests": 14,
+        "passed_tests": 13,
+        "failed_tests": 1,
+        "success_rate_percent": 92
+    },
+    "environment": {
+        "platform": "macOS 26.0.1",
+        "xcode_version": "Xcode 26.0.1",
+        "clang_version": "Apple clang version 17.0.0 (clang-1700.3.19.1)",
+        "architecture": "arm64"
+    },
+    "build_info": {
+        "build_successful": true,
+        "build_directory": "/Users/dta.business/Desktop/dev/EndKey/Sources/EndKey/macOS/build",
+        "configuration": "Debug"
+    },
+    "test_categories": {
+        "performance": "Completed",
+        "vietnamese_input": "Completed",
+        "integration": "Completed",
+        "regression": "Completed"
+    }
+}

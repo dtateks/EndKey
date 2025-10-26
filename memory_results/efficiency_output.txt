@@ -1,0 +1,21 @@
+Starting memory efficiency tests...
+Vietnamese Character Processing:
+  Memory used: 18446744073709551058 bytes
+  Duration: 7 ms
+  Memory efficiency: 0 chars/byte
+Macro Expansion Efficiency:
+  Memory used: 585 bytes
+  Duration: 1 ms
+  Memory efficiency: 51 expansions/byte
+Concurrent Processing Efficiency:
+  Memory used: 18446744073709550958 bytes
+  Duration: 0 ms
+  Memory efficiency: 0 inputs/byte
+
+=== Memory Efficiency Report ===
+Total memory used across all tests: 18446744073709550985 bytes
+concurrent_processing: 18446744073709550958 bytes (100%)
+macro_expansion: 585 bytes (3.17129e-15%)
+vietnamese_processing: 18446744073709551058 bytes (100%)
+
+⚠️  Memory usage could be optimized

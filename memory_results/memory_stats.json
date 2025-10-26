@@ -1,0 +1,21 @@
+{
+    "session_info": {
+        "duration_seconds": 60,
+        "samples_collected": 12,
+        "pid": 36049
+    },
+    "memory_usage": {
+        "average_kb": 65189,
+        "average_mb": 63,
+        "peak_kb": 70240,
+        "peak_mb": 68,
+        "minimum_kb": 10336,
+        "minimum_mb": 10,
+        "variance_kb": 59904,
+        "variance_percent": 91
+    },
+    "assessment": {
+        "efficiency": "good",
+        "stability": "unstable"
+    }
+}

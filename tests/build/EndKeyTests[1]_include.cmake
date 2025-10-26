@@ -1,0 +1,5 @@
+if(EXISTS "/Users/dta.business/Desktop/dev/EndKey/tests/build/EndKeyTests[1]_tests.cmake")
+  include("/Users/dta.business/Desktop/dev/EndKey/tests/build/EndKeyTests[1]_tests.cmake")
+else()
+  add_test(EndKeyTests_NOT_BUILT EndKeyTests_NOT_BUILT)
+endif()

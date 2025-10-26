@@ -1,0 +1,3 @@
+Memory allocation: 0.0408 μs per allocation
+Total allocations: 10000
+Memory usage: 200000 bytes (estimated)

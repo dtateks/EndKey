@@ -1,0 +1,2 @@
+Character processing: 0.256823 μs per operation
+Throughput: 3.89374e+06 ops/sec

@@ -1,0 +1,11 @@
+Testing Telex integration:
+  aw -> ă ✓
+  aa -> â ✓
+  dd -> đ ✓
+  hello -> hello ✓
+Testing VNI integration:
+  a8 -> ă ✓
+  a6 -> â ✓
+  d9 -> đ ✓
+  hello -> hello ✓
+Vietnamese input integration test completed

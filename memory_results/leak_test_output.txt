@@ -1,0 +1,28 @@
+Starting memory leak detection test...
+
+=== Vietnamese Processing Test ===
+Phase: Start
+  Allocated objects: 0
+  Total memory: 0 bytes
+Phase: After Vietnamese Processing
+  Allocated objects: 0
+  Total memory: 0 bytes
+
+=== Macro Processing Test ===
+Phase: Start Macro Test
+  Allocated objects: 0
+  Total memory: 0 bytes
+Phase: After Macro Processing
+  Allocated objects: 0
+  Total memory: 0 bytes
+
+=== Extended Processing Test ===
+Phase: Start Extended Test
+  Allocated objects: 0
+  Total memory: 0 bytes
+Phase: After Extended Processing
+  Allocated objects: 0
+  Total memory: 0 bytes
+
+=== Memory Leak Detection ===
+✅ No memory leaks detected

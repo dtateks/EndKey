@@ -1,0 +1,31 @@
+{
+    "regression_summary": {
+        "timestamp": "2025-10-26T23:13:59+07:00",
+        "test_categories": [
+            "config_compatibility",
+            "code_table_compatibility",
+            "input_method_compatibility",
+            "unicode_compatibility",
+            "macro_compatibility",
+            "smartswitch_compatibility",
+            "api_compatibility"
+        ]
+    },
+    "compatibility_results": {
+        "configuration": "tested",
+        "code_tables": "tested",
+        "input_methods": "tested",
+        "unicode_processing": "tested",
+        "macro_system": "tested",
+        "smart_switch": "tested",
+        "api_functions": "tested"
+    },
+    "recommendations": [
+        "Legacy configuration options preserved",
+        "Unicode processing maintains compatibility",
+        "Input methods (Telex/VNI) working correctly",
+        "API functions remain stable",
+        "No breaking changes detected"
+    ],
+    "regression_status": "no_regressions_detected"
+}

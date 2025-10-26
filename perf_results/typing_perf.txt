@@ -1,0 +1,8 @@
+Typing 100 words: 663.77 μs/word
+Equivalent WPM: 18078.6
+Typing 500 words: 46.29 μs/word
+Equivalent WPM: 259235
+Typing 1000 words: 55.035 μs/word
+Equivalent WPM: 218043
+Typing 5000 words: 161.698 μs/word
+Equivalent WPM: 74212.6
