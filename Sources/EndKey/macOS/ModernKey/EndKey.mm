@@ -652,15 +652,13 @@ extern "C" {
             _hasJustUsedHotKey = _lastFlag != 0;
 
             // NEW: Trigger tempOff ngay khi nhấn Esc hoặc Arrow keys
-            // Use vForceSkipMacroNextBreak() to set flag WITHOUT checking _index
-            // This allows Esc/Arrow to work normally while still skipping macro
+            // SIMPLE: Copy exact logic from Cmd (line 677-680)
             if (vTempOffEndKey) {
                 // Esc key (keyCode 53) OR Arrow keys: Up(126), Down(125), Left(123), Right(124)
                 if (_keycode == 53 || _keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
-                    vForceSkipMacroNextBreak(); // Force set flag (doesn't check _index)
-                    vTempOffSpellChecking();     // Toggle spell checking
-                    // DON'T return - let Esc/Arrow process normally (cursor movement, etc.)
-                    // Flag will persist even after vKeyHandleEvent resets _index
+                    vSkipMacroNextBreak();   // Same as Cmd
+                    vTempOffSpellChecking(); // Same as Cmd
+                    // DON'T return - let key process normally
                 }
             }
         } else if (type == kCGEventFlagsChanged) {
