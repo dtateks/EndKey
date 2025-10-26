@@ -759,9 +759,10 @@ extern "C" {
             // CRITICAL: Set flag AFTER vKeyHandleEvent to prevent it being reset by line 1413
             // vKeyHandleEvent processes Esc/Arrow as word break and resets _skipMacroNextBreak = false
             // We set it again HERE so it persists for the next space/punctuation
+            // MUST use vForceSkipMacroNextBreak because _index has been reset to 0
             if (isEscOrArrow) {
-                vSkipMacroNextBreak();   // Set flag after engine processing
-                vTempOffSpellChecking(); // Toggle spell checking
+                vForceSkipMacroNextBreak(); // Force set (no _index check)
+                vTempOffSpellChecking();     // Toggle spell checking
             }
 
             if (pData->code == vDoNothing) { //do nothing
