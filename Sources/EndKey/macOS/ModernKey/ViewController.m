@@ -172,6 +172,7 @@ extern int vPerformLayoutCompat;
     vCheckSpelling = (int)val;
     [self.RestoreIfInvalidWord setEnabled:val];
     [self.AllowZWJF setEnabled:val];
+    [self.TempOffSpellChecking setEnabled:val];
     OnSpellCheckingChanged();
 }
 
@@ -188,6 +189,11 @@ extern int vPerformLayoutCompat;
 - (IBAction)onAllowZFWJ:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"vAllowConsonantZFWJ"];
     vAllowConsonantZFWJ = (int)val;
+}
+
+- (IBAction)omTempOffSpellChecking:(id)sender {
+    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffSpelling"];
+    vTempOffSpelling = (int)val;
 }
 
 - (IBAction)onControlSwitchKey:(NSButton *)sender {
@@ -283,6 +289,11 @@ extern int vPerformLayoutCompat;
     vQuickEndConsonant = (int)val;
 }
 
+- (IBAction)onTempOffEndKeyByHotKey:(id)sender {
+    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffEndKey"];
+    vTempOffEndKey = (int)val;
+}
+
 - (IBAction)onOtherLanguage:(id)sender {
     
     NSInteger val = [self setCustomValue:sender keyToSet:@"vOtherLanguage"];
@@ -321,9 +332,8 @@ extern int vPerformLayoutCompat;
     [self.popupCode selectItemAtIndex:intCodeTable];
     
     //option
-    NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
-    self.ShowUIButton.state = showui ? NSControlStateValueOn : NSControlStateValueOff;
-    
+    //ShowUIOnStartup, RunOnStartup, UseGrayIcon are hardcoded - outlets removed
+
     NSInteger freeMark = [[NSUserDefaults standardUserDefaults] integerForKey:@"FreeMark"];
     self.FreeMarkButton.state = freeMark ? NSControlStateValueOn : NSControlStateValueOff;
 
@@ -331,12 +341,6 @@ extern int vPerformLayoutCompat;
 
     NSInteger spelling = [[NSUserDefaults standardUserDefaults] integerForKey:@"Spelling"];
     self.CheckSpellingButton.state = spelling ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger runOnStartup = [[NSUserDefaults standardUserDefaults] integerForKey:@"RunOnStartup"];
-    self.RunOnStartupButton.state = runOnStartup ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger useGrayIcon = [[NSUserDefaults standardUserDefaults] integerForKey:@"GrayIcon"];
-    self.UseGrayIcon.state = useGrayIcon ? NSControlStateValueOn : NSControlStateValueOff;
     
     NSInteger quicTelex = [[NSUserDefaults standardUserDefaults] integerForKey:@"QuickTelex"];
     self.QuickTelex.state = quicTelex ? NSControlStateValueOn : NSControlStateValueOff;
@@ -348,6 +352,10 @@ extern int vPerformLayoutCompat;
     NSInteger allowZFWJ = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAllowConsonantZFWJ"];
     self.AllowZWJF.state = allowZFWJ ? NSControlStateValueOn : NSControlStateValueOff;
     [self.AllowZWJF setEnabled:spelling];
+
+    NSInteger tempOffSpelling = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffSpelling"];
+    self.TempOffSpellChecking.state = tempOffSpelling ? NSControlStateValueOn : NSControlStateValueOff;
+    [self.TempOffSpellChecking setEnabled:spelling];
 
     NSInteger useMacro = [[NSUserDefaults standardUserDefaults] integerForKey:@"UseMacro"];
     self.UseMacro.state = useMacro ? NSControlStateValueOn : NSControlStateValueOff;
@@ -373,15 +381,17 @@ extern int vPerformLayoutCompat;
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vOtherLanguage"];
     self.OtherLanguage.state = value ? NSControlStateValueOn : NSControlStateValueOff;
 
+    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffEndKey"];
+    self.TempOffEndKey.state = value ? NSControlStateValueOn : NSControlStateValueOff;
+
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAutoCapsMacro"];
     self.AutoCapsMacro.state = value ? NSControlStateValueOn : NSControlStateValueOff;
 
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
     self.DoubleSpacePeriod.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vPerformLayoutCompat"];
-    self.PerformLayoutCompat.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
+    //vPerformLayoutCompat is hardcoded to 0 - outlet removed
+
     CustomSwitchControl.state = (vSwitchKeyStatus & 0x100) ? NSControlStateValueOn : NSControlStateValueOff;
     CustomSwitchOption.state = (vSwitchKeyStatus & 0x200) ? NSControlStateValueOn : NSControlStateValueOff;
     CustomSwitchCommand.state = (vSwitchKeyStatus & 0x400) ? NSControlStateValueOn : NSControlStateValueOff;
