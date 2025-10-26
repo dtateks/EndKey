@@ -35,10 +35,6 @@
 
 @property (weak) IBOutlet NSButton *CheckSpellingButton;
 
-@property (weak) IBOutlet NSButton *RunOnStartupButton;
-@property (weak) IBOutlet NSButton *ShowUIButton;
-
-@property (weak) IBOutlet NSButton *UseGrayIcon;
 @property (weak) IBOutlet NSButton *QuickTelex;
 
 @property (weak) IBOutlet NSButton *RestoreIfInvalidWord;
@@ -53,14 +49,11 @@
 @property (weak) IBOutlet NSButton *QuickStartConsonant;
 @property (weak) IBOutlet NSButton *QuickEndConsonant;
 
-@property (weak) IBOutlet NSButton *RememberTableCode;
 @property (weak) IBOutlet NSButtonCell *OtherLanguage;
 
 @property (weak) IBOutlet NSButton *AutoCapsMacro;
-@property (weak) IBOutlet NSButton *ShowIconOnDock;
 @property (weak) IBOutlet NSButton *CheckNewVersionOnStartup;
 @property (weak) IBOutlet NSButton *DoubleSpacePeriod;
-@property (weak) IBOutlet NSButton *PerformLayoutCompat;
 
 @property (weak) IBOutlet NSButton *CheckNewVersionButton;
 @property (weak) IBOutlet NSTextField *VersionInfo;

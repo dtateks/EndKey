@@ -110,7 +110,7 @@ extern "C" {
         LOAD_DATA(vAllowConsonantZFWJ, vAllowConsonantZFWJ);
         LOAD_DATA(vQuickEndConsonant, vQuickEndConsonant);
         LOAD_DATA(vQuickStartConsonant, vQuickStartConsonant);
-        LOAD_DATA(vRememberCode, vRememberCode);
+        //vRememberCode is always 1 - hardcoded
         LOAD_DATA(vOtherLanguage, vOtherLanguage);
         LOAD_DATA(vTempOffEndKey, vTempOffEndKey);
 

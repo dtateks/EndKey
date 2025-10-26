@@ -166,7 +166,7 @@ extern bool convertToolDontAlertWhenCompleted;
         return;
     }
     
-    vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
+    //vShowIconOnDock is always 0 - hardcoded
 
     // Load vDoubleSpacePeriod with proper default handling
     // If key doesn't exist in NSUserDefaults, use default value = 1 (enabled)
@@ -177,7 +177,7 @@ extern bool convertToolDontAlertWhenCompleted;
         [[NSUserDefaults standardUserDefaults] setInteger:vDoubleSpacePeriod forKey:@"vDoubleSpacePeriod"];
     }
 
-    if (vShowIconOnDock)
+    if (vShowIconOnDock) //Always false - hardcoded to 0
         [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
     
     if (vSwitchKeyStatus & 0x8000)
@@ -193,10 +193,7 @@ extern bool convertToolDontAlertWhenCompleted;
             [self onControlPanelSelected];
         } else {
             printf("DEBUG: Event tap succeeded\n");
-            NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
-            if (showui == 1) {
-                [self onControlPanelSelected];
-            }
+            //ShowUIOnStartup is always 0 - hardcoded, never show UI on startup
         }
         [self setQuickConvertString];
     });
@@ -335,16 +332,16 @@ extern bool convertToolDontAlertWhenCompleted;
     vAllowConsonantZFWJ = 0;[[NSUserDefaults standardUserDefaults] setInteger:vAllowConsonantZFWJ forKey:@"vAllowConsonantZFWJ"];
     vQuickStartConsonant = 0;[[NSUserDefaults standardUserDefaults] setInteger:vQuickStartConsonant forKey:@"vQuickStartConsonant"];
     vQuickEndConsonant = 0;[[NSUserDefaults standardUserDefaults] setInteger:vQuickEndConsonant forKey:@"vQuickEndConsonant"];
-    vRememberCode = 1;[[NSUserDefaults standardUserDefaults] setInteger:vRememberCode forKey:@"vRememberCode"];
+    vRememberCode = 1; //Always enabled - hardcoded
     vOtherLanguage = 1;[[NSUserDefaults standardUserDefaults] setInteger:vOtherLanguage forKey:@"vOtherLanguage"];
     vTempOffEndKey = 1;[[NSUserDefaults standardUserDefaults] setInteger:vTempOffEndKey forKey:@"vTempOffEndKey"];
     vDoubleSpacePeriod = 1;[[NSUserDefaults standardUserDefaults] setInteger:vDoubleSpacePeriod forKey:@"vDoubleSpacePeriod"];
-    vShowIconOnDock = 0;[[NSUserDefaults standardUserDefaults] setInteger:vShowIconOnDock forKey:@"vShowIconOnDock"];
+    vShowIconOnDock = 0; //Always disabled - hardcoded
     vFixChromiumBrowser = 1; //Always enabled - hardcoded
-    vPerformLayoutCompat = 0;[[NSUserDefaults standardUserDefaults] setInteger:vPerformLayoutCompat forKey:@"vPerformLayoutCompat"];
+    vPerformLayoutCompat = 0; //Always disabled - hardcoded
 
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"GrayIcon"];
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"RunOnStartup"];
+    //GrayIcon is always 1 - hardcoded (modern icon)
+    //RunOnStartup is always 1 - hardcoded (auto-start with macOS)
 
     [self fillData];
     [viewController fillData];

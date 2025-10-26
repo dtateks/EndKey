@@ -183,20 +183,6 @@ extern int vPerformLayoutCompat;
     OnSpellCheckingChanged();
 }
 
-- (IBAction)onShowUIOnStartup:(NSButton *)sender {
-    [self setCustomValue:sender keyToSet:@"ShowUIOnStartup"];
-}
-
-- (IBAction)onRunOnStartup:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"RunOnStartup"];
-    [appDelegate setRunOnStartup:val];
-}
-
-- (IBAction)onGrayIcon:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"GrayIcon"];
-    [appDelegate setGrayIcon:val];
-}
-
 - (IBAction)onQuickTelex:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"QuickTelex"];
     vQuickTelex = (int)val;
@@ -260,11 +246,6 @@ extern int vPerformLayoutCompat;
     vSendKeyStepByStep = (int)val;
 }
 
-- (IBAction)onPerformLayoutCompat:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vPerformLayoutCompat"];
-    vPerformLayoutCompat = (int)val;
-}
-
 - (NSInteger)setCustomValue:(NSButton*)sender keyToSet:(NSString*) key {
     NSInteger val = 0;
     if (sender.state == NSControlStateValueOn) {
@@ -310,10 +291,6 @@ extern int vPerformLayoutCompat;
     vQuickEndConsonant = (int)val;
 }
 
-- (IBAction)onRememberTableCode:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vRememberCode"];
-    vRememberCode = (int)val;
-}
 - (IBAction)onOtherLanguage:(id)sender {
     
     NSInteger val = [self setCustomValue:sender keyToSet:@"vOtherLanguage"];
@@ -326,22 +303,9 @@ extern int vPerformLayoutCompat;
     vAutoCapsMacro = (int)val;
 }
 
-- (IBAction)onShowIconOnDock:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vShowIconOnDock"];
-    vShowIconOnDock = (int)val;
-    if (!vShowIconOnDock) {
-        [self.view.window close];
-    }
-    [appDelegate showIconOnDock:vShowIconOnDock];
-}
-
 - (IBAction)onCheckNewVersionOnStartup:(NSButton *)sender {
     NSInteger val = sender.state == NSControlStateValueOn ? 0 : 1;
     [[NSUserDefaults standardUserDefaults] setInteger:val forKey:@"DontCheckUpdate"];
-}
-
-- (IBAction)onTerminateApp:(id)sender {
-    [NSApp terminate:0];
 }
 
 - (IBAction)onDoubleSpacePeriod:(id)sender {
@@ -415,10 +379,7 @@ extern int vPerformLayoutCompat;
     
     NSInteger quickEndConsonant = [[NSUserDefaults standardUserDefaults] integerForKey:@"vQuickEndConsonant"];
     self.QuickEndConsonant.state = quickEndConsonant ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vRememberCode"];
-    self.RememberTableCode.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vOtherLanguage"];
     self.OtherLanguage.state = value ? NSControlStateValueOn : NSControlStateValueOff;
 
@@ -443,28 +404,7 @@ extern int vPerformLayoutCompat;
     CustomSwitchShift.state = (vSwitchKeyStatus & 0x800) ? NSControlStateValueOn : NSControlStateValueOff;
     CustomBeepSound.state = (vSwitchKeyStatus & 0x8000) ? NSControlStateValueOn : NSControlStateValueOff;
     [CustomSwitchKey setTextByChar:((vSwitchKeyStatus>>24) & 0xFF)];
-    
-}
 
-- (IBAction)onOK:(id)sender {
-    [self.view.window close];
-}
-
-- (IBAction)onDefaultConfig:(id)sender {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"Bạn có chắc chắn muốn thiết lập lại cấu hình mặc định?"];
-    [alert addButtonWithTitle:@"Có"];
-    [alert addButtonWithTitle:@"Không"];
-    [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == 1000) {
-            [appDelegate loadDefaultConfig];
-            [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"ShowUIOnStartup"];
-            self.ShowUIButton.state = NSControlStateValueOff;
-            
-            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"RunOnStartup"];
-            self.RunOnStartupButton.state = NSControlStateValueOn;
-        }
-    }];
 }
 
 - (IBAction)onHomePageLink:(id)sender {
