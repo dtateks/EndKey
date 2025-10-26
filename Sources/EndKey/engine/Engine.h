@@ -244,6 +244,12 @@ void vSetCheckSpelling();
 void vSkipMacroNextBreak();
 
 /**
+ * Force skip macro on next word break WITHOUT checking _index
+ * Used when called AFTER vKeyHandleEvent has already reset _index = 0
+ */
+void vForceSkipMacroNextBreak();
+
+/**
  * some utils function
  */
 wstring utf8ToWideString(const string& str);
