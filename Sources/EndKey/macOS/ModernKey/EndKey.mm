@@ -743,15 +743,9 @@ extern "C" {
         
         //handle keyboard
         if (type == kCGEventKeyDown) {
-            // NEW: Only process if focused on editable text field
-            // This prevents EndKey from interfering with keyboard shortcuts in web apps
-            if (!MJIsEditableTextFieldFocused()) {
-                // CRITICAL: Clear macro buffer before returning
-                // Without this, shortcuts like A+S leave "s" in buffer
-                // Then Enter triggers macro "s" → "sao" unexpectedly
-                RequestNewSession(); // Clear buffer and state
-                return event; // Skip EndKey processing, let the app handle the key normally
-            }
+            // Store if this key has Cmd/Ctrl/Alt modifier
+            // These combinations (Cmd+V, Cmd+C, etc.) should trigger tempOff
+            BOOL hasOtherControlKey = OTHER_CONTROL_KEY;
 
             //send event signal to Engine
             vKeyHandleEvent(vKeyEvent::Keyboard,
@@ -761,10 +755,13 @@ extern "C" {
                             OTHER_CONTROL_KEY);
 
             // CRITICAL: Set flag AFTER vKeyHandleEvent to prevent it being reset by line 1413
-            // vKeyHandleEvent processes Esc/Arrow as word break and resets _skipMacroNextBreak = false
-            // We set it again HERE so it persists for the next space/punctuation
-            // MUST use vForceSkipMacroNextBreak because _index has been reset to 0
-            if (isEscOrArrow) {
+            //
+            // Two cases need to re-set flag:
+            // 1. Esc/Arrow keys - always reset buffer and set flag
+            // 2. Keys with Cmd/Ctrl/Alt (Cmd+V, Cmd+C, etc.) - flag was reset by line 1413
+            //
+            // MUST use vForceSkipMacroNextBreak because _index may be 0 after vKeyHandleEvent
+            if (vTempOffEndKey && (isEscOrArrow || hasOtherControlKey)) {
                 vForceSkipMacroNextBreak(); // Force set (no _index check)
                 vTempOffSpellChecking();     // Toggle spell checking
             }
