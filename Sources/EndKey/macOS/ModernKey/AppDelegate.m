@@ -402,8 +402,8 @@ extern bool convertToolDontAlertWhenCompleted;
     NSInteger intInputMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputMethod"];
     // GrayIcon is always 1 - hardcoded (modern icon, template mode always enabled)
 
-    // Scale factor for menubar icons (0.85 = 15% smaller)
-    CGFloat iconScale = 0.85;
+    // Scale factor for menubar icons (0.90 = 10% smaller)
+    CGFloat iconScale = 0.90;
 
     if (intInputMethod == 1) {
         [menuInputMethod setState:NSControlStateValueOn];

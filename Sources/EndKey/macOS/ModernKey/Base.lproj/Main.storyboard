@@ -808,15 +808,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AeG-WX-JbZ">
-                                <rect key="frame" x="160" y="185" width="422" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Phiên bản: 1.0, cập nhật ngày 1/1/2019" id="FiL-a8-YwW">
-                                    <font key="font" metaFont="systemThin" size="13"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="USx-Nt-l0Y">
                                 <rect key="frame" x="225" y="7" width="123" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -826,35 +817,8 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvC-7v-OW8">
-                                <rect key="frame" x="156" y="30" width="141" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Kiểm tra bản mới..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nhb-MP-s0Y">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="onCheckNewVersion:" target="SDG-I4-o9t" id="tfs-Fv-jfi"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qgw-K2-HcQ">
-                                <rect key="frame" x="160" y="67" width="236" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Kiểm tra bản mới khi khởi động" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7Pv-o7-ffq">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="systemLight" size="13"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="onCheckUpdateOnStartup:" target="SDG-I4-o9t" id="8RZ-cL-RzN"/>
-                                </connections>
-                            </button>
                         </subviews>
                     </view>
-                    <connections>
-                        <outlet property="CheckNewVersionButton" destination="tvC-7v-OW8" id="8Ou-a0-9mM"/>
-                        <outlet property="CheckUpdateOnStatus" destination="Qgw-K2-HcQ" id="tx8-Ab-Sbx"/>
-                        <outlet property="VersionInfo" destination="AeG-WX-JbZ" id="sEO-BZ-DBo"/>
-                    </connections>
                 </viewController>
                 <customObject id="1X7-2V-E3w" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1340,17 +1304,6 @@
                                     <rect key="frame" x="1" y="1" width="518" height="208"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button toolTip="Tự động kiểm tra phiên bản mới nhất mỗi khi khởi chạy EndKey" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oZr-h6-YZJ">
-                                            <rect key="frame" x="283" y="94" width="232" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Kiểm tra bản mới lúc khởi động" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Yxn-RW-l3x">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onCheckNewVersionOnStartup:" target="XfG-lQ-9wD" id="o68-VP-UjG"/>
-                                            </connections>
-                                        </button>
                                         <button toolTip="Mặc định nên tắt, với các ứng dụng gặp lỗi thì thử bật tính năng này lên" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C8z-Sp-sdZ">
                                             <rect key="frame" x="283" y="129" width="200" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1372,17 +1325,6 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="onDoubleSpacePeriod:" target="XfG-lQ-9wD" id="DSP-01-ACT"/>
-                                            </connections>
-                                        </button>
-                                        <button toolTip="Bấm vào đây để kiểm tra phiên bản mới của EndKey" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZuJ-Ke-7Qg">
-                                            <rect key="frame" x="279" y="47" width="154" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Kiểm tra bản mới..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GQD-eQ-FpN">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onCheckNewVersionButton:" target="XfG-lQ-9wD" id="l64-Ug-nXM"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -1461,15 +1403,6 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bXh-ai-gk3">
-                                            <rect key="frame" x="78" y="95" width="418" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Phiên bản: 1.0, cập nhật ngày 1/1/2019" id="Ntd-DR-Tpa">
-                                                <font key="font" metaFont="systemThin" size="13"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qlz-Sz-VDa">
                                             <rect key="frame" x="78" y="33" width="422" height="55"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1527,8 +1460,6 @@
                         <outlet property="AllowZWJF" destination="uOQ-qL-V9O" id="Jqs-5h-yVt"/>
                         <outlet property="AutoCapsMacro" destination="74U-4J-gv7" id="VfS-OM-Xg9"/>
                         <outlet property="AutoRememberSwitchKey" destination="YGb-a8-1Lb" id="uux-4i-1Hw"/>
-                        <outlet property="CheckNewVersionButton" destination="ZuJ-Ke-7Qg" id="YR5-LD-gFA"/>
-                        <outlet property="CheckNewVersionOnStartup" destination="oZr-h6-YZJ" id="kPW-tt-B1L"/>
                         <outlet property="CheckSpellingButton" destination="6Ko-dG-wVl" id="GZc-qh-LkA"/>
                         <outlet property="CustomBeepSound" destination="bJy-t3-bzy" id="AyJ-En-XLs"/>
                         <outlet property="CustomSwitchCommand" destination="qvz-oU-TII" id="uv1-93-sB7"/>
@@ -1548,7 +1479,6 @@
                         <outlet property="UpperCaseFirstChar" destination="Adl-fG-XEu" id="b4x-Cc-Trs"/>
                         <outlet property="UseMacro" destination="eCY-Z0-cgW" id="0z8-vh-VlK"/>
                         <outlet property="UseMacroInEnglishMode" destination="0oj-fd-y0l" id="rD2-9a-ehn"/>
-                        <outlet property="VersionInfo" destination="bXh-ai-gk3" id="jxu-Bo-Ajq"/>
                         <outlet property="VietButton" destination="qjz-9i-VOQ" id="Jpa-0e-ZDo"/>
                         <outlet property="appOK" destination="S26-ZU-sFD" id="f3J-H0-epQ"/>
                         <outlet property="permissionWarning" destination="5SM-Mt-ady" id="MSR-ei-1L6"/>
