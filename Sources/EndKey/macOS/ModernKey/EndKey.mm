@@ -652,13 +652,16 @@ extern "C" {
             _hasJustUsedHotKey = _lastFlag != 0;
 
             // NEW: Trigger tempOff ngay khi nhấn Esc hoặc Arrow keys
-            // Giống hệt logic Cmd/Alt - chỉ set flag, KHÔNG return event
+            // CRITICAL: Must return event immediately to prevent engine from resetting _index
+            // Modifier keys (Cmd/Alt/Ctrl) don't go through vKeyHandleEvent, but regular keys do
             if (vTempOffEndKey) {
                 // Esc key (keyCode 53) OR Arrow keys: Up(126), Down(125), Left(123), Right(124)
                 if (_keycode == 53 || _keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
-                    vSkipMacroNextBreak();      // Set flag để skip macro lần sau
+                    vSkipMacroNextBreak();      // Set flag _skipMacroNextBreak = true (only if _index > 0)
                     vTempOffSpellChecking();    // Toggle spell checking
-                    // KHÔNG return - để Esc/Arrow được xử lý bình thường (di chuyển cursor, etc.)
+                    // MUST return event to prevent vKeyHandleEvent from resetting _index = 0
+                    // which would cause vSkipMacroNextBreak to fail (line 1270: if (_index > 0))
+                    return event;
                 }
             }
         } else if (type == kCGEventFlagsChanged) {
