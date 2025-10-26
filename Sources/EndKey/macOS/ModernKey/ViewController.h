@@ -14,11 +14,9 @@
 @property (weak) IBOutlet NSButton *tabbuttonPrimary;
 @property (weak) IBOutlet NSButton *tabbuttonMacro;
 @property (weak) IBOutlet NSButton *tabbuttonSystem;
-@property (weak) IBOutlet NSButton *tabbuttonInfo;
 @property (weak) IBOutlet NSBox *tabviewPrimary;
 @property (weak) IBOutlet NSBox *tabviewMacro;
 @property (weak) IBOutlet NSBox *tabviewSystem;
-@property (weak) IBOutlet NSBox *tabviewInfo;
 
 @property (weak) IBOutlet NSPopUpButton *popupInputType;
 @property (weak) IBOutlet NSPopUpButton *popupCode;

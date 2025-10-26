@@ -71,9 +71,10 @@ extern bool convertToolDontAlertWhenCompleted;
     NSWindowController *_macroWC;
     NSWindowController *_convertWC;
     NSWindowController *_aboutWC;
-    
+
     NSStatusItem *statusItem;
     NSMenu *theMenu;
+    NSDate *_lastClickTime;
     
     NSMenuItem* menuInputMethod;
 
@@ -223,6 +224,14 @@ extern bool convertToolDontAlertWhenCompleted;
     statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
     statusItem.button.image = [NSImage imageNamed:@"Status"];
     statusItem.button.alternateImage = [NSImage imageNamed:@"StatusHighlighted"];
+
+    // Add double-click gesture recognizer for menubar icon
+    NSClickGestureRecognizer *doubleClickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onStatusItemDoubleClicked:)];
+    doubleClickGesture.numberOfClicksRequired = 2;
+    doubleClickGesture.delaysPrimaryMouseButtonEvents = NO;
+    [statusItem.button addGestureRecognizer:doubleClickGesture];
+    _lastClickTime = nil;
+
     printf("DEBUG: Status bar menu created\n");
     
     theMenu = [[NSMenu alloc] initWithTitle:@""];
@@ -533,6 +542,13 @@ extern bool convertToolDontAlertWhenCompleted;
         }
     } else {
         [EndKeyManager showMessage: nil message:@"Không có dữ liệu trong clipboard!" subMsg:@"Hãy sao chép một đoạn text để chuyển đổi!"];
+    }
+}
+
+-(void) onStatusItemDoubleClicked:(NSClickGestureRecognizer *)recognizer {
+    if (recognizer.state == NSGestureRecognizerStateEnded) {
+        // Double-click detected - open preferences panel
+        [self onControlPanelSelected];
     }
 }
 

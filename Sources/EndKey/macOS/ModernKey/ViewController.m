@@ -66,8 +66,8 @@ extern int vPerformLayoutCompat;
     self.viewParent.frame = parentRect;
     
     //set correct tabgroup
-    tabviews = [NSArray arrayWithObjects:self.tabviewPrimary, self.tabviewMacro, self.tabviewSystem, self.tabviewInfo, nil];
-    tabbuttons = [NSArray arrayWithObjects:self.tabbuttonPrimary, self.tabbuttonMacro, self.tabbuttonSystem, self.tabbuttonInfo, nil];
+    tabviews = [NSArray arrayWithObjects:self.tabviewPrimary, self.tabviewMacro, self.tabviewSystem, nil];
+    tabbuttons = [NSArray arrayWithObjects:self.tabbuttonPrimary, self.tabbuttonMacro, self.tabbuttonSystem, nil];
     tabViewRect = self.tabviewPrimary.frame;
     for (NSBox* b in tabviews) {
         b.frame = tabViewRect;
