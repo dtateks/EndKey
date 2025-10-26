@@ -350,6 +350,22 @@ extern bool convertToolDontAlertWhenCompleted;
     [self fillData];
 }
 
+// Helper method to scale down menubar icon slightly
+- (NSImage *)scaleImage:(NSImage *)image toScale:(CGFloat)scale {
+    NSSize originalSize = [image size];
+    NSSize newSize = NSMakeSize(originalSize.width * scale, originalSize.height * scale);
+
+    NSImage *scaledImage = [[NSImage alloc] initWithSize:newSize];
+    [scaledImage lockFocus];
+    [image drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
+             fromRect:NSZeroRect
+            operation:NSCompositingOperationCopy
+             fraction:1.0];
+    [scaledImage unlockFocus];
+
+    return scaledImage;
+}
+
 -(void)showIconOnDock:(BOOL)val {
     [NSApp setActivationPolicy: val ? NSApplicationActivationPolicyRegular : NSApplicationActivationPolicyAccessory];
 }
@@ -385,16 +401,22 @@ extern bool convertToolDontAlertWhenCompleted;
     //fill data
     NSInteger intInputMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputMethod"];
     NSInteger grayIcon = [[NSUserDefaults standardUserDefaults] integerForKey:@"GrayIcon"];
+
+    // Scale factor for menubar icons (0.85 = 15% smaller)
+    CGFloat iconScale = 0.85;
+
     if (intInputMethod == 1) {
         [menuInputMethod setState:NSControlStateValueOn];
-        statusItem.button.image = [NSImage imageNamed:@"Status"];
-        [statusItem.button.image setTemplate:(grayIcon ? YES : NO)];
-        statusItem.button.alternateImage = [NSImage imageNamed:@"StatusHighlighted"];
+        NSImage *icon = [self scaleImage:[NSImage imageNamed:@"Status"] toScale:iconScale];
+        [icon setTemplate:(grayIcon ? YES : NO)];
+        statusItem.button.image = icon;
+        statusItem.button.alternateImage = [self scaleImage:[NSImage imageNamed:@"StatusHighlighted"] toScale:iconScale];
     } else {
         [menuInputMethod setState:NSControlStateValueOff];
-        statusItem.button.image = [NSImage imageNamed:@"StatusEng"];
-        [statusItem.button.image setTemplate:(grayIcon ? YES : NO)];
-        statusItem.button.alternateImage = [NSImage imageNamed:@"StatusHighlightedEng"];
+        NSImage *iconEng = [self scaleImage:[NSImage imageNamed:@"StatusEng"] toScale:iconScale];
+        [iconEng setTemplate:(grayIcon ? YES : NO)];
+        statusItem.button.image = iconEng;
+        statusItem.button.alternateImage = [self scaleImage:[NSImage imageNamed:@"StatusHighlightedEng"] toScale:iconScale];
     }
     vLanguage = (int)intInputMethod;
     
