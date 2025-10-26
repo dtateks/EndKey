@@ -44,7 +44,6 @@
 @property (weak) IBOutlet NSButton *RestoreIfInvalidWord;
 @property (weak) IBOutlet NSButton *FixRecommendBrowser;
 @property (weak) IBOutlet NSButton *AllowZWJF;
-@property (weak) IBOutlet NSButton *TempOffSpellChecking;
 
 @property (weak) IBOutlet NSButton *UseMacro;
 @property (weak) IBOutlet NSButton *UseMacroInEnglishMode;
@@ -58,7 +57,6 @@
 @property (weak) IBOutlet NSButton *RememberTableCode;
 @property (weak) IBOutlet NSButtonCell *OtherLanguage;
 
-@property (weak) IBOutlet NSButton *TempOffEndKey;
 @property (weak) IBOutlet NSButton *AutoCapsMacro;
 @property (weak) IBOutlet NSButton *ShowIconOnDock;
 @property (weak) IBOutlet NSButton *CheckNewVersionOnStartup;

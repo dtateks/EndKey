@@ -180,7 +180,6 @@ extern int vPerformLayoutCompat;
     vCheckSpelling = (int)val;
     [self.RestoreIfInvalidWord setEnabled:val];
     [self.AllowZWJF setEnabled:val];
-    [self.TempOffSpellChecking setEnabled:val];
     OnSpellCheckingChanged();
 }
 
@@ -206,11 +205,6 @@ extern int vPerformLayoutCompat;
 - (IBAction)onRestoreIfInvalidWord:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"RestoreIfInvalidWord"];
     vRestoreIfWrongSpelling = (int)val;
-}
-
-- (IBAction)omTempOffSpellChecking:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffSpelling"];
-    vTempOffSpelling = (int)val;
 }
 
 - (IBAction)onAllowZFWJ:(id)sender {
@@ -322,11 +316,6 @@ extern int vPerformLayoutCompat;
     vQuickEndConsonant = (int)val;
 }
 
-- (IBAction)onTempOffEndKeyByHotKey:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffEndKey"];
-    vTempOffEndKey = (int)val;
-}
-
 - (IBAction)onRememberTableCode:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"vRememberCode"];
     vRememberCode = (int)val;
@@ -412,11 +401,7 @@ extern int vPerformLayoutCompat;
     NSInteger restoreIfInvalidWord = [[NSUserDefaults standardUserDefaults] integerForKey:@"RestoreIfInvalidWord"];
     self.RestoreIfInvalidWord.state = restoreIfInvalidWord ? NSControlStateValueOn : NSControlStateValueOff;
     [self.RestoreIfInvalidWord setEnabled:spelling];
-    
-    NSInteger tempOffSpelling = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffSpelling"];
-    self.TempOffSpellChecking.state = tempOffSpelling ? NSControlStateValueOn : NSControlStateValueOff;
-    [self.TempOffSpellChecking setEnabled:spelling];
-    
+
     NSInteger allowZFWJ = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAllowConsonantZFWJ"];
     self.AllowZWJF.state = allowZFWJ ? NSControlStateValueOn : NSControlStateValueOff;
     [self.AllowZWJF setEnabled:spelling];
@@ -450,10 +435,7 @@ extern int vPerformLayoutCompat;
     
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vOtherLanguage"];
     self.OtherLanguage.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vTempOffEndKey"];
-    self.TempOffEndKey.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAutoCapsMacro"];
     self.AutoCapsMacro.state = value ? NSControlStateValueOn : NSControlStateValueOff;
     

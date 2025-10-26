@@ -650,6 +650,21 @@ extern "C" {
                 }
             }
             _hasJustUsedHotKey = _lastFlag != 0;
+
+            // NEW: Trigger tempOff ngay khi nhấn Esc hoặc Arrow keys
+            // Reset session giống như mouse click để tắt macro/spell checking ngay lập tức
+            if (vTempOffEndKey) {
+                // Esc key (keyCode 53)
+                if (_keycode == 53) {
+                    RequestNewSession();
+                    return event;
+                }
+                // Arrow keys: Up(126), Down(125), Left(123), Right(124)
+                else if (_keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
+                    RequestNewSession();
+                    return event;
+                }
+            }
         } else if (type == kCGEventFlagsChanged) {
             if (_lastFlag == 0 || _lastFlag < _flag) {
                 // NEW: Temp off ngay khi nhấn Cmd/Alt (không cần đợi nhả)

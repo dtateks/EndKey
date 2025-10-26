@@ -1217,17 +1217,6 @@
                                                 <action selector="onAllowZFWJ:" target="XfG-lQ-9wD" id="opa-mL-f7X"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Tạm tắt kiểm tra chính tả khi gõ một từ nào đó như từ Đắk Lắk, Krông,... Kiểm tra chính tả sẽ phục hồi trở lại cho từ tiếp theo" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fld-P4-C8F">
-                                            <rect key="frame" x="278" y="90" width="219" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Tạm tắt chính tả bằng phím ⌃" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7Vf-II-Y50">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="omTempOffSpellChecking:" target="XfG-lQ-9wD" id="JiV-3O-0fj"/>
-                                            </connections>
-                                        </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YGb-a8-1Lb">
                                             <rect key="frame" x="18" y="90" width="198" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1250,17 +1239,6 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="onRememberTableCode:" target="XfG-lQ-9wD" id="WAd-dy-sZy"/>
-                                            </connections>
-                                        </button>
-                                        <button toolTip="Bằng cách bấm phím Command, EndKey sẽ tạm ngừng hoạt động cho tới khi bạn gõ 1 từ mới." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1eA-ed-0Ov">
-                                            <rect key="frame" x="278" y="55" width="215" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Tạm tắt EndKey bằng phím ⌘" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hx0-Hk-EOx">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onTempOffEndKeyByHotKey:" target="XfG-lQ-9wD" id="a4t-3a-rdr"/>
                                             </connections>
                                         </button>
                                         <button toolTip="Tự động viết hoa sau dấu chấm ngắt câu và sau khi xuống dòng" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Adl-fG-XEu">
@@ -1709,8 +1687,6 @@
                         <outlet property="SendKeyStepByStep" destination="C8z-Sp-sdZ" id="eSj-4I-pDf"/>
                         <outlet property="ShowIconOnDock" destination="5XE-HO-9o0" id="0eA-ky-HTL"/>
                         <outlet property="ShowUIButton" destination="Xle-7k-yIf" id="dbk-Zf-T4j"/>
-                        <outlet property="TempOffEndKey" destination="1eA-ed-0Ov" id="Uyz-ef-YcS"/>
-                        <outlet property="TempOffSpellChecking" destination="Fld-P4-C8F" id="dmu-8Y-on5"/>
                         <outlet property="UpperCaseFirstChar" destination="Adl-fG-XEu" id="b4x-Cc-Trs"/>
                         <outlet property="UseGrayIcon" destination="HEa-Qp-9qT" id="ApG-gR-H4l"/>
                         <outlet property="UseMacro" destination="eCY-Z0-cgW" id="0z8-vh-VlK"/>
