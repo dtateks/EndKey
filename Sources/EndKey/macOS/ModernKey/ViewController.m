@@ -166,10 +166,6 @@ extern int vPerformLayoutCompat;
     vFreeMark = (int)val;
 }
 
-- (IBAction)onModernOrthography:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"ModernOrthography"];
-    vUseModernOrthography = (int)val;
-}
 
 - (IBAction)onCheckSpelling:(NSButton *)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"Spelling"];
@@ -330,10 +326,9 @@ extern int vPerformLayoutCompat;
     
     NSInteger freeMark = [[NSUserDefaults standardUserDefaults] integerForKey:@"FreeMark"];
     self.FreeMarkButton.state = freeMark ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger useModernOrthography = [[NSUserDefaults standardUserDefaults] integerForKey:@"ModernOrthography"];
-    self.UseModernOrthography.state = useModernOrthography ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
+    //vUseModernOrthography is always 0 - hardcoded (standard orthography only)
+
     NSInteger spelling = [[NSUserDefaults standardUserDefaults] integerForKey:@"Spelling"];
     self.CheckSpellingButton.state = spelling ? NSControlStateValueOn : NSControlStateValueOff;
     

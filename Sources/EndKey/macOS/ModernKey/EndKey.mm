@@ -96,7 +96,7 @@ extern "C" {
         LOAD_DATA(vCodeTable, CodeTable); if (vCodeTable < 0) vCodeTable = 0;
         LOAD_DATA(vCheckSpelling, Spelling);
         LOAD_DATA(vQuickTelex, QuickTelex);
-        LOAD_DATA(vUseModernOrthography, ModernOrthography);
+        //vUseModernOrthography is always 0 - hardcoded (standard orthography only)
         LOAD_DATA(vRestoreIfWrongSpelling, RestoreIfInvalidWord);
         //vFixRecommendBrowser is always enabled - hardcoded
         LOAD_DATA(vUseMacro, UseMacro);
