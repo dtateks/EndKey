@@ -746,6 +746,10 @@ extern "C" {
             // NEW: Only process if focused on editable text field
             // This prevents EndKey from interfering with keyboard shortcuts in web apps
             if (!MJIsEditableTextFieldFocused()) {
+                // CRITICAL: Clear macro buffer before returning
+                // Without this, shortcuts like A+S leave "s" in buffer
+                // Then Enter triggers macro "s" → "sao" unexpectedly
+                RequestNewSession(); // Clear buffer and state
                 return event; // Skip EndKey processing, let the app handle the key normally
             }
 
