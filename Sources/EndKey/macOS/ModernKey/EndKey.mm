@@ -651,16 +651,10 @@ extern "C" {
             }
             _hasJustUsedHotKey = _lastFlag != 0;
 
-            // NEW: Trigger tempOff ngay khi nhấn Esc hoặc Arrow keys
-            // SIMPLE: Copy exact logic from Cmd (line 677-680)
-            if (vTempOffEndKey) {
-                // Esc key (keyCode 53) OR Arrow keys: Up(126), Down(125), Left(123), Right(124)
-                if (_keycode == 53 || _keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
-                    vSkipMacroNextBreak();   // Same as Cmd
-                    vTempOffSpellChecking(); // Same as Cmd
-                    // DON'T return - let key process normally
-                }
-            }
+            // Store if this is Esc/Arrow key - will set flag AFTER vKeyHandleEvent
+            BOOL isEscOrArrow = vTempOffEndKey &&
+                                (_keycode == 53 || _keycode == 126 || _keycode == 125 ||
+                                 _keycode == 123 || _keycode == 124);
         } else if (type == kCGEventFlagsChanged) {
             if (_lastFlag == 0 || _lastFlag < _flag) {
                 // NEW: Temp off ngay khi nhấn Ctrl/Cmd/Alt (không cần đợi nhả)
@@ -761,6 +755,15 @@ extern "C" {
                             _keycode,
                             _flag & kCGEventFlagMaskShift ? 1 : (_flag & kCGEventFlagMaskAlphaShift ? 2 : 0),
                             OTHER_CONTROL_KEY);
+
+            // CRITICAL: Set flag AFTER vKeyHandleEvent to prevent it being reset by line 1413
+            // vKeyHandleEvent processes Esc/Arrow as word break and resets _skipMacroNextBreak = false
+            // We set it again HERE so it persists for the next space/punctuation
+            if (isEscOrArrow) {
+                vSkipMacroNextBreak();   // Set flag after engine processing
+                vTempOffSpellChecking(); // Toggle spell checking
+            }
+
             if (pData->code == vDoNothing) { //do nothing
                 if (IS_DOUBLE_CODE(vCodeTable)) { //VNI
                     if (pData->extCode == 1) { //break key
