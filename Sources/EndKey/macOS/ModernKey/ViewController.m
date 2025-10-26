@@ -19,7 +19,6 @@ extern int vFreeMark;
 extern int vCheckSpelling;
 extern int vUseModernOrthography;
 extern int vSwitchKeyStatus;
-extern int vQuickTelex;
 extern int vRestoreIfWrongSpelling;
 extern int vFixRecommendBrowser;
 extern int vUseMacro;
@@ -29,8 +28,6 @@ extern int vUseSmartSwitchKey;
 extern int vUpperCaseFirstChar;
 extern int vTempOffSpelling;
 extern int vAllowConsonantZFWJ;
-extern int vQuickStartConsonant;
-extern int vQuickEndConsonant;
 extern int vRememberCode;
 extern int vOtherLanguage;
 extern int vTempOffEndKey;
@@ -176,11 +173,6 @@ extern int vPerformLayoutCompat;
     OnSpellCheckingChanged();
 }
 
-- (IBAction)onQuickTelex:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"QuickTelex"];
-    vQuickTelex = (int)val;
-}
-
 - (IBAction)onRestoreIfInvalidWord:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"RestoreIfInvalidWord"];
     vRestoreIfWrongSpelling = (int)val;
@@ -279,15 +271,6 @@ extern int vPerformLayoutCompat;
     NSInteger val = [self setCustomValue:sender keyToSet:@"UpperCaseFirstChar"];
     vUpperCaseFirstChar = (int)val;
 }
-- (IBAction)onQuickStartConsonant:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vQuickStartConsonant"];
-    vQuickStartConsonant = (int)val;
-}
-
-- (IBAction)onQuickEndConsonant:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vQuickEndConsonant"];
-    vQuickEndConsonant = (int)val;
-}
 
 - (IBAction)onTempOffEndKeyByHotKey:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"vTempOffEndKey"];
@@ -341,10 +324,9 @@ extern int vPerformLayoutCompat;
 
     NSInteger spelling = [[NSUserDefaults standardUserDefaults] integerForKey:@"Spelling"];
     self.CheckSpellingButton.state = spelling ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger quicTelex = [[NSUserDefaults standardUserDefaults] integerForKey:@"QuickTelex"];
-    self.QuickTelex.state = quicTelex ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
+    //vQuickTelex is always 0 - hardcoded (feature removed)
+
     NSInteger restoreIfInvalidWord = [[NSUserDefaults standardUserDefaults] integerForKey:@"RestoreIfInvalidWord"];
     self.RestoreIfInvalidWord.state = restoreIfInvalidWord ? NSControlStateValueOn : NSControlStateValueOff;
     [self.RestoreIfInvalidWord setEnabled:spelling];
@@ -371,12 +353,8 @@ extern int vPerformLayoutCompat;
     
     NSInteger upperCaseFirstChar = [[NSUserDefaults standardUserDefaults] integerForKey:@"UpperCaseFirstChar"];
     self.UpperCaseFirstChar.state = upperCaseFirstChar ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger quickStartConsonant = [[NSUserDefaults standardUserDefaults] integerForKey:@"vQuickStartConsonant"];
-    self.QuickStartConsonant.state = quickStartConsonant ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    NSInteger quickEndConsonant = [[NSUserDefaults standardUserDefaults] integerForKey:@"vQuickEndConsonant"];
-    self.QuickEndConsonant.state = quickEndConsonant ? NSControlStateValueOn : NSControlStateValueOff;
+
+    //vQuickStartConsonant and vQuickEndConsonant are always 0 - hardcoded (features removed)
 
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vOtherLanguage"];
     self.OtherLanguage.state = value ? NSControlStateValueOn : NSControlStateValueOff;

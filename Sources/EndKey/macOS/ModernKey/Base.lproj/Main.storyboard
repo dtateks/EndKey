@@ -1214,17 +1214,6 @@
                                                 <action selector="onMacroChanged:" target="XfG-lQ-9wD" id="P42-aR-N80"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Thay thế cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, tt=th" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LNA-pk-XQM">
-                                            <rect key="frame" x="243" y="164" width="267" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Gõ nhanh (cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, tt=th)" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" state="on" inset="2" id="ogy-kL-n2y">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onQuickTelex:" target="XfG-lQ-9wD" id="HiG-nd-NhV"/>
-                                            </connections>
-                                        </button>
                                         <button toolTip="Vẫn có thể gõ tắt khi bạn đang ở chế độ Tiếng Anh" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oj-fd-y0l">
                                             <rect key="frame" x="18" y="129" width="199" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1257,28 +1246,6 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="onMacroButton:" target="XfG-lQ-9wD" id="1UH-Er-oMx"/>
-                                            </connections>
-                                        </button>
-                                        <button toolTip="Thay thế nhanh các phụ âm đầu như f, j, w bằng ph, gi, qu. Ví dụ: fải→phải, jảng→giảng, wên→quên" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V4i-Pw-iL5">
-                                            <rect key="frame" x="243" y="129" width="262" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Gõ tắt phụ âm đầu: f→ph, j→gi, w→qu" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="U1b-wh-loy">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onQuickStartConsonant:" target="XfG-lQ-9wD" id="vt3-qy-DjB"/>
-                                            </connections>
-                                        </button>
-                                        <button toolTip="Thay thế nhanh các phụ âm cuối như g, h, k bằng ng, nh, ch. Ví dụ: trươg→trương, nhah→nhanh, bák→bách" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2k8-6T-Cyn">
-                                            <rect key="frame" x="243" y="94" width="276" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Gõ tắt phụ âm cuối: g→ng, h→nh, k→ch" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="D2S-oM-Vvy">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onQuickEndConsonant:" target="XfG-lQ-9wD" id="RWg-gD-62O"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -1338,9 +1305,6 @@
                         <outlet property="EngButton" destination="yUA-UQ-mxx" id="QKJ-tU-dsA"/>
                         <outlet property="FreeMarkButton" destination="f8B-EV-EE1" id="u6V-zD-Xqg"/>
                         <outlet property="OtherLanguage" destination="uew-J8-1eo" id="LFp-j1-L5Z"/>
-                        <outlet property="QuickEndConsonant" destination="2k8-6T-Cyn" id="Yj2-m5-Nbj"/>
-                        <outlet property="QuickStartConsonant" destination="V4i-Pw-iL5" id="ing-Db-5XB"/>
-                        <outlet property="QuickTelex" destination="LNA-pk-XQM" id="Iso-f9-PzK"/>
                         <outlet property="RestoreIfInvalidWord" destination="HoJ-3t-uio" id="aPe-Ic-Sgb"/>
                         <outlet property="SendKeyStepByStep" destination="C8z-Sp-sdZ" id="eSj-4I-pDf"/>
                         <outlet property="UpperCaseFirstChar" destination="Adl-fG-XEu" id="b4x-Cc-Trs"/>

@@ -95,7 +95,7 @@ extern "C" {
         vFreeMark = 0;//(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"FreeMark"];
         LOAD_DATA(vCodeTable, CodeTable); if (vCodeTable < 0) vCodeTable = 0;
         LOAD_DATA(vCheckSpelling, Spelling);
-        LOAD_DATA(vQuickTelex, QuickTelex);
+        //vQuickTelex is always 0 - hardcoded (feature removed)
         //vUseModernOrthography is always 0 - hardcoded (standard orthography only)
         LOAD_DATA(vRestoreIfWrongSpelling, RestoreIfInvalidWord);
         //vFixRecommendBrowser is always enabled - hardcoded
@@ -108,8 +108,7 @@ extern "C" {
         
         LOAD_DATA(vTempOffSpelling, vTempOffSpelling);
         LOAD_DATA(vAllowConsonantZFWJ, vAllowConsonantZFWJ);
-        LOAD_DATA(vQuickEndConsonant, vQuickEndConsonant);
-        LOAD_DATA(vQuickStartConsonant, vQuickStartConsonant);
+        //vQuickEndConsonant and vQuickStartConsonant are always 0 - hardcoded (features removed)
         //vRememberCode is always 1 - hardcoded
         LOAD_DATA(vOtherLanguage, vOtherLanguage);
         LOAD_DATA(vTempOffEndKey, vTempOffEndKey);
