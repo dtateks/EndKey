@@ -42,7 +42,6 @@
 @property (weak) IBOutlet NSButton *QuickTelex;
 
 @property (weak) IBOutlet NSButton *RestoreIfInvalidWord;
-@property (weak) IBOutlet NSButton *FixRecommendBrowser;
 @property (weak) IBOutlet NSButton *AllowZWJF;
 
 @property (weak) IBOutlet NSButton *UseMacro;
@@ -60,7 +59,6 @@
 @property (weak) IBOutlet NSButton *AutoCapsMacro;
 @property (weak) IBOutlet NSButton *ShowIconOnDock;
 @property (weak) IBOutlet NSButton *CheckNewVersionOnStartup;
-@property (weak) IBOutlet NSButton *FixChromiumBrowser;
 @property (weak) IBOutlet NSButton *DoubleSpacePeriod;
 @property (weak) IBOutlet NSButton *PerformLayoutCompat;
 

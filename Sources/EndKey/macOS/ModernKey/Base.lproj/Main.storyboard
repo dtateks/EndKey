@@ -1173,17 +1173,6 @@
                                                 <action selector="onModernOrthography:" target="XfG-lQ-9wD" id="bZ2-7t-bwG"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Sửa lỗi đúp từ trên thanh địa chỉ trình duyệt, Excel,..." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BKq-hz-RRL">
-                                            <rect key="frame" x="18" y="160" width="230" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Sửa lỗi gợi ý (trình duyệt, Excel,...)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dLp-Sb-Onb">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onFixRecommendBrowser:" target="XfG-lQ-9wD" id="wXz-bu-AJr"/>
-                                            </connections>
-                                        </button>
                                         <button toolTip="Tính năng kiểm tra chính tả tương đối, hạn chế gõ sai từ" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ko-dG-wVl">
                                             <rect key="frame" x="278" y="195" width="125" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1473,18 +1462,6 @@
                                                 <action selector="onRunOnStartup:" target="XfG-lQ-9wD" id="L39-OJ-BYB"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efe-07-OlS">
-                                            <rect key="frame" x="283" y="164" width="224" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <string key="toolTip">Sửa lỗi bị đúp từ trên các trình duyệt Chromium bao gồm Google Chrome, Brave, Microsoft Edge. Tính năng này đang được thử nghiệm. Cần bật tính năng "Sửa lỗi gợi ý" để hỗ trợ tính năng này.</string>
-                                            <buttonCell key="cell" type="check" title="Sửa lỗi trên Chromium (beta)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="zFV-Hu-W9D">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="onFixChromiumBrowser:" target="XfG-lQ-9wD" id="ZNU-JT-e9K"/>
-                                            </connections>
-                                        </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DSP-01-BTN">
                                             <rect key="frame" x="283" y="142" width="224" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1673,8 +1650,6 @@
                         <outlet property="CustomSwitchShift" destination="wh2-uV-nSn" id="uJw-Tj-F5N"/>
                         <outlet property="DoubleSpacePeriod" destination="DSP-01-BTN" id="DSP-01-OUT"/>
                         <outlet property="EngButton" destination="yUA-UQ-mxx" id="QKJ-tU-dsA"/>
-                        <outlet property="FixChromiumBrowser" destination="efe-07-OlS" id="PMH-MH-7Ea"/>
-                        <outlet property="FixRecommendBrowser" destination="BKq-hz-RRL" id="V6H-kl-20B"/>
                         <outlet property="FreeMarkButton" destination="f8B-EV-EE1" id="u6V-zD-Xqg"/>
                         <outlet property="OtherLanguage" destination="uew-J8-1eo" id="LFp-j1-L5Z"/>
                         <outlet property="PerformLayoutCompat" destination="FLh-VP-qtU" id="PZj-VV-FRE"/>

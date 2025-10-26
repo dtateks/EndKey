@@ -98,7 +98,7 @@ extern "C" {
         LOAD_DATA(vQuickTelex, QuickTelex);
         LOAD_DATA(vUseModernOrthography, ModernOrthography);
         LOAD_DATA(vRestoreIfWrongSpelling, RestoreIfInvalidWord);
-        LOAD_DATA(vFixRecommendBrowser, FixRecommendBrowser);
+        //vFixRecommendBrowser is always enabled - hardcoded
         LOAD_DATA(vUseMacro, UseMacro);
         LOAD_DATA(vUseMacroInEnglishMode, UseMacroInEnglishMode);
         LOAD_DATA(vAutoCapsMacro, vAutoCapsMacro);
@@ -113,9 +113,9 @@ extern "C" {
         LOAD_DATA(vRememberCode, vRememberCode);
         LOAD_DATA(vOtherLanguage, vOtherLanguage);
         LOAD_DATA(vTempOffEndKey, vTempOffEndKey);
-        
-        LOAD_DATA(vFixChromiumBrowser, vFixChromiumBrowser);
-        
+
+        //vFixChromiumBrowser is always enabled - hardcoded
+
         LOAD_DATA(vPerformLayoutCompat, vPerformLayoutCompat);
         
         myEventSource = CGEventSourceCreate(kCGEventSourceStatePrivate);

@@ -212,12 +212,6 @@ extern int vPerformLayoutCompat;
     vAllowConsonantZFWJ = (int)val;
 }
 
-- (IBAction)onFixRecommendBrowser:(id)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"FixRecommendBrowser"];
-    vFixRecommendBrowser = (int)val;
-    [self.FixChromiumBrowser setEnabled:val];
-}
-
 - (IBAction)onControlSwitchKey:(NSButton *)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:nil];
     vSwitchKeyStatus &= (~0x100);
@@ -346,11 +340,6 @@ extern int vPerformLayoutCompat;
     [[NSUserDefaults standardUserDefaults] setInteger:val forKey:@"DontCheckUpdate"];
 }
 
-- (IBAction)onFixChromiumBrowser:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:@"vFixChromiumBrowser"];
-    vFixChromiumBrowser = (int)val;
-}
-
 - (IBAction)onTerminateApp:(id)sender {
     [NSApp terminate:0];
 }
@@ -405,10 +394,7 @@ extern int vPerformLayoutCompat;
     NSInteger allowZFWJ = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAllowConsonantZFWJ"];
     self.AllowZWJF.state = allowZFWJ ? NSControlStateValueOn : NSControlStateValueOff;
     [self.AllowZWJF setEnabled:spelling];
-    
-    NSInteger fixRecommendBrowser = [[NSUserDefaults standardUserDefaults] integerForKey:@"FixRecommendBrowser"];
-    self.FixRecommendBrowser.state = fixRecommendBrowser ? NSControlStateValueOn : NSControlStateValueOff;
-    
+
     NSInteger useMacro = [[NSUserDefaults standardUserDefaults] integerForKey:@"UseMacro"];
     self.UseMacro.state = useMacro ? NSControlStateValueOn : NSControlStateValueOff;
     
@@ -444,10 +430,6 @@ extern int vPerformLayoutCompat;
     
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
     self.CheckNewVersionOnStartup.state = value ? NSControlStateValueOff :NSControlStateValueOn;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vFixChromiumBrowser"];
-    self.FixChromiumBrowser.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    self.FixChromiumBrowser.enabled = fixRecommendBrowser ? YES : NO;
 
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
     self.DoubleSpacePeriod.state = value ? NSControlStateValueOn : NSControlStateValueOff;

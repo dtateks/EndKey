@@ -53,8 +53,8 @@ int vShowIconOnDock = 0; //new on version 2.0
 
 int vPerformLayoutCompat = 0;
 
-//beta feature
-int vFixChromiumBrowser = 0; //new on version 2.0
+//Always enabled - hardcoded
+int vFixChromiumBrowser = 1; //new on version 2.0
 
 extern int convertToolHotKey;
 extern bool convertToolDontAlertWhenCompleted;
@@ -325,7 +325,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vQuickTelex = 0; [[NSUserDefaults standardUserDefaults] setInteger:vQuickTelex forKey:@"QuickTelex"];
     vUseModernOrthography = 0; [[NSUserDefaults standardUserDefaults] setInteger:vUseModernOrthography forKey:@"ModernOrthography"];
     vRestoreIfWrongSpelling = 0; [[NSUserDefaults standardUserDefaults] setInteger:vRestoreIfWrongSpelling forKey:@"RestoreIfInvalidWord"];
-    vFixRecommendBrowser = 1; [[NSUserDefaults standardUserDefaults] setInteger:vFixRecommendBrowser forKey:@"FixRecommendBrowser"];
+    vFixRecommendBrowser = 1; //Always enabled - hardcoded
     vUseMacro = 1; [[NSUserDefaults standardUserDefaults] setInteger:vUseMacro forKey:@"UseMacro"];
     vUseMacroInEnglishMode = 0; [[NSUserDefaults standardUserDefaults] setInteger:vUseMacroInEnglishMode forKey:@"UseMacroInEnglishMode"];
     vSendKeyStepByStep = 0;[[NSUserDefaults standardUserDefaults] setInteger:vUseMacroInEnglishMode forKey:@"SendKeyStepByStep"];
@@ -340,7 +340,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vTempOffEndKey = 1;[[NSUserDefaults standardUserDefaults] setInteger:vTempOffEndKey forKey:@"vTempOffEndKey"];
     vDoubleSpacePeriod = 1;[[NSUserDefaults standardUserDefaults] setInteger:vDoubleSpacePeriod forKey:@"vDoubleSpacePeriod"];
     vShowIconOnDock = 0;[[NSUserDefaults standardUserDefaults] setInteger:vShowIconOnDock forKey:@"vShowIconOnDock"];
-    vFixChromiumBrowser = 0;[[NSUserDefaults standardUserDefaults] setInteger:vFixChromiumBrowser forKey:@"vFixChromiumBrowser"];
+    vFixChromiumBrowser = 1; //Always enabled - hardcoded
     vPerformLayoutCompat = 0;[[NSUserDefaults standardUserDefaults] setInteger:vPerformLayoutCompat forKey:@"vPerformLayoutCompat"];
 
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"GrayIcon"];
