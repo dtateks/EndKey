@@ -244,6 +244,12 @@ void vSetCheckSpelling();
 void vSkipMacroNextBreak();
 
 /**
+ * Force skip macro on next word break WITHOUT checking _index
+ * Use this for keys that reset _index (Esc, Arrow keys)
+ */
+void vForceSkipMacroNextBreak();
+
+/**
  * some utils function
  */
 wstring utf8ToWideString(const string& str);
