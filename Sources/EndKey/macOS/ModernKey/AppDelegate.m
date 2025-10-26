@@ -400,7 +400,7 @@ extern bool convertToolDontAlertWhenCompleted;
 - (void) fillData {
     //fill data
     NSInteger intInputMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputMethod"];
-    NSInteger grayIcon = [[NSUserDefaults standardUserDefaults] integerForKey:@"GrayIcon"];
+    // GrayIcon is always 1 - hardcoded (modern icon, template mode always enabled)
 
     // Scale factor for menubar icons (0.85 = 15% smaller)
     CGFloat iconScale = 0.85;
@@ -408,13 +408,13 @@ extern bool convertToolDontAlertWhenCompleted;
     if (intInputMethod == 1) {
         [menuInputMethod setState:NSControlStateValueOn];
         NSImage *icon = [self scaleImage:[NSImage imageNamed:@"Status"] toScale:iconScale];
-        [icon setTemplate:(grayIcon ? YES : NO)];
+        [icon setTemplate:YES]; // Always YES - hardcoded gray icon
         statusItem.button.image = icon;
         statusItem.button.alternateImage = [self scaleImage:[NSImage imageNamed:@"StatusHighlighted"] toScale:iconScale];
     } else {
         [menuInputMethod setState:NSControlStateValueOff];
         NSImage *iconEng = [self scaleImage:[NSImage imageNamed:@"StatusEng"] toScale:iconScale];
-        [iconEng setTemplate:(grayIcon ? YES : NO)];
+        [iconEng setTemplate:YES]; // Always YES - hardcoded gray icon
         statusItem.button.image = iconEng;
         statusItem.button.alternateImage = [self scaleImage:[NSImage imageNamed:@"StatusHighlightedEng"] toScale:iconScale];
     }
