@@ -359,7 +359,7 @@ extern bool convertToolDontAlertWhenCompleted;
     [scaledImage lockFocus];
     [image drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
              fromRect:NSZeroRect
-            operation:NSCompositingOperationCopy
+            operation:NSCompositeCopy
              fraction:1.0];
     [scaledImage unlockFocus];
 
