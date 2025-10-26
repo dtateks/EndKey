@@ -52,11 +52,7 @@
 @property (weak) IBOutlet NSButtonCell *OtherLanguage;
 
 @property (weak) IBOutlet NSButton *AutoCapsMacro;
-@property (weak) IBOutlet NSButton *CheckNewVersionOnStartup;
 @property (weak) IBOutlet NSButton *DoubleSpacePeriod;
-
-@property (weak) IBOutlet NSButton *CheckNewVersionButton;
-@property (weak) IBOutlet NSTextField *VersionInfo;
 
 @property (weak) IBOutlet NSImageView *cursorImage;
 

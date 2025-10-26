@@ -88,18 +88,11 @@ extern int vPerformLayoutCompat;
     [self initKey];
     
     [self fillData];
-    
-    // set version info
-    self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) - Ngày cập nhật %@",
-    [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
-    [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"],
-    [EndKeyManager getBuildDate]] ;
 }
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    NSString* str = @"EndKey %@ - Bộ gõ Tiếng Việt";
-    self.view.window.title = [NSString stringWithFormat:str, [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]];
+    self.view.window.title = @"EndKey - Bộ gõ Tiếng Việt";
 }
 
 - (void)viewWillAppear {
@@ -303,11 +296,6 @@ extern int vPerformLayoutCompat;
     vAutoCapsMacro = (int)val;
 }
 
-- (IBAction)onCheckNewVersionOnStartup:(NSButton *)sender {
-    NSInteger val = sender.state == NSControlStateValueOn ? 0 : 1;
-    [[NSUserDefaults standardUserDefaults] setInteger:val forKey:@"DontCheckUpdate"];
-}
-
 - (IBAction)onDoubleSpacePeriod:(id)sender {
     NSInteger val = [self setCustomValue:sender keyToSet:@"vDoubleSpacePeriod"];
     vDoubleSpacePeriod = (int)val;
@@ -385,12 +373,6 @@ extern int vPerformLayoutCompat;
 
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vAutoCapsMacro"];
     self.AutoCapsMacro.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
-    self.ShowIconOnDock.state = value ? NSControlStateValueOn : NSControlStateValueOff;
-    
-    value = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
-    self.CheckNewVersionOnStartup.state = value ? NSControlStateValueOff :NSControlStateValueOn;
 
     value = [[NSUserDefaults standardUserDefaults] integerForKey:@"vDoubleSpacePeriod"];
     self.DoubleSpacePeriod.state = value ? NSControlStateValueOn : NSControlStateValueOff;
@@ -421,16 +403,6 @@ extern int vPerformLayoutCompat;
 
 - (IBAction)onSourceCode:(id)sender {
   [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/EndKey"]];
-}
-
-- (IBAction)onCheckNewVersionButton:(id)sender {
-    self.CheckNewVersionButton.title = @"Đang kiểm tra...";
-    self.CheckNewVersionButton.enabled = false;
-    
-    [EndKeyManager checkNewVersion:self.view.window callbackFunc:^{
-        self.CheckNewVersionButton.enabled = true;
-        self.CheckNewVersionButton.title = @"Kiểm tra bản mới...";
-    }];
 }
 
 @end
