@@ -652,17 +652,13 @@ extern "C" {
             _hasJustUsedHotKey = _lastFlag != 0;
 
             // NEW: Trigger tempOff ngay khi nhấn Esc hoặc Arrow keys
-            // Reset session giống như mouse click để tắt macro/spell checking ngay lập tức
+            // Giống hệt logic Cmd/Alt - chỉ set flag, KHÔNG return event
             if (vTempOffEndKey) {
-                // Esc key (keyCode 53)
-                if (_keycode == 53) {
-                    RequestNewSession();
-                    return event;
-                }
-                // Arrow keys: Up(126), Down(125), Left(123), Right(124)
-                else if (_keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
-                    RequestNewSession();
-                    return event;
+                // Esc key (keyCode 53) OR Arrow keys: Up(126), Down(125), Left(123), Right(124)
+                if (_keycode == 53 || _keycode == 126 || _keycode == 125 || _keycode == 123 || _keycode == 124) {
+                    vSkipMacroNextBreak();      // Set flag để skip macro lần sau
+                    vTempOffSpellChecking();    // Toggle spell checking
+                    // KHÔNG return - để Esc/Arrow được xử lý bình thường (di chuyển cursor, etc.)
                 }
             }
         } else if (type == kCGEventFlagsChanged) {
