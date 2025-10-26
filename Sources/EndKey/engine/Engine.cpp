@@ -1272,12 +1272,6 @@ void vSkipMacroNextBreak() {
     }
 }
 
-void vForceSkipMacroNextBreak() {
-    // Force set flag without checking _index
-    // Used for Esc/Arrow keys which reset _index when processed
-    _skipMacroNextBreak = true;
-}
-
 bool checkQuickConsonant() {
     if (_index <= 1) return false;
     l = 0;
