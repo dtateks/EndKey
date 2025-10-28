@@ -1,0 +1,136 @@
+# Xcode build artifacts
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+build/
+DerivedData/
+*.build/
+
+# macOS app bundles
+*.app/
+
+# Object files
+*.o
+*.obj
+
+# Compiled binaries
+EndKey
+EndKeyHelper
+endkey
+endkey-helper
+
+# Debug files
+*.dSYM/
+*.dwarf
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build directories
+build/
+Build/
+Debug/
+Release/
+
+# Test output
+*.test
+*.tests
+test-results/
+coverage/
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
+
+# Generated files
+generated/
+auto-generated/
+
+# Cache directories
+.cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# Configuration files (if they contain secrets)
+config/local.*
+.env
+.env.local
+*.key
+*.pem
+
+# Logs
+logs/
+*.log
+
+# Memory and performance test results
+*_results/
+memory_results/
+perf_results/
+integration_results/
+regression_results/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Xcode specific
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# Accio dependency manager
+.accio/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code Injection
+iOSInjectionProject/
+
+# macOS specific
+*.xcarchive
+*.ipa
+
+# Temporary XCode artifacts
+*.xcuserstate
+project.xcworkspace

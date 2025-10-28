@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-EndKey là một bộ gõ tiếng Việt cho macOS với kiến trúc động cơ đã được tái cấu trúc theo nguyên tắc SOLID. Gồm hai phần chính:
+EndKey là một bộ gõ tiếng Việt cho macOS được refactoring từ kiến trúc monolithic sang modular architecture sử dụng modern C++. Dự án có hai phần chính:
 
-1. **Engine** (C++) - Động cơ xử lý ngôn ngữ và gõ phím
-2. **macOS App** (Objective-C/C++) - Giao diện người dùng và tích hợp hệ thống
+1. **Engine** (C++) - Core Vietnamese typing engine với architecture mới
+2. **macOS App** (Objective-C++) - Giao diện người dùng và system integration
 
-## Development Commands
+## Build Commands
 
-### Complete rebuild workflow - use this for most development**:
+### Complete Build Workflow (推荐)
 ```bash
 # 1. Kill all running instances
 killall -9 EndKey EndKeyHelper 2>/dev/null
@@ -34,124 +34,138 @@ cp -a Sources/EndKey/macOS/build/Debug/EndKey.app /Applications/
 codesign --force --deep --sign - /Applications/EndKey.app
 ```
 
-## Architecture
-
-### Engine Structure (C++)
-```
-engine/
-├── interfaces/           # Abstract interfaces
-│   ├── IEngineCore.h
-│   ├── IInputProcessor.h
-│   ├── IVietnameseProcessor.h
-│   ├── IMacroProcessor.h
-│   └── IConfigurationManager.h
-├── core/                # Implementations
-│   ├── EngineCore.h
-│   ├── ConfigurationManager.h/cpp
-│   ├── InputProcessor.h
-│   ├── VietnameseProcessor.h
-│   ├── MacroProcessor.h
-│   └── MemoryManager.h/cpp
-├── EngineBridge.h/cpp   # Backward compatibility
-└── [legacy files...]    # Original files
+### Quick Build (cho development)
+```bash
+xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
+  -target EndKey \
+  -configuration Debug \
+  CODE_SIGNING_ALLOWED=NO \
+  build
 ```
 
-### macOS App Structure
-```
-macOS/
-├── ModernKey/           # Main application
-│   ├── EndKey.mm        # Main entry point
-│   ├── EndKeyManager.h/m
-│   ├── InputEventManager.h/mm
-│   ├── UIManager.h/mm
-│   └── [UI controllers...]
-├── EndKey.xcodeproj/    # Xcode project
-└── EndKeyHelper/        # Helper app
+### Build Helper App
+```bash
+xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
+  -target EndKeyHelper \
+  -configuration Debug \
+  CODE_SIGNING_ALLOWED=NO \
+  build
 ```
 
-## Design Patterns
+## Architecture Overview
 
-### Clean Architecture
-- **Dependency Injection**: Components receive dependencies through constructors
-- **Interface Segregation**: Small, focused interfaces
-- **Single Responsibility**: Mỗi class có một trách nhiệm rõ ràng
-- **Factory Pattern**: EngineFactory tạo tất cả components
+### Engine Architecture (C++)
 
-### Backward Compatibility
-Bridge layer (`EngineBridge.h/cpp`) cung cấp tương thích 100% với API cũ:
-```cpp
-// Legacy API vẫn hoạt động
-void* vKeyInit();
-void vKeyHandleEvent(const vKeyEvent& event, ...);
-Uint32 getCharacterCode(const Uint32& data);
-```
+#### Core Layer Pattern
+Engine sử dụng **clean architecture** với separation of concerns rõ ràng:
 
-## Key Components
+1. **Interface Layer** (`interfaces/`)
+   - `IEngineCore.h` - Main engine coordination
+   - `IVietnameseProcessor.h` - Vietnamese language processing
+   - `IMacroProcessor.h` - Text expansion và macros
+   - `IConfigurationManager.h` - Centralized configuration
+   - `IInputProcessor.h` - Keyboard event processing
 
-### Engine Core Components
-- **EngineCore**: Điều phối chính của động cơ
-- **VietnameseProcessor**: Xử lý chuyển đổi tiếng Việt (Telex, VNI)
-- **MacroProcessor**: Xử lý macro và text expansion
-- **ConfigurationManager**: Quản lý settings và preferences
-- **MemoryManager**: Tối ưu memory và caching
+2. **Core Layer** (`core/`)
+   - `EngineCore.h/cpp` - Main implementation với dependency injection
+   - `ConfigurationManager.h/cpp` - Settings management
+   - `VietnameseProcessor.h/cpp` - Vietnamese character processing
+   - `MacroProcessor.h/cpp` - Macro expansion
+   - `MemoryManager.h/cpp` - Memory optimization
 
-### macOS Integration
-- **EndKeyManager**: Quản lý trạng thái ứng dụng
-- **InputEventManager**: Xử lý keyboard events và hotkeys
-- **UIManager**: Quản lý giao diện người dùng
-- **MJAccessibilityUtils**: Accessibility utilities
+3. **Bridge Layer** (`EngineBridge.h/cpp`)
+   - **100% backward compatibility** với legacy API
+   - Maps legacy global variables → new configuration system
+   - Maintains exact same public interface
 
-## Development Workflow
+#### Key Components
+- **TypingEngine** - Core input processing pipeline
+- **SpellingEngine** - Vietnamese orthography validation
+- **VietnameseOptimized** - Efficient character classes thay hardcoded maps
+- **ConvertTool** - Unicode/encoding conversions
+- **SmartSwitchKey** - Language switching logic
 
-### Thêm Feature Mới
-1. Nếu là engine logic: Thêm vào `core/` hoặc extend interfaces
-2. Nếu là UI: Thêm vào `macOS/ModernKey/`
-3. Đảm bảo backward compatibility qua Bridge layer
-4. Test với cả legacy API và new API
+### macOS App Architecture (Objective-C++)
 
-### Testing
-Không có automated test suite hiện tại. Testing được thực hiện thủ công qua:
-- Manual testing trong macOS app
-- Unit testing cho engine functions (nếu cần)
+#### Main Components
+- **EndKeyManager** - Core management và event handling
+- **InputEventManager** - Global keyboard event monitoring
+- **UIManager** - Status window và preferences
+- **ModernKey** - Main app interface với Storyboard
+- **EndKeyHelper** - Login item cho auto-start
+
+#### Key Files
+- `EndKey.mm` - Main entry point
+- `InputEventManager.mm` - System-wide event monitoring
+- `EndKeyManager.m` - Business logic coordination
+- `ViewController.m` - Main UI controller
+
+## Development Patterns
 
 ### Memory Management
-- Sử dụng smart pointers (`std::unique_ptr`)
-- RAII pattern
-- Memory pools cho frequent allocations
-- LRU caches cho performance
+- Sử dụng **modern C++** với smart pointers (`std::unique_ptr`)
+- **RAII pattern** - không cần manual memory management
+- **Memory pools** cho frequent allocations
+- **LRU caching** cho character lookups (50K entries)
 
-## Common Tasks
+### Configuration System
+- Centralized configuration qua `ConfigurationManager`
+- Legacy global variables auto-sync với new system
+- Real-time configuration updates
 
-### Debug Engine Issues
-1. Kiểm tra logic trong `engine/core/`
-2. Xem legacy behavior trong `engine/Engine.cpp`
-3. Verify bridge layer compatibility
+### Testing Strategy
+- Modular architecture enables isolated component testing
+- Mock interfaces cho unit testing
+- Backward compatibility ensures existing functionality works
 
-### Debug macOS Integration
-1. Kiểm tra `InputEventManager.mm` cho keyboard events
-2. Xem `EndKeyManager.m` cho app state
-3. Verify accessibility permissions
-
-### Add New Input Method
-1. Extend `IVietnameseProcessor.h`
-2. Implement trong `VietnameseProcessor.h`
-3. Update `ConfigurationManager` với new type
-4. Add UI controls trong `ViewController.m`
-
-## File Types & Extensions
-
-- `.h/.cpp` - C++ engine files
-- `.h/.m` - Objective-C headers/implementation
-- `.h/.mm` - Objective-C++ files (khi mix C++ và Objective-C)
-- `.pbxproj` - Xcode project file
-- `.plist` - Property lists (app configuration)
-- `.storyboard` - Interface Builder files
-- `.xib` - Legacy Interface Builder files
+### Performance Optimizations
+- **Lazy loading** cho conversion tables
+- **Character caching** với 50K LRU cache
+- **Hot path optimization** trong typing pipeline
+- **Memory-efficient data structures**
 
 ## Important Notes
 
-- Engine đã được refactor từ monolithic sang modular architecture
-- 100% backward compatibility được maintain qua Bridge layer
-- Smart pointers và RAII được sử dụng cho memory safety
-- macOS app là LSUIElement (system tray app, không có dock icon)
-- Yêu cầu accessibility permissions cho keyboard events
+### Backward Compatibility
+- EngineBridge maintains **100% API compatibility**
+- Legacy code works without changes
+- Global variables automatically synchronized
+
+### Code Style
+- Modern C++14/17 patterns
+- RAII resource management
+- Interface-based design for testability
+- Dependency injection pattern
+
+### File Organization
+```
+engine/
+├── interfaces/     # Abstract interfaces
+├── core/          # Concrete implementations
+├── platforms/     # Platform-specific code
+└── [legacy files] # Original monolithic code
+
+macOS/
+├── ModernKey/     # Main app UI
+├── EndKeyHelper/  # Background helper
+└── build/         # Build output
+```
+
+## Debugging
+
+### Common Issues
+- **Permissions**: macOS requires accessibility permissions cho keyboard monitoring
+- **Code Signing**: App cần được signed cho persistent permissions
+- **Memory Leaks**: Use modern C++ patterns để avoid leaks
+
+### Debug Commands
+```bash
+# Check running processes
+ps aux | grep EndKey
+
+# Monitor memory usage
+leaks --atExit -- /Applications/EndKey.app/Contents/MacOS/EndKey
+
+# Check accessibility permissions
+sudo tccutil reset Accessibility
+```
