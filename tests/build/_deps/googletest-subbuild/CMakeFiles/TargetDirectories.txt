@@ -1,3 +1,0 @@
-/Users/dta.business/Desktop/dev/EndKey/tests/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
-/Users/dta.business/Desktop/dev/EndKey/tests/build/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
-/Users/dta.business/Desktop/dev/EndKey/tests/build/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir

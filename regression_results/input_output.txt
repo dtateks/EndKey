@@ -1,4 +1,0 @@
-Testing legacy input method compatibility...
-Telex compatibility: PASS
-VNI compatibility: PASS
-All legacy input methods compatible

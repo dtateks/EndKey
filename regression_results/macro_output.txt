@@ -1,5 +1,0 @@
-All legacy macros expanded correctly
-Macro case handling test passed
-Macro expansion compatibility: PASS
-Macro case handling: PASS
-Macro system compatibility verified

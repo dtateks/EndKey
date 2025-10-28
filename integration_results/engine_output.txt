@@ -1,2 +1,0 @@
-Engine processing simulation: xin chao -> xin chao
-C++ engine integration test passed

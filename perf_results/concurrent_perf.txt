@@ -1,6 +1,0 @@
-Running concurrent test with 10 threads
-Total operations: 10000
-Completed 10000 operations
-Total time: 45 ms
-Throughput: 222222 ops/sec
-Average latency: 4.5 μs/op
