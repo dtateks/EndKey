@@ -1,6 +1,9 @@
-# CLAUDE.md
+# CRITICAL
+**ALWAYS** communicate in **Vietnamese**
+**IMPORTANT** keep responses **CONCISE** and **SIMPLE**
+**IMPORTANT Do NOT** show code blocks in chat
+**use mcp server tools when necessary**
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -32,24 +35,6 @@ cp -a Sources/EndKey/macOS/build/Debug/EndKey.app /Applications/
 
 # 5. Sign for permissions persistence
 codesign --force --deep --sign - /Applications/EndKey.app
-```
-
-### Quick Build (cho development)
-```bash
-xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
-  -target EndKey \
-  -configuration Debug \
-  CODE_SIGNING_ALLOWED=NO \
-  build
-```
-
-### Build Helper App
-```bash
-xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
-  -target EndKeyHelper \
-  -configuration Debug \
-  CODE_SIGNING_ALLOWED=NO \
-  build
 ```
 
 ## Architecture Overview
