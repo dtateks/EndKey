@@ -58,7 +58,8 @@ bool addMacro(const string& macroText, const string& macroContent);
 bool deleteMacro(const string& macroText);
 
 /**
- * When table code changed, we have to call this function to reload all macroContentCode
+ * ENCODING REMOVAL: When table code changed, we have to call this function to reload all macroContentCode
+ * Now a no-op since we only support Unicode
  */
 void onTableCodeChange();
 

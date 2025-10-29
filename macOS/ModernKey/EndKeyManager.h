@@ -18,7 +18,8 @@ typedef void (^CheckNewVersionCallback)(void);
 +(BOOL)initEventTap;
 +(BOOL)stopEventTap;
 
-+(NSArray*)getTableCodes;
+// ENCODING REMOVAL: getTableCodes deprecated - Unicode-only
+//+(NSArray*)getTableCodes;
 
 +(NSString*)getBuildDate;
 +(void)showMessage:(NSWindow*)window message:(NSString*)msg subMsg:(NSString*)subMsg;

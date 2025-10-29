@@ -27,7 +27,8 @@ extern AppDelegate* appDelegate;
 }
 
 -(void)fillData {
-    NSArray* codeData = [EndKeyManager getTableCodes];
+    // ENCODING REMOVAL: Only show Unicode option
+    NSArray* codeData = @[@"Unicode"];
     [self.FromCode removeAllItems];
     [self.FromCode addItemsWithTitles:codeData];
     [self.ToCode removeAllItems];
@@ -42,8 +43,9 @@ extern AppDelegate* appDelegate;
     
     self.ToRemoveSign.state = convertToolRemoveMark ? NSControlStateValueOn : NSControlStateValueOff;
     
-    [self.FromCode selectItemAtIndex:convertToolFromCode];
-    [self.ToCode selectItemAtIndex:convertToolToCode];
+    // ENCODING REMOVAL: Always select Unicode (0)
+    [self.FromCode selectItemAtIndex:0];
+    [self.ToCode selectItemAtIndex:0];
     
     self.SControl.state = (convertToolHotKey & 0x100) ? NSControlStateValueOn : NSControlStateValueOff;
     self.SOption.state = (convertToolHotKey & 0x200) ? NSControlStateValueOn : NSControlStateValueOff;
@@ -102,13 +104,15 @@ extern AppDelegate* appDelegate;
 }
 
 - (IBAction)onFromCodeSelected:(NSPopUpButton *)sender {
-    convertToolFromCode = [self.FromCode indexOfSelectedItem];
-    [[NSUserDefaults standardUserDefaults] setInteger:convertToolFromCode forKey:@"convertToolFromCode"];
+    // ENCODING REMOVAL: Always use Unicode (0)
+    convertToolFromCode = 0;
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"convertToolFromCode"];
 }
 
 - (IBAction)onToCodeSelected:(NSPopUpButton *)sender {
-    convertToolToCode = [self.ToCode indexOfSelectedItem];
-    [[NSUserDefaults standardUserDefaults] setInteger:convertToolToCode forKey:@"convertToolToCode"];
+    // ENCODING REMOVAL: Always use Unicode (0)
+    convertToolToCode = 0;
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"convertToolToCode"];
 }
 
 - (NSInteger)setCustomValue:(NSButton*)sender keyToSet:(NSString*) key {

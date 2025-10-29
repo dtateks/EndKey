@@ -153,6 +153,7 @@ EndKeyConfigurationKey const EndKeyConfigOtherLanguage = @"OtherLanguage";
 
 - (void)setupDefaultConfiguration {
     // Set default values
+    // ENCODING REMOVAL: Always use Unicode (0)
     [_configuration setObject:@(0) forKey:EndKeyConfigCodeTable];
     [_configuration setObject:@(1) forKey:EndKeyConfigCheckSpelling];
     [_configuration setObject:@(1) forKey:EndKeyConfigUseMacro];
@@ -555,8 +556,9 @@ EndKeyConfigurationKey const EndKeyConfigOtherLanguage = @"OtherLanguage";
 
 - (BOOL)loadFromEngine:(NSError**)error {
     // Load current engine state
+    // ENCODING REMOVAL: Always use Unicode (0)
     NSDictionary* engineConfig = @{
-        EndKeyConfigCodeTable: @(vCodeTable),
+        EndKeyConfigCodeTable: @0,  // Always Unicode
         EndKeyConfigCheckSpelling: @(vCheckSpelling),
         EndKeyConfigUseMacro: @(vUseMacro),
         EndKeyConfigLanguage: @(vLanguage),
@@ -577,8 +579,9 @@ EndKeyConfigurationKey const EndKeyConfigOtherLanguage = @"OtherLanguage";
 
 - (BOOL)pushToEngine:(NSError**)error {
     // Push current configuration to engine
+    // ENCODING REMOVAL: Always use Unicode (0)
     dispatch_sync(_configurationQueue, ^{
-        vCodeTable = [[self.configuration objectForKey:EndKeyConfigCodeTable] intValue];
+        vCodeTable = 0;  // Always Unicode, ignore config value
         vCheckSpelling = [[self.configuration objectForKey:EndKeyConfigCheckSpelling] intValue];
         vUseMacro = [[self.configuration objectForKey:EndKeyConfigUseMacro] intValue];
         vLanguage = [[self.configuration objectForKey:EndKeyConfigLanguage] intValue];
@@ -602,8 +605,9 @@ EndKeyConfigurationKey const EndKeyConfigOtherLanguage = @"OtherLanguage";
     if (!value) return YES;
 
     // Synchronize specific key based on key type
+    // ENCODING REMOVAL: Always use Unicode (0)
     if ([key isEqualToString:EndKeyConfigCodeTable]) {
-        vCodeTable = [value intValue];
+        vCodeTable = 0;  // Always Unicode, ignore config value
     } else if ([key isEqualToString:EndKeyConfigCheckSpelling]) {
         vCheckSpelling = [value intValue];
     } else if ([key isEqualToString:EndKeyConfigUseMacro]) {

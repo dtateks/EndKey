@@ -73,8 +73,8 @@ namespace EndKey {
             void setInputType(vKeyInputType type) override;
             vKeyInputType getInputType() const override;
 
-            void setCodeTable(int codeTable) override;
-            int getCodeTable() const override;
+            void setCodeTable(int codeTable) override; // ENCODING REMOVAL: Unicode-only (0) - parameter ignored
+            int getCodeTable() const override; // ENCODING REMOVAL: Always returns 0 (Unicode)
 
             // Vietnamese Processing Settings
             void setFreeMarkEnabled(bool enabled) override;

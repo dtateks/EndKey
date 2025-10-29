@@ -19,14 +19,15 @@
 @property (weak) IBOutlet NSBox *tabviewSystem;
 
 @property (weak) IBOutlet NSPopUpButton *popupInputType;
-@property (weak) IBOutlet NSPopUpButton *popupCode;
+// Language selection and switch key UI removed - Unicode-only
 
 @property (weak) IBOutlet NSBox *appOK;
 @property (weak) IBOutlet NSBox *permissionWarning;
 @property (weak) IBOutlet NSButton *retryButton;
 
-@property (weak) IBOutlet NSButton *VietButton;
-@property (weak) IBOutlet NSButton *EngButton;
+// Language selection buttons removed - always use Cmd+Shift for language switching
+// @property (weak) IBOutlet NSButton *VietButton;
+// @property (weak) IBOutlet NSButton *EngButton;
 
 @property (weak) IBOutlet NSButton *FreeMarkButton;
 
@@ -42,6 +43,14 @@
 @property (weak) IBOutlet NSButton *SendKeyStepByStep;
 @property (weak) IBOutlet NSButton *AutoRememberSwitchKey;
 @property (weak) IBOutlet NSButton *UpperCaseFirstChar;
+
+// Switch key UI removed - always use Cmd+Shift
+// @property (weak) IBOutlet NSButton *CustomSwitchControl;
+// @property (weak) IBOutlet NSButton *CustomSwitchOption;
+// @property (weak) IBOutlet NSButton *CustomSwitchCommand;
+// @property (weak) IBOutlet NSButton *CustomSwitchShift;
+// @property (weak) IBOutlet MyTextField *CustomSwitchKey;
+// @property (weak) IBOutlet NSButton *CustomBeepSound;
 
 @property (weak) IBOutlet NSButtonCell *OtherLanguage;
 

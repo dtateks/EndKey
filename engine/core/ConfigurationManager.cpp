@@ -83,13 +83,14 @@ namespace EndKey {
         }
 
         void ConfigurationManager::setCodeTable(int table) {
-            if (table >= 0 && table <= 2) {
-                codeTable = table;
-            }
+            // ENCODING REMOVAL: Force Unicode-only (0)
+            // Ignore input parameter and always use Unicode
+            codeTable = 0;
         }
 
         int ConfigurationManager::getCodeTable() const {
-            return codeTable;
+            // ENCODING REMOVAL: Always return Unicode (0)
+            return 0;
         }
 
         // Vietnamese Processing Settings

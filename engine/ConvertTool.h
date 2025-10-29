@@ -25,14 +25,16 @@ namespace EndKey {
         class ConvertTool {
         public:
             enum class CodeTable {
+                // ENCODING REMOVAL: Unicode-only (0) - legacy options kept for compatibility
                 Unicode = 0,
-                TCVN3 = 1,
-                VNI_Windows = 2
+                TCVN3 = 1,   // Deprecated
+                VNI_Windows = 2  // Deprecated
             };
 
             struct ConversionConfig {
-                CodeTable sourceTable = CodeTable::Unicode;
-                CodeTable targetTable = CodeTable::Unicode;
+                // ENCODING REMOVAL: Force Unicode-only
+                CodeTable sourceTable = CodeTable::Unicode; // Always Unicode
+                CodeTable targetTable = CodeTable::Unicode; // Always Unicode
                 bool rememberCodePerApp = false;
                 bool fixRecommendBrowser = true;
                 bool dontAlertWhenCompleted = false;
@@ -52,27 +54,27 @@ namespace EndKey {
             void setConversionConfig(const ConversionConfig& config);
             const ConversionConfig& getConversionConfig() const;
 
-            // Core conversion operations
-            Uint16 convertCharacter(Uint16 character, CodeTable from, CodeTable to) const;
+            // Core conversion operations (ENCODING REMOVAL: Unicode-only)
+            Uint16 convertCharacter(Uint16 character, CodeTable from, CodeTable to) const; // Ignores from/to, returns Unicode
             std::vector<Uint16> convertText(const std::vector<Uint16>& text,
-                                          CodeTable from, CodeTable to) const;
-            std::string convertToUtf8(const std::vector<Uint16>& text, CodeTable source) const;
-            std::vector<Uint16> convertFromUtf8(const std::string& text, CodeTable target) const;
+                                          CodeTable from, CodeTable to) const; // Ignores from/to, returns Unicode
+            std::string convertToUtf8(const std::vector<Uint16>& text, CodeTable source) const; // Ignores source
+            std::vector<Uint16> convertFromUtf8(const std::string& text, CodeTable target) const; // Ignores target
 
             // Character code mappings
             Uint32 getCharacterCode(const Uint32& data) const;
             Uint16 keyCodeToCharacter(const Uint32& keyCode) const;
 
-            // Code table management
-            void setCodeTable(CodeTable table);
-            CodeTable getCurrentCodeTable() const;
-            bool hasCodeTable(CodeTable table) const;
+            // Code table management (ENCODING REMOVAL: Unicode-only)
+            void setCodeTable(CodeTable table); // Ignores input, always sets Unicode
+            CodeTable getCurrentCodeTable() const; // Always returns Unicode
+            bool hasCodeTable(CodeTable table) const; // Only returns true for Unicode
 
-            // Batch conversion
-            void convertInPlace(std::vector<Uint16>& text, CodeTable from, CodeTable to) const;
+            // Batch conversion (ENCODING REMOVAL: Unicode-only)
+            void convertInPlace(std::vector<Uint16>& text, CodeTable from, CodeTable to) const; // Ignores from/to
             std::vector<std::vector<Uint16>> convertBatch(
                 const std::vector<std::vector<Uint16>>& texts,
-                CodeTable from, CodeTable to) const;
+                CodeTable from, CodeTable to) const; // Ignores from/to
 
             // Performance optimization
             void preloadConversionTables();

@@ -157,7 +157,7 @@ std::string wideStringToUtf8(const std::wstring& str);
 extern int vLanguage;        // 0: English, 1: Vietnamese
 extern int vInputType;       // 0: Telex, 1: VNI
 extern int vFreeMark;        // 0: No, 1: Yes
-extern int vCodeTable;       // 0: Unicode, 1: TCVN3, 2: VNI-Windows
+extern int vCodeTable;       // ENCODING REMOVAL: Unicode-only (0) - legacy variable kept for compatibility
 extern int vSwitchKeyStatus; // first 8 bit: keycode, bit 8: Control, etc.
 
 // Vietnamese Processing

@@ -74,14 +74,13 @@ extern int vPerformLayoutCompat;
     
     // Array matches AppDelegate menu tags: index 0→tag 1, index 1→tag 2, index 2→tag 3
     NSArray* inputTypeData = [[NSArray alloc] initWithObjects:@"VNI", @"Simple Telex", @"Telex", nil];
-    NSArray* codeData = [EndKeyManager getTableCodes];
+    // ENCODING REMOVAL: Removed codeData - Unicode-only
     
     //preset data
     [_popupInputType removeAllItems];
     [_popupInputType addItemsWithTitles:inputTypeData];
     
-    [self.popupCode removeAllItems];
-    [self.popupCode addItemsWithTitles:codeData];
+    // ENCODING REMOVAL: Removed popupCode setup - Unicode-only
     
     [self initKey];
     
@@ -142,13 +141,8 @@ extern int vPerformLayoutCompat;
     [appDelegate onInputTypeSelectedIndex:selectedIndex + 1];
 }
 
-- (IBAction)onCodeTableChanged:(NSPopUpButton *)sender {
-    [appDelegate onCodeTableChanged:(int)[self.popupCode indexOfSelectedItem]];
-}
-
-- (IBAction)onLanguageChanged:(id)sender {
-    [appDelegate onInputMethodSelected];
-}
+// ENCODING REMOVAL: Removed onCodeTableChanged method - Unicode-only
+// Language selection UI removed - always use Cmd+Shift for language switching
 
 - (IBAction)onRestart:(id)sender {
     self.appOK.hidden = YES;
@@ -188,41 +182,7 @@ extern int vPerformLayoutCompat;
     vTempOffSpelling = (int)val;
 }
 
-- (IBAction)onControlSwitchKey:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:nil];
-    vSwitchKeyStatus &= (~0x100);
-    vSwitchKeyStatus |= val << 8;
-    [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
-}
 
-- (IBAction)onOptionSwitchKey:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:nil];
-    vSwitchKeyStatus &= (~0x200);
-    vSwitchKeyStatus |= val << 9;
-    [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
-}
-
-- (IBAction)onCommandSwitchKey:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:nil];
-    vSwitchKeyStatus &= (~0x400);
-    vSwitchKeyStatus |= val << 10;
-    [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
-}
-
-- (IBAction)onShiftSwitchKey:(NSButton *)sender {
-    NSInteger val = [self setCustomValue:sender keyToSet:nil];
-    vSwitchKeyStatus &= (~0x800);
-    vSwitchKeyStatus |= val << 11;
-    [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
-}
-
--(void)onMyTextFieldKeyChange:(unsigned short)keyCode character:(unsigned short)character {
-    vSwitchKeyStatus &= 0xFFFFFF00;
-    vSwitchKeyStatus |= keyCode;
-    vSwitchKeyStatus &= 0x00FFFFFF;
-    vSwitchKeyStatus |= ((unsigned int)character<<24);
-    [[NSUserDefaults standardUserDefaults] setInteger:vSwitchKeyStatus forKey:@"SwitchKeyStatus"];
-}
 
 - (IBAction)onBeepSound:(NSButton *)sender {
     unsigned int val = (unsigned int)[self setCustomValue:sender keyToSet:nil];
@@ -297,12 +257,7 @@ extern int vPerformLayoutCompat;
 -(void)fillData {
     NSInteger value;
     
-    NSInteger intInputMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputMethod"];
-    if (intInputMethod == 1) {
-        self.VietButton.state = NSControlStateValueOn;
-    } else if (intInputMethod == 0) {
-        self.EngButton.state = NSControlStateValueOn;
-    }
+    // Language selection UI removed - always use Cmd+Shift for language switching
     
     NSInteger intInputType = [[NSUserDefaults standardUserDefaults] integerForKey:@"InputType"];
     // Convert tag (1,2,3) to popup index (0,1,2)
@@ -311,8 +266,7 @@ extern int vPerformLayoutCompat;
         [self.popupInputType selectItemAtIndex:intInputType - 1];
     }
     
-    NSInteger intCodeTable = [[NSUserDefaults standardUserDefaults] integerForKey:@"CodeTable"];
-    [self.popupCode selectItemAtIndex:intCodeTable];
+    // ENCODING REMOVAL: Removed popupCode selection - Unicode-only
     
     //option
     //ShowUIOnStartup, RunOnStartup, UseGrayIcon are hardcoded - outlets removed
@@ -370,12 +324,13 @@ extern int vPerformLayoutCompat;
 
     //vPerformLayoutCompat is hardcoded to 0 - outlet removed
 
-    CustomSwitchControl.state = (vSwitchKeyStatus & 0x100) ? NSControlStateValueOn : NSControlStateValueOff;
-    CustomSwitchOption.state = (vSwitchKeyStatus & 0x200) ? NSControlStateValueOn : NSControlStateValueOff;
-    CustomSwitchCommand.state = (vSwitchKeyStatus & 0x400) ? NSControlStateValueOn : NSControlStateValueOff;
-    CustomSwitchShift.state = (vSwitchKeyStatus & 0x800) ? NSControlStateValueOn : NSControlStateValueOff;
-    CustomBeepSound.state = (vSwitchKeyStatus & 0x8000) ? NSControlStateValueOn : NSControlStateValueOff;
-    [CustomSwitchKey setTextByChar:((vSwitchKeyStatus>>24) & 0xFF)];
+    // Switch key UI removed - always use Cmd+Shift
+    // CustomSwitchControl.state = (vSwitchKeyStatus & 0x100) ? NSControlStateValueOn : NSControlStateValueOff;
+    // CustomSwitchOption.state = (vSwitchKeyStatus & 0x200) ? NSControlStateValueOn : NSControlStateValueOff;
+    // CustomSwitchCommand.state = (vSwitchKeyStatus & 0x400) ? NSControlStateValueOn : NSControlStateValueOff;
+    // CustomSwitchShift.state = (vSwitchKeyStatus & 0x800) ? NSControlStateValueOn : NSControlStateValueOff;
+    // CustomBeepSound.state = (vSwitchKeyStatus & 0x8000) ? NSControlStateValueOn : NSControlStateValueOff;
+    // [CustomSwitchKey setTextByChar:((vSwitchKeyStatus>>24) & 0xFF)];
 
 }
 

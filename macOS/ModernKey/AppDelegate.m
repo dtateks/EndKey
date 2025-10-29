@@ -30,7 +30,7 @@ int vCodeTable = 0;
 int vCheckSpelling = 1;
 int vUseModernOrthography = 0; //Always disabled - hardcoded (standard orthography only)
 int vQuickTelex = 0;
-#define DEFAULT_SWITCH_STATUS 0x7A000206 //default option + z
+#define DEFAULT_SWITCH_STATUS 0xC0000000 //default cmd + shift
 int vSwitchKeyStatus = DEFAULT_SWITCH_STATUS;
 int vRestoreIfWrongSpelling = 0;
 int vFixRecommendBrowser = 1;
@@ -247,11 +247,16 @@ extern bool convertToolDontAlertWhenCompleted;
     
     mnuUnicode = [theMenu addItemWithTitle:@"Unicode dựng sẵn" action:@selector(onCodeSelected:) keyEquivalent:@""];
     mnuUnicode.tag = 0;
+    // ENCODING REMOVAL: Hide non-Unicode menu items
     mnuTCVN = [theMenu addItemWithTitle:@"TCVN3 (ABC)" action:@selector(onCodeSelected:) keyEquivalent:@""];
     mnuTCVN.tag = 1;
+    [mnuTCVN setHidden:YES];
     mnuVNIWindows = [theMenu addItemWithTitle:@"VNI Windows" action:@selector(onCodeSelected:) keyEquivalent:@""];
     mnuVNIWindows.tag = 2;
+    [mnuVNIWindows setHidden:YES];
+    // ENCODING REMOVAL: Hide "Bảng mã khác" submenu since we only support Unicode
     NSMenuItem* menuCode = [theMenu addItemWithTitle:@"Bảng mã khác" action:nil keyEquivalent:@""];
+    [menuCode setHidden:YES];
     
     [theMenu addItem:[NSMenuItem separatorItem]];
     
@@ -320,6 +325,7 @@ extern bool convertToolDontAlertWhenCompleted;
     vInputType = 0; [[NSUserDefaults standardUserDefaults] setInteger:vInputType forKey:@"InputType"];
     vFreeMark = 0; [[NSUserDefaults standardUserDefaults] setInteger:vFreeMark forKey:@"FreeMark"];
     vCheckSpelling = 1; [[NSUserDefaults standardUserDefaults] setInteger:vCheckSpelling forKey:@"Spelling"];
+    // ENCODING REMOVAL: Always use Unicode (0)
     vCodeTable = 0; [[NSUserDefaults standardUserDefaults] setInteger:vCodeTable forKey:@"CodeTable"];
     vSwitchKeyStatus = DEFAULT_SWITCH_STATUS; [[NSUserDefaults standardUserDefaults] setInteger:vCodeTable forKey:@"SwitchKeyStatus"];
     vQuickTelex = 0; [[NSUserDefaults standardUserDefaults] setInteger:vQuickTelex forKey:@"QuickTelex"];
@@ -398,10 +404,13 @@ extern bool convertToolDontAlertWhenCompleted;
     //sub for Code
     NSMenu *sub = [[NSMenu alloc] initWithTitle:@""];
     [sub setAutoenablesItems:NO];
+    // ENCODING REMOVAL: Hide non-Unicode menu items in submenu
     mnuUnicodeComposite = [sub addItemWithTitle:@"Unicode tổ hợp" action:@selector(onCodeSelected:) keyEquivalent:@""];
     mnuUnicodeComposite.tag = 3;
+    [mnuUnicodeComposite setHidden:YES];
     mnuVietnameseLocaleCP1258 = [sub addItemWithTitle:@"Vietnamese Locale CP 1258" action:@selector(onCodeSelected:) keyEquivalent:@""];
     mnuVietnameseLocaleCP1258.tag = 4;
+    [mnuVietnameseLocaleCP1258 setHidden:YES];
     
     [theMenu setSubmenu:sub forItem:parent];
 }
@@ -453,24 +462,14 @@ extern bool convertToolDontAlertWhenCompleted;
     if (vSwitchKeyStatus == 0)
         vSwitchKeyStatus = DEFAULT_SWITCH_STATUS;
     
-    NSInteger intCode = [[NSUserDefaults standardUserDefaults] integerForKey:@"CodeTable"];
-    [mnuUnicode setState:NSControlStateValueOff];
+    // ENCODING REMOVAL: Always use Unicode (0)
+    // Ignore saved value and always set Unicode
+    [mnuUnicode setState:NSControlStateValueOn];
     [mnuTCVN setState:NSControlStateValueOff];
     [mnuVNIWindows setState:NSControlStateValueOff];
     [mnuUnicodeComposite setState:NSControlStateValueOff];
     [mnuVietnameseLocaleCP1258 setState:NSControlStateValueOff];
-    if (intCode == 0) {
-        [mnuUnicode setState:NSControlStateValueOn];
-    } else if (intCode == 1) {
-        [mnuTCVN setState:NSControlStateValueOn];
-    } else if (intCode == 2) {
-        [mnuVNIWindows setState:NSControlStateValueOn];
-    } else if (intCode == 3) {
-        [mnuUnicodeComposite setState:NSControlStateValueOn];
-    } else if (intCode == 4) {
-        [mnuVietnameseLocaleCP1258 setState:NSControlStateValueOn];
-    }
-    vCodeTable = (int)intCode;
+    vCodeTable = 0;
     
     //
     NSInteger intRunOnStartup = [[NSUserDefaults standardUserDefaults] integerForKey:@"RunOnStartup"];
@@ -512,16 +511,18 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 - (void)onCodeTableChanged:(int)index {
-    [[NSUserDefaults standardUserDefaults] setInteger:index forKey:@"CodeTable"];
-    vCodeTable = index;
+    // ENCODING REMOVAL: Always use Unicode (0) - ignore input
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"CodeTable"];
+    vCodeTable = 0;
     [self fillData];
     [viewController fillData];
-    OnTableCodeChange();
+    // No longer need to call OnTableCodeChange() since we don't do conversion
 }
 
 - (void)onCodeSelected:(id)sender {
     NSMenuItem *menuItem = (NSMenuItem*) sender;
-    [self onCodeTableChanged:(int)menuItem.tag];
+    // ENCODING REMOVAL: Always use Unicode (0) - ignore menu selection
+    [self onCodeTableChanged:0];
 }
 
 -(void)onConvertTool {

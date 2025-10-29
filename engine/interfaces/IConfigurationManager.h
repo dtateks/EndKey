@@ -30,8 +30,8 @@ namespace EndKey {
             virtual void setInputType(vKeyInputType type) = 0; // 0: Telex, 1: VNI, etc.
             virtual vKeyInputType getInputType() const = 0;
 
-            virtual void setCodeTable(int codeTable) = 0; // 0: Unicode, 1: TCVN3, 2: VNI-Windows
-            virtual int getCodeTable() const = 0;
+            virtual void setCodeTable(int codeTable) = 0; // ENCODING REMOVAL: Unicode-only (0) - parameter ignored
+            virtual int getCodeTable() const = 0; // ENCODING REMOVAL: Always returns 0 (Unicode)
 
             // Vietnamese Processing Settings
             virtual void setFreeMarkEnabled(bool enabled) = 0;

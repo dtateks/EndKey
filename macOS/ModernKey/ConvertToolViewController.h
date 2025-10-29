@@ -27,9 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet NSButton *SShift;
 @property (weak) IBOutlet MyTextField *SHotKey;
 
-@property (weak) IBOutlet NSPopUpButton *FromCode;
-@property (weak) IBOutlet NSPopUpButton *ToCode;
-@property (weak) IBOutlet NSButton *ReverseCode;
+// ENCODING REMOVAL: These are now deprecated - Unicode-only
+@property (weak) IBOutlet NSPopUpButton *FromCode; // Will only show Unicode
+@property (weak) IBOutlet NSPopUpButton *ToCode; // Will only show Unicode
+@property (weak) IBOutlet NSButton *ReverseCode; // No longer functional
 
 @end
 

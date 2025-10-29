@@ -19,7 +19,7 @@
 int vLanguage = 1;        // 0: English, 1: Vietnamese
 int vInputType = 0;       // 0: Telex, 1: VNI
 int vFreeMark = 1;        // 0: No, 1: Yes
-int vCodeTable = 0;       // 0: Unicode, 1: TCVN3, 2: VNI-Windows
+int vCodeTable = 0;       // ENCODING REMOVAL: Unicode-only (0) - legacy variable kept for compatibility
 int vSwitchKeyStatus = 0; // first 8 bit: keycode, bit 8: Control, etc.
 
 // Vietnamese Processing
@@ -113,7 +113,8 @@ namespace EndKey {
             // Language and Input
             configManager->setLanguage(vLanguage);
             configManager->setInputType(static_cast<EndKey::Core::vKeyInputType>(vInputType));
-            configManager->setCodeTable(vCodeTable);
+            // ENCODING REMOVAL: Always use Unicode (0), ignore vCodeTable value
+            configManager->setCodeTable(0);
             configManager->setSwitchKeyStatus(vSwitchKeyStatus);
 
             // Vietnamese Processing
@@ -155,7 +156,8 @@ namespace EndKey {
             // Language and Input
             vLanguage = configManager->getLanguage();
             vInputType = static_cast<int>(configManager->getInputType());
-            vCodeTable = configManager->getCodeTable();
+            // ENCODING REMOVAL: Always use Unicode (0), ignore configManager value
+            vCodeTable = 0;
             vSwitchKeyStatus = configManager->getSwitchKeyStatus();
 
             // Vietnamese Processing

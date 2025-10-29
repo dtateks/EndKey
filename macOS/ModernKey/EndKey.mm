@@ -93,7 +93,9 @@ extern "C" {
     void EndKeyInit() {
         //load saved data
         vFreeMark = 0;//(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"FreeMark"];
-        LOAD_DATA(vCodeTable, CodeTable); if (vCodeTable < 0) vCodeTable = 0;
+        // ENCODING REMOVAL: Always use Unicode (0) - ignore saved value
+        LOAD_DATA(vCodeTable, CodeTable); 
+        vCodeTable = 0; // Force Unicode
         LOAD_DATA(vCheckSpelling, Spelling);
         //vQuickTelex is always 0 - hardcoded (feature removed)
         //vUseModernOrthography is always 0 - hardcoded (standard orthography only)
@@ -139,8 +141,9 @@ extern "C" {
         convertToolToCapsFirstLetter = [prefs boolForKey:@"convertToolToCapsFirstLetter"];
         convertToolToCapsEachWord = [prefs boolForKey:@"convertToolToCapsEachWord"];
         convertToolRemoveMark = [prefs boolForKey:@"convertToolRemoveMark"];
-        convertToolFromCode = [prefs integerForKey:@"convertToolFromCode"];
-        convertToolToCode = [prefs integerForKey:@"convertToolToCode"];
+        // ENCODING REMOVAL: Always use Unicode (0)
+        convertToolFromCode = 0; // Ignore saved value
+        convertToolToCode = 0; // Ignore saved value
         convertToolHotKey = (int)[prefs integerForKey:@"convertToolHotKey"];
         if (convertToolHotKey == 0) {
             convertToolHotKey = EMPTY_HOTKEY;
@@ -187,7 +190,8 @@ extern "C" {
     
     void OnActiveAppChanged() { //use for smart switch key; improved on Sep 28th, 2019
         queryFrontMostApp();
-        _languageTemp = getAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage | (vCodeTable << 1));
+        // ENCODING REMOVAL: Always use Unicode (0) - no encoding bit
+        _languageTemp = getAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage); // Removed (vCodeTable << 1)
         if ((_languageTemp & 0x01) != vLanguage) { //for input method
             if (_languageTemp != -1) {
                 vLanguage = _languageTemp;
@@ -208,9 +212,10 @@ extern "C" {
     
     void OnTableCodeChange() {
         onTableCodeChange();
+        // ENCODING REMOVAL: Always use Unicode (0) - no encoding bit
         if (vRememberCode) {
             queryFrontMostApp();
-            setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage | (vCodeTable << 1));
+            setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage); // Removed (vCodeTable << 1)
             saveSmartSwitchKeyData();
         }
     }
@@ -220,7 +225,8 @@ extern "C" {
             @try {
                 queryFrontMostApp();
                 if (_frontMostApp != nil && [_frontMostApp length] > 0) {
-                    setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage | (vCodeTable << 1));
+                    // ENCODING REMOVAL: Always use Unicode (0) - no encoding bit
+                    setAppInputMethodStatus(string(_frontMostApp.UTF8String), vLanguage); // Removed (vCodeTable << 1)
                     saveSmartSwitchKeyData();
                 }
             } @catch (NSException *exception) {

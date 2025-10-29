@@ -242,9 +242,8 @@ bool deleteMacro(const string& macroText) {
 }
 
 void onTableCodeChange() {
-    for (std::map<vector<Uint32>, MacroData>::iterator it = macroMap.begin(); it != macroMap.end(); ++it) {
-        convert(it->second.macroContent, it->second.macroContentCode);
-    }
+    // ENCODING REMOVAL: Unicode-only - no conversion needed
+    // Keep function for compatibility, but don't perform any conversion
 }
 
 void saveToFile(const string& path) {
