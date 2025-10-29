@@ -1,4 +1,6 @@
+<!-- OPENSPEC:START -->
 # OpenSpec Instructions
+
 These instructions are for AI assistants working in this project.
 
 Always open `@/openspec/AGENTS.md` when the request:
@@ -11,12 +13,9 @@ Use `@/openspec/AGENTS.md` to learn:
 - Spec format and conventions
 - Project structure and guidelines
 
-# CRITICAL
-**ALWAYS** communicate in **Vietnamese**
-**IMPORTANT** keep responses **CONCISE** and **SIMPLE**
-**IMPORTANT Do NOT** show code blocks in chat
-**use mcp server tools when necessary**
+Keep this managed block so 'openspec update' can refresh the instructions.
 
+<!-- OPENSPEC:END -->
 
 ## Project Overview
 
@@ -27,26 +26,18 @@ EndKey là một bộ gõ tiếng Việt cho macOS được refactoring từ ki�
 
 ## Build Commands
 
-### Complete Build Workflow (推荐)
+### Complete Build Workflow
 ```bash
-# 1. Kill all running instances
 killall -9 EndKey EndKeyHelper 2>/dev/null
 
-# 2. Clean build directory
-rm -rf Sources/EndKey/macOS/build/
-
-# 3. Build with clean
 xcodebuild -project Sources/EndKey/macOS/EndKey.xcodeproj \
   -target EndKey \
   -configuration Debug \
   CODE_SIGNING_ALLOWED=NO \
   clean build
 
-# 4. Install to Applications
-rm -rf /Applications/EndKey.app
-cp -a Sources/EndKey/macOS/build/Debug/EndKey.app /Applications/
+cp -af macOS/build/Debug/EndKey.app /Applications/
 
-# 5. Sign for permissions persistence
 codesign --force --deep --sign - /Applications/EndKey.app
 ```
 
