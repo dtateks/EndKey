@@ -1,7 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## OpenSpec Workflow - Critical
 
 **⚠️ ALWAYS check for OpenSpec instructions before any task**
