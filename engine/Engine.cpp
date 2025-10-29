@@ -480,6 +480,29 @@ void startNewSession() {
     _hasHandleQuickConsonant = false;
     _longWordHelper.clear();
     _spaceCount = 0;  // Fix double space feature: reset space counter on new session
+    
+    // Clear pending macro state when buffer clears (except for space)
+    _skipMacroNextBreak = true;
+    hMacroKey.clear();
+    hMacroData.clear();
+}
+
+void startNewSession(bool fromMacroBreak) {
+    _index = 0;
+    hBPC = 0;
+    hNCC = 0;
+    tempDisableKey = false;
+    _stateIndex = 0;
+    _hasHandledMacro = false;
+    _hasHandleQuickConsonant = false;
+    _longWordHelper.clear();
+    _spaceCount = 0;  // Fix double space feature: reset space counter on new session
+    
+    // Only clear pending macro when buffer clear is NOT from macro break code
+    // Macro break codes should expand macros, not cancel them
+    _skipMacroNextBreak = !fromMacroBreak;
+    hMacroKey.clear();
+    hMacroData.clear();
 }
 
 void checkCorrectVowel(vector<vector<Uint16>>& charset, int& i, int& k, const Uint16& markKey) {
@@ -1373,11 +1396,13 @@ void vKeyHandleEvent(const vKeyEvent& event,
         hNCC = 0;
         hExt = 1; //word break
         
-        //check macro feature
+        //check macro feature - allow expansion on all macro break codes
         if (vUseMacro && isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0) && !_hasHandledMacro && !_skipMacroNextBreak && findMacro(hMacroKey, hMacroData)) {
             hCode = vReplaceMaro;
             hBPC = (Byte)hMacroKey.size();
             _hasHandledMacro = true;
+            // Reset skip flag when macro expands
+            _skipMacroNextBreak = false;
         } else if ((vQuickStartConsonant || vQuickEndConsonant) && !tempDisableKey && !_skipMacroNextBreak && isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0)) {
             checkQuickConsonant();
         } else if (vRestoreIfWrongSpelling && isWordBreak(event, state, data)) { //restore key if wrong spelling with break-key
@@ -1409,20 +1434,29 @@ void vKeyHandleEvent(const vKeyEvent& event,
         }
         
         if (hCode == vDoNothing) {
-            startNewSession();
+            startNewSession(isMacroBreakCode(data));
             vCheckSpelling = _useSpellCheckingBefore;
         } else if (hCode == vReplaceMaro || _hasHandleQuickConsonant) {
             _index = 0;
         }
 
-        // Reset skip macro flag on word break
-        _skipMacroNextBreak = false;
+        // Reset skip macro flag on word break - only if not expanding macro
+        // When macro expands, keep skip flag true to clear pending macro state
+        if (hCode != vReplaceMaro) {
+            _skipMacroNextBreak = false;
+        } else {
+            // Macro expanded - clear pending macro state for next word
+            _skipMacroNextBreak = true;
+        }
 
         //insert key for macro function
         if (vUseMacro) {
             if (isMacroBreakCode(data) && !(IS_NUMBER_KEY(data) && capsStatus == 0)) {
                 // For macro break codes, clear macro key AFTER checking macro
-                hMacroKey.clear();
+                // But don't clear if we just expanded a macro
+                if (hCode != vReplaceMaro) {
+                    hMacroKey.clear();
+                }
             } else if (_isCharKeyCode) {
                 // For regular character codes, add to macro key
                 hMacroKey.push_back(data | (_isCaps ? CAPS_MASK : 0));
@@ -1531,7 +1565,7 @@ void vKeyHandleEvent(const vKeyEvent& event,
             hNCC = 0;
             hExt = 2; //delete key
             if (_index == 0) {
-                startNewSession();
+                startNewSession(false);
                 _specialChar.clear();
                 restoreLastTypingState();
             } else { //August 23rd continue check grammar
@@ -1543,7 +1577,7 @@ void vKeyHandleEvent(const vKeyEvent& event,
             hBPC = 0;
             hNCC = 0;
             hExt = 0;
-            startNewSession();
+            startNewSession(true);
             //continute save space
             saveWord(KEY_SPACE, _spaceCount);
             _spaceCount = 0;
@@ -1631,7 +1665,10 @@ void vKeyHandleEvent(const vKeyEvent& event,
                 hCode = vReplaceMaro;
                 hBPC = (Byte)hMacroKey.size();
             }
-            hMacroKey.clear();
+            // Only clear macro key if not skipping and not expanding macro
+            else if (!_skipMacroNextBreak) {
+                hMacroKey.clear();
+            }
         }
     }
 
