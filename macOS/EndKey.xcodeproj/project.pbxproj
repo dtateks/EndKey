@@ -97,8 +97,6 @@
 		237559BC2204156000FB8CB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		237559BD2204156000FB8CB9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		237559BF2204156000FB8CB9 /* EndKeyHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EndKeyHelper.entitlements; sourceTree = "<group>"; };
-		237724A3232BA3B800E92BDF /* linux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux.h; sourceTree = "<group>"; };
-		237724A4232BA3B800E92BDF /* win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win32.h; sourceTree = "<group>"; };
 		237724A5232BA3B800E92BDF /* mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac.h; sourceTree = "<group>"; };
 		2383405B2320F8170020F857 /* StartConvert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StartConvert@2x.png"; sourceTree = "<group>"; };
 		238519F221F1B8E200E79A41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -180,11 +178,8 @@
 				23E2E4932314FD3A006CCC3E /* engine */,
 				2344220522F42F70009E47D4 /* EndKey.entitlements */,
 				232EDA5621F1B33E0085D362 /* ModernKey */,
-				233D800122F7D1F000E02DC6 /* EndKeyTest */,
-				2397059223143266002DDEA7 /* EndKeyUpdate */,
-				232EDA5521F1B33E0085D362 /* Products */,
-				237559B32204156000FB8CB9 /* EndKeyHelper */,
-				238519F121F1B8E200E79A41 /* Frameworks */,
+						232EDA5521F1B33E0085D362 /* Products */,
+					238519F121F1B8E200E79A41 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,34 +229,10 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		233D800122F7D1F000E02DC6 /* EndKeyTest */ = {
-			isa = PBXGroup;
-			children = (
-				233D800222F7D1F000E02DC6 /* main.mm */,
-			);
-			path = EndKeyTest;
-			sourceTree = "<group>";
-		};
-		237559B32204156000FB8CB9 /* EndKeyHelper */ = {
-			isa = PBXGroup;
-			children = (
-				237559B42204156000FB8CB9 /* AppDelegate.h */,
-				237559B52204156000FB8CB9 /* AppDelegate.m */,
-				237559B72204156000FB8CB9 /* Assets.xcassets */,
-				237559B92204156000FB8CB9 /* MainMenu.xib */,
-				237559BC2204156000FB8CB9 /* Info.plist */,
-				237559BD2204156000FB8CB9 /* main.m */,
-				237559BF2204156000FB8CB9 /* EndKeyHelper.entitlements */,
-			);
-			path = EndKeyHelper;
-			sourceTree = "<group>";
-		};
 		237724A2232BA3B800E92BDF /* platforms */ = {
 			isa = PBXGroup;
 			children = (
-				237724A3232BA3B800E92BDF /* linux.h */,
-				237724A4232BA3B800E92BDF /* win32.h */,
-				237724A5232BA3B800E92BDF /* mac.h */,
+						237724A5232BA3B800E92BDF /* mac.h */,
 			);
 			path = platforms;
 			sourceTree = "<group>";
@@ -279,21 +250,6 @@
 				238519F221F1B8E200E79A41 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2397059223143266002DDEA7 /* EndKeyUpdate */ = {
-			isa = PBXGroup;
-			children = (
-				23310EA02314F31400226CA5 /* Resources */,
-				2397059323143266002DDEA7 /* AppDelegate.h */,
-				2397059423143266002DDEA7 /* AppDelegate.m */,
-				2397059623143267002DDEA7 /* Assets.xcassets */,
-				2397059823143267002DDEA7 /* MainMenu.xib */,
-				2397059B23143267002DDEA7 /* Info.plist */,
-				2397059C23143267002DDEA7 /* main.m */,
-				2397059E23143267002DDEA7 /* EndKeyUpdate.entitlements */,
-			);
-			path = EndKeyUpdate;
 			sourceTree = "<group>";
 		};
 		23E2E4932314FD3A006CCC3E /* engine */ = {
