@@ -102,9 +102,14 @@ namespace EndKey {
 
             // Helper methods
             void loadCharacterTables() const;
+            bool validateWordStructure(const std::vector<Uint16>& word) const;
             bool isValidVowelSequence(const std::vector<Uint16>& vowels) const;
             bool isValidConsonantSequence(const std::vector<Uint16>& consonants) const;
             Uint8 detectToneType(Uint16 character) const;
+            
+            // Cache helper methods
+            Uint32 generateCacheKey(const std::vector<Uint16>& word) const;
+            void cacheWordValidity(Uint32 cacheKey, bool isValid) const;
 
             // Cache management
             void evictOldestCacheEntries();

@@ -225,6 +225,19 @@ void EngineCore::startNewSession() {
     pImpl->hookState = EngineHookState();
 }
 
+void EngineCore::processEnglishMode(const vKeyEventState& state, const Uint16& data, const bool& isCaps, const bool& otherControlKey) {
+    if (!isInitialized()) return;
+    
+    // In English mode, process macro but not Vietnamese processing
+    if (pImpl->config.useMacro && pImpl->config.useMacroInEnglishMode) {
+        // Process macro in English mode
+        // TODO: Implement English mode macro processing
+    }
+    
+    // Generate output without Vietnamese processing
+    generateOutput(pImpl->hookState);
+}
+
 void EngineCore::setVietnameseMode(bool enabled) {
     if (!isInitialized()) return;
     pImpl->state.isInVietnameseMode = enabled;

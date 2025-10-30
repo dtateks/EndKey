@@ -35,41 +35,30 @@ namespace EndKey {
         }
 
         bool SpellingEngine::isValidVietnameseWord(const std::vector<Uint16>& word) const {
-            if (!config_.checkSpelling || config_.tempOffSpelling) {
+            if (!config_.checkSpelling || config_.tempOffSpelling || word.empty()) {
                 return true;
             }
 
-            if (word.empty()) {
-                return true;
-            }
-
-            stats_.totalWordsChecked++;
+            ++stats_.totalWordsChecked;
 
             // Check cache first
-            Uint32 cacheKey = 0;
-            for (size_t i = 0; i < std::min(word.size(), size_t(4)); ++i) {
-                cacheKey = (cacheKey << 16) | word[i];
-            }
-
-            auto cacheIt = wordValidityCache_.find(cacheKey);
+            const Uint32 cacheKey = generateCacheKey(word);
+            const auto cacheIt = wordValidityCache_.find(cacheKey);
             if (cacheIt != wordValidityCache_.end()) {
-                stats_.cacheHits++;
+                ++stats_.cacheHits;
                 return cacheIt->second;
             }
 
-            stats_.cacheMisses++;
+            ++stats_.cacheMisses;
 
             // Validate word structure
-            bool isValid = validateWordStructure(word);
+            const bool isValid = validateWordStructure(word);
 
             // Cache the result
-            if (isCacheFull()) {
-                evictOldestCacheEntries();
-            }
-            wordValidityCache_[cacheKey] = isValid;
+            cacheWordValidity(cacheKey, isValid);
 
             if (!isValid) {
-                stats_.invalidWordsDetected++;
+                ++stats_.invalidWordsDetected;
             }
 
             return isValid;
@@ -82,15 +71,18 @@ namespace EndKey {
 
             // Single character words
             if (word.size() == 1) {
-                Uint16 charCode = word[0];
+                const Uint16 charCode = word[0];
                 return isVowel(charCode) || isConsonant(charCode);
             }
 
             // Extract vowels and consonants
             std::vector<Uint16> vowels;
             std::vector<Uint16> consonants;
+            
+            vowels.reserve(word.size());
+            consonants.reserve(word.size());
 
-            for (Uint16 charCode : word) {
+            for (const Uint16 charCode : word) {
                 if (isVowel(charCode)) {
                     vowels.push_back(charCode);
                 } else if (isConsonant(charCode)) {
@@ -103,17 +95,8 @@ namespace EndKey {
                 return false;
             }
 
-            // Validate vowel sequence
-            if (!isValidVowelSequence(vowels)) {
-                return false;
-            }
-
-            // Validate consonant sequences
-            if (!isValidConsonantSequence(consonants)) {
-                return false;
-            }
-
-            return true;
+            // Validate sequences
+            return isValidVowelSequence(vowels) && isValidConsonantSequence(consonants);
         }
 
         SpellingEngine::ToneMarkInfo SpellingEngine::applyToneMark(Uint16 character, Uint8 toneType) const {
@@ -338,6 +321,24 @@ namespace EndKey {
 
         bool SpellingEngine::isCacheFull() const {
             return wordValidityCache_.size() + toneMarkCache_.size() >= MAX_CACHE_SIZE;
+        }
+
+        Uint32 SpellingEngine::generateCacheKey(const std::vector<Uint16>& word) const {
+            Uint32 cacheKey = 0;
+            const size_t maxChars = std::min(word.size(), size_t(4));
+            
+            for (size_t i = 0; i < maxChars; ++i) {
+                cacheKey = (cacheKey << 16) | word[i];
+            }
+            
+            return cacheKey;
+        }
+
+        void SpellingEngine::cacheWordValidity(Uint32 cacheKey, bool isValid) const {
+            if (isCacheFull()) {
+                evictOldestCacheEntries();
+            }
+            wordValidityCache_[cacheKey] = isValid;
         }
 
     } // namespace Engine

@@ -20,11 +20,7 @@
  * components to ensure existing code continues to work without modifications.
  */
 
-#include "core/EngineCore.h"
-#include "core/ConfigurationManager.h"
-#include "core/VietnameseProcessor.h"
-#include "core/MacroProcessor.h"
-#include "core/InputProcessor.h"
+#include "EngineCore.h"
 #include "DataType.h"
 #include <memory>
 
@@ -38,8 +34,7 @@ namespace EndKey {
 /**
  * Global engine instance for backward compatibility
  */
-static std::unique_ptr<EndKey::Core::IEngineCore> g_engineInstance = nullptr;
-static std::unique_ptr<EndKey::Legacy::EngineBridge> g_bridgeInstance = nullptr;
+static std::unique_ptr<EngineCore> g_engineInstance = nullptr;
 
 namespace EndKey {
     namespace Legacy {
@@ -50,11 +45,6 @@ namespace EndKey {
          */
         class EngineBridge {
         private:
-            EndKey::Core::IConfigurationManager* configManager;
-            EndKey::Core::IVietnameseProcessor* vietnameseProcessor;
-            EndKey::Core::IMacroProcessor* macroProcessor;
-            EndKey::Core::IInputProcessor* inputProcessor;
-
             bool initialized;
 
         public:
@@ -64,12 +54,6 @@ namespace EndKey {
             bool initialize();
             void shutdown();
             bool isInitialized() const { return initialized; }
-
-            // Getters for component access
-            EndKey::Core::IConfigurationManager* getConfigManager() { return configManager; }
-            EndKey::Core::IVietnameseProcessor* getVietnameseProcessor() { return vietnameseProcessor; }
-            EndKey::Core::IMacroProcessor* getMacroProcessor() { return macroProcessor; }
-            EndKey::Core::IInputProcessor* getInputProcessor() { return inputProcessor; }
 
             // Legacy API mapping
             void mapLegacyVariables();

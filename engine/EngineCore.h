@@ -100,6 +100,8 @@ public:
                                    const Uint8& capsStatus = 0,
                                    const bool& otherControlKey = false);
 
+    void processEnglishMode(const vKeyEventState& state, const Uint16& data, const bool& isCaps, const bool& otherControlKey);
+
     // Session management
     void startNewSession();
     void resetSession();
