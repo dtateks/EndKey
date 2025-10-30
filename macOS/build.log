@@ -1,0 +1,23 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project EndKey.xcodeproj -scheme EndKey -configuration Release clean build SYMROOT=/tmp/EndKeyBuild CODE_SIGN_IDENTITY= CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+
+Build settings from command line:
+    CODE_SIGN_IDENTITY = 
+    CODE_SIGNING_ALLOWED = NO
+    CODE_SIGNING_REQUIRED = NO
+    SYMROOT = /tmp/EndKeyBuild
+
+2025-11-12 05:22:31.315 xcodebuild[42075:1484686]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (1048.0.0) is older than build version (1051.9.4).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+
+2025-11-12 05:22:31.315 xcodebuild[42075:1484686]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (1048.0.0) is older than build version (1051.9.4)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (1048.0.0) is older than build version (1051.9.4).}). Simulator device support disabled.
+2025-11-12 05:22:31.575 xcodebuild[42075:1484655] Writing error result bundle to /var/folders/gy/crwk_b8j6p93jbzvxg5l4qqr0000gn/T/ResultBundle_2025-12-11_05-22-0031.xcresult
+xcodebuild: error: The project named "EndKey" does not contain a scheme named "EndKey". The "-list" option can be used to find the names of the schemes in the project.
