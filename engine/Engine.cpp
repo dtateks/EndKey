@@ -34,10 +34,9 @@ static vector<Uint8> _macroBreakCode = {
     KEY_RETURN, KEY_SPACE, KEY_TAB,
     // Numbers (Shift + number = !, @, #, $, %, ^, &, *, (, ))
     KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0,
-    // Punctuation and symbols (, . / ; ' \ - = [ ] `)
-    KEY_COMMA, KEY_DOT, KEY_SLASH, KEY_SEMICOLON, KEY_QUOTE,
-    KEY_BACK_SLASH, KEY_MINUS, KEY_EQUALS,
-    KEY_LEFT_BRACKET, KEY_RIGHT_BRACKET, KEY_BACKQUOTE
+    // Punctuation and symbols (, . ; ' [ ])
+    KEY_COMMA, KEY_DOT, KEY_SEMICOLON, KEY_QUOTE,
+    KEY_LEFT_BRACKET, KEY_RIGHT_BRACKET
 };
 
 static Uint16 ProcessingChar[][11] = {
