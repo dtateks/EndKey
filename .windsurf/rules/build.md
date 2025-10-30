@@ -2,7 +2,8 @@
 trigger: always_on
 ---
 
-allways build after task done & commit
+always build after task done
+
 ```bash
 # Kill existing processes
 killall -9 EndKey EndKeyHelper 2>/dev/null

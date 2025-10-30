@@ -128,8 +128,6 @@ namespace EndKey {
             // Helper methods
             void loadConversionTables() const;
             void loadUnicodeTable();
-            void loadTCVN3Table();
-            void loadVNIWindowsTable();
 
             // Character classification
             bool isLatinCharacter(Uint16 character) const;

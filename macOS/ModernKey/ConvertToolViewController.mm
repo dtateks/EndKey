@@ -127,14 +127,6 @@ extern AppDelegate* appDelegate;
     return val;
 }
 
-- (IBAction)onReverseCode:(id)sender {
-    NSInteger code = [self.ToCode indexOfSelectedItem];
-    [self.ToCode selectItemAtIndex:[self.FromCode indexOfSelectedItem]];
-    [self.FromCode selectItemAtIndex:code];
-    convertToolFromCode = [self.FromCode indexOfSelectedItem];
-    convertToolToCode = [self.ToCode indexOfSelectedItem];
-}
-
 - (IBAction)onSControl:(NSButton *)sender {
     NSInteger val = sender.state == NSControlStateValueOn ? 1 : 0;
     convertToolHotKey &= (~0x100);

@@ -1295,14 +1295,6 @@
                         <outlet property="AutoCapsMacro" destination="74U-4J-gv7" id="VfS-OM-Xg9"/>
                         <outlet property="AutoRememberSwitchKey" destination="YGb-a8-1Lb" id="uux-4i-1Hw"/>
                         <outlet property="CheckSpellingButton" destination="6Ko-dG-wVl" id="GZc-qh-LkA"/>
-                        <!-- <outlet property="CustomBeepSound" destination="bJy-t3-bzy" id="AyJ-En-XLs"/> -->
-                        <!-- <outlet property="CustomSwitchCommand" destination="qvz-oU-TII" id="uv1-93-sB7"/> -->
-                        <!-- <outlet property="CustomSwitchControl" destination="5e5-3S-Gd8" id="Zkp-PA-ngW"/> -->
-                        <!-- <outlet property="CustomSwitchKey" destination="F2s-m3-A6w" id="xrK-un-OiP"/> -->
-                        <!-- <outlet property="CustomSwitchOption" destination="Mox-UL-j9u" id="iCB-jD-eQG"/> -->
-                        <!-- <outlet property="CustomSwitchShift" destination="wh2-uV-nSn" id="uJw-Tj-F5N"/> -->
-                        <outlet property="DoubleSpacePeriod" destination="DSP-01-BTN" id="DSP-01-OUT"/>
-                        <!-- <outlet property="EngButton" destination="yUA-UQ-mxx" id="QKJ-tU-dsA"/> -->
                         <outlet property="FreeMarkButton" destination="f8B-EV-EE1" id="u6V-zD-Xqg"/>
                         <outlet property="OtherLanguage" destination="uew-J8-1eo" id="LFp-j1-L5Z"/>
                         <outlet property="RestoreIfInvalidWord" destination="HoJ-3t-uio" id="aPe-Ic-Sgb"/>
@@ -1310,7 +1302,6 @@
                         <outlet property="UpperCaseFirstChar" destination="Adl-fG-XEu" id="b4x-Cc-Trs"/>
                         <outlet property="UseMacro" destination="eCY-Z0-cgW" id="0z8-vh-VlK"/>
                         <outlet property="UseMacroInEnglishMode" destination="0oj-fd-y0l" id="rD2-9a-ehn"/>
-                        <!-- <outlet property="VietButton" destination="qjz-9i-VOQ" id="Jpa-0e-ZDo"/> -->
                         <outlet property="appOK" destination="S26-ZU-sFD" id="f3J-H0-epQ"/>
                         <outlet property="permissionWarning" destination="5SM-Mt-ady" id="MSR-ei-1L6"/>
                         <!-- ENCODING REMOVAL: Removed popupCode outlet - Unicode-only -->

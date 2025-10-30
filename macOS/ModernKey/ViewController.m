@@ -38,13 +38,6 @@ extern int vFixChromiumBrowser;
 extern int vPerformLayoutCompat;
 
 @implementation ViewController {
-    __weak IBOutlet NSButton *CustomSwitchCommand;
-    __weak IBOutlet NSButton *CustomSwitchOption;
-    __weak IBOutlet NSButton *CustomSwitchControl;
-    __weak IBOutlet NSButton *CustomSwitchShift;
-    __weak IBOutlet MyTextField *CustomSwitchKey;
-    __weak IBOutlet NSButton *CustomBeepSound;
-    __weak IBOutlet NSButton *DoubleSpacePeriod;
     NSArray* tabviews, *tabbuttons;
     NSRect tabViewRect;
 }
@@ -52,7 +45,6 @@ extern int vPerformLayoutCompat;
 - (void)viewDidLoad {
     [super viewDidLoad];
     viewController = self;
-    CustomSwitchKey.Parent = self;
     
     self.appOK.hidden = YES;
     self.permissionWarning.hidden = YES;
@@ -325,13 +317,7 @@ extern int vPerformLayoutCompat;
     //vPerformLayoutCompat is hardcoded to 0 - outlet removed
 
     // Switch key UI removed - always use Cmd+Shift
-    // CustomSwitchControl.state = (vSwitchKeyStatus & 0x100) ? NSControlStateValueOn : NSControlStateValueOff;
-    // CustomSwitchOption.state = (vSwitchKeyStatus & 0x200) ? NSControlStateValueOn : NSControlStateValueOff;
-    // CustomSwitchCommand.state = (vSwitchKeyStatus & 0x400) ? NSControlStateValueOn : NSControlStateValueOff;
-    // CustomSwitchShift.state = (vSwitchKeyStatus & 0x800) ? NSControlStateValueOn : NSControlStateValueOff;
-    // CustomBeepSound.state = (vSwitchKeyStatus & 0x8000) ? NSControlStateValueOn : NSControlStateValueOff;
-    // [CustomSwitchKey setTextByChar:((vSwitchKeyStatus>>24) & 0xFF)];
-
+    
 }
 
 - (IBAction)onHomePageLink:(id)sender {

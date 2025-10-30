@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 // ENCODING REMOVAL: These are now deprecated - Unicode-only
 @property (weak) IBOutlet NSPopUpButton *FromCode; // Will only show Unicode
 @property (weak) IBOutlet NSPopUpButton *ToCode; // Will only show Unicode
-@property (weak) IBOutlet NSButton *ReverseCode; // No longer functional
 
 @end
 
