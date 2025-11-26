@@ -10,6 +10,9 @@ class KeyboardManager {
     private var engine: InputEngine = TelexEngine()
     private(set) var isVietnameseMode = true
 
+    // Timing delay between backspaces and replacement (microseconds)
+    private let eventDelayMicroseconds: useconds_t = 1000
+
     var inputMethod: InputMethod = .telex {
         didSet {
             guard oldValue != inputMethod else { return }
@@ -37,7 +40,12 @@ class KeyboardManager {
 
     /// Setup EventTap for keyboard interception. Returns true on success.
     func setupEventTap() -> Bool {
-        let eventMask = (1 << CGEventType.keyDown.rawValue)
+        // Listen to keyboard events, mouse clicks, and scroll wheel
+        let eventMask: CGEventMask =
+            (1 << CGEventType.keyDown.rawValue) |
+            (1 << CGEventType.leftMouseDown.rawValue) |
+            (1 << CGEventType.rightMouseDown.rawValue) |
+            (1 << CGEventType.scrollWheel.rawValue)
 
         let refcon = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
 
@@ -45,13 +53,13 @@ class KeyboardManager {
             tap: .cgSessionEventTap,
             place: .headInsertEventTap,
             options: .defaultTap,
-            eventsOfInterest: CGEventMask(eventMask),
+            eventsOfInterest: eventMask,
             callback: { (proxy, type, event, refcon) -> Unmanaged<CGEvent>? in
                 guard let refcon = refcon else {
                     return Unmanaged.passRetained(event)
                 }
                 let manager = Unmanaged<KeyboardManager>.fromOpaque(refcon).takeUnretainedValue()
-                return manager.handleKeyEvent(proxy: proxy, type: type, event: event)
+                return manager.handleEvent(proxy: proxy, type: type, event: event)
             },
             userInfo: refcon
         )
@@ -80,7 +88,7 @@ class KeyboardManager {
 
     // MARK: - Event Handling
 
-    private func handleKeyEvent(
+    private func handleEvent(
         proxy: CGEventTapProxy,
         type: CGEventType,
         event: CGEvent
@@ -93,8 +101,27 @@ class KeyboardManager {
             return Unmanaged.passRetained(event)
         }
 
+        // Reset buffer on mouse events (click means cursor moved)
+        if type == .leftMouseDown || type == .rightMouseDown || type == .scrollWheel {
+            engine.reset()
+            return Unmanaged.passRetained(event)
+        }
+
+        // Only process keyDown events from here
+        guard type == .keyDown else {
+            return Unmanaged.passRetained(event)
+        }
+
         // Skip if Vietnamese mode is off
         guard isVietnameseMode else {
+            return Unmanaged.passRetained(event)
+        }
+
+        // Get virtual key code
+        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+
+        // Handle special keys that reset buffer
+        if handleSpecialKeys(Int(keyCode)) {
             return Unmanaged.passRetained(event)
         }
 
@@ -125,15 +152,56 @@ class KeyboardManager {
         let result = engine.processKey(char)
 
         // If transformation needed, suppress event and send replacement
-        // Note: CGEvent.tapCreate callback runs on a dedicated thread
-        // Sending events synchronously avoids race conditions
         if result.backspaceCount > 0, let replacement = result.replacement {
             sendBackspaces(count: result.backspaceCount)
+            usleep(eventDelayMicroseconds) // Add delay to prevent race conditions
             sendString(replacement)
             return nil // Suppress original event
         }
 
         return Unmanaged.passRetained(event)
+    }
+
+    /// Handle special keys that affect buffer state
+    private func handleSpecialKeys(_ keyCode: Int) -> Bool {
+        switch keyCode {
+        case kVK_Delete:
+            // Backspace - remove last char from buffer
+            if !engine.buffer.isEmpty {
+                var mutableEngine = engine
+                mutableEngine.reset() // For now, reset on backspace
+                engine = mutableEngine
+            }
+            return true
+
+        case kVK_ForwardDelete:
+            // Delete key - reset buffer
+            engine.reset()
+            return true
+
+        case kVK_LeftArrow, kVK_RightArrow, kVK_UpArrow, kVK_DownArrow:
+            // Arrow keys - cursor moved, reset buffer
+            engine.reset()
+            return true
+
+        case kVK_Escape:
+            // Escape key - reset buffer
+            engine.reset()
+            return true
+
+        case kVK_Return, kVK_Tab:
+            // Enter/Tab - word boundary
+            engine.reset()
+            return true
+
+        case kVK_Home, kVK_End, kVK_PageUp, kVK_PageDown:
+            // Navigation keys - reset buffer
+            engine.reset()
+            return true
+
+        default:
+            return false
+        }
     }
 
     private func getCharacter(from event: CGEvent) -> Character? {
@@ -150,7 +218,6 @@ class KeyboardManager {
     }
 
     private func isWordBoundary(_ char: Character) -> Bool {
-        // Space, enter, tab, punctuation
         return char == " " || char == "\n" || char == "\r" || char == "\t" ||
                char.isPunctuation || char == "." || char == "," || char == "!" ||
                char == "?" || char == ";" || char == ":"

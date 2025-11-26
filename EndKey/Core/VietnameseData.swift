@@ -1,5 +1,29 @@
 import Foundation
 
+/// Tracks a single keystroke with its original and transformed forms
+struct RawInputEntry {
+    let rawChar: Character      // Original keystroke
+    var outputChar: Character   // Current displayed char
+    var position: Int           // Position in syllable
+}
+
+/// Tracks the complete state of a Vietnamese syllable being typed
+struct SyllableState {
+    var rawInput: [RawInputEntry] = []  // Track original keystrokes
+    var output: String = ""              // Current output string
+    var toneApplied: Character? = nil    // Which tone key was used (s,f,r,x,j or 1-5)
+    var lastTonePosition: Int? = nil     // Position of toned vowel
+    var escapeMode: Bool = false         // Double tone key → raw text mode
+
+    mutating func reset() {
+        rawInput.removeAll()
+        output = ""
+        toneApplied = nil
+        lastTonePosition = nil
+        escapeMode = false
+    }
+}
+
 /// Vietnamese character data and mappings for input processing
 struct VietnameseData {
     // Base vowels that can receive diacritics
@@ -58,6 +82,26 @@ struct VietnameseData {
         "ứ": "ư", "ừ": "ư", "ử": "ư", "ữ": "ư", "ự": "ư",
         "ý": "y", "ỳ": "y", "ỷ": "y", "ỹ": "y", "ỵ": "y"
     ]
+
+    // Consonant clusters that should be treated as single unit for tone placement
+    static let consonantClusters: Set<String> = ["gi", "qu", "ng", "nh", "tr", "ch", "kh", "ph", "th", "gh"]
+
+    // Diphthongs: tone on first vowel for these patterns
+    static let diphthongsToneFirst: Set<String> = ["ai", "ao", "au", "ay", "eo", "iu", "oi", "ui"]
+
+    // Diphthongs: tone on second vowel for these patterns
+    static let diphthongsToneSecond: Set<String> = ["oa", "oe", "uy", "ua", "ue", "ia", "ie", "ya", "ye"]
+
+    // Triphthongs: tone on middle vowel
+    static let triphthongs: Set<String> = ["ieu", "yeu", "oai", "oay", "uay", "uoi", "uou", "uya", "uye"]
+
+    // Special multi-char Telex transforms (uow → ươ)
+    static let multiCharTransforms: [String: String] = [
+        "uow": "ươ", "UOW": "ƯƠ", "Uow": "Ươ"
+    ]
+
+    // Telex escape: when same tone key pressed twice, revert to raw text
+    static let telexToneKeys: Set<Character> = ["s", "f", "r", "x", "j"]
 
     /// Get base vowel from a potentially toned character
     static func getBaseVowel(_ char: Character) -> Character {

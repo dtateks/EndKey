@@ -1,5 +1,5 @@
 import XCTest
-@testable import EndKey
+@testable import EndKeyCore
 
 /// Test suite for Phase 03 UI Components - AppState
 /// Tests mode toggling and input method persistence
