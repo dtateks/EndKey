@@ -15,6 +15,9 @@
 		006 /* TelexEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107 /* TelexEngine.swift */; };
 		007 /* VNIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108 /* VNIEngine.swift */; };
 		008 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109 /* KeyboardManager.swift */; };
+		009 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110 /* AppState.swift */; };
+		010 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111 /* MenuBarManager.swift */; };
+		011 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112 /* ConfigView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		107 /* TelexEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelexEngine.swift; sourceTree = "<group>"; };
 		108 /* VNIEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNIEngine.swift; sourceTree = "<group>"; };
 		109 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		110 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		111 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
+		112 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +61,8 @@
 				101 /* EndKeyApp.swift */,
 				102 /* AppDelegate.swift */,
 				304 /* Core */,
+				305 /* Models */,
+				306 /* UI */,
 				303 /* Utils */,
 				104 /* Info.plist */,
 			);
@@ -87,6 +95,23 @@
 				109 /* KeyboardManager.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		305 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				110 /* AppState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		306 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				111 /* MenuBarManager.swift */,
+				112 /* ConfigView.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +190,9 @@
 				006 /* TelexEngine.swift in Sources */,
 				007 /* VNIEngine.swift in Sources */,
 				008 /* KeyboardManager.swift in Sources */,
+				009 /* AppState.swift in Sources */,
+				010 /* MenuBarManager.swift in Sources */,
+				011 /* ConfigView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

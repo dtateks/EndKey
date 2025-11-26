@@ -1,7 +1,7 @@
 # EndKey Codebase Summary
 
 **Generated:** 2025-11-26
-**Phase:** 02 - Core Engine (Completed)
+**Phase:** 03 - UI Components (Completed)
 
 ## Project Overview
 
@@ -22,7 +22,12 @@ EndKey/
 ├── EndKey.xcodeproj/          # Xcode project configuration
 ├── EndKey/                    # Main application source
 │   ├── EndKeyApp.swift        # SwiftUI @main entry point
-│   ├── AppDelegate.swift      # EventTap setup & permission handling
+│   ├── AppDelegate.swift      # EventTap setup, menu bar & global hotkey
+│   ├── Models/
+│   │   └── AppState.swift     # Shared state with @AppStorage
+│   ├── UI/
+│   │   ├── MenuBarManager.swift   # Menu bar status item & dropdown
+│   │   └── ConfigView.swift       # SwiftUI preferences panel
 │   ├── Core/                  # Vietnamese input engine
 │   │   ├── VietnameseData.swift    # Character mappings & data
 │   │   ├── InputEngine.swift       # Protocol & types
@@ -46,18 +51,79 @@ EndKey/
 - **Lines:** 13
 
 ### 2. AppDelegate.swift
-- **Purpose:** Core EventTap setup and lifecycle management
+- **Purpose:** Core EventTap setup, menu bar & global hotkey management
 - **Key Features:**
   - Accessibility permission checking with retry logic (max 5 attempts)
   - KeyboardManager integration for Vietnamese input
+  - MenuBarManager integration for status item UI
+  - Global hotkey (Cmd+Shift) for mode toggle
   - Error recovery dialogs for permission/EventTap failures
   - Graceful cleanup on termination
 - **Architecture:**
   - Delegates keyboard handling to `KeyboardManager.shared`
+  - Delegates menu bar to `MenuBarManager`
+  - Uses NSEvent.addGlobalMonitorForEvents for hotkey detection
   - Permission flow: check → request → retry → alert → setup
-- **Lines:** 89
+- **Lines:** 125
 
-### 3. Core/VietnameseData.swift
+### 3. Models/AppState.swift
+- **Purpose:** Singleton shared state with UserDefaults persistence
+- **Key Features:**
+  - @AppStorage for automatic persistence (isVietnameseMode, inputMethodRaw, launchAtLogin)
+  - Computed property `inputMethod` for type-safe access
+  - Bidirectional sync with KeyboardManager via didSet
+  - NotificationCenter.modeChanged for UI updates
+- **State Properties:**
+  - `isVietnameseMode: Bool` - Vietnamese/English toggle (default: true)
+  - `inputMethod: InputMethod` - Telex/VNI selection (default: .telex)
+  - `launchAtLogin: Bool` - Launch at login preference (default: false)
+- **Architecture:**
+  - ObservableObject with singleton pattern (`AppState.shared`)
+  - Private init syncs initial state to KeyboardManager
+  - State changes trigger KeyboardManager updates + UI refresh
+- **Lines:** 46
+
+### 4. UI/MenuBarManager.swift
+- **Purpose:** Menu bar status item and dropdown menu management
+- **Key Features:**
+  - Status item with V/E icon (Vietnamese/English indicator)
+  - Dropdown menu: Mode toggle, Input method submenu, Preferences, Quit
+  - Dynamic menu rebuild on mode changes via NotificationCenter
+  - ConfigView preferences window (NSHostingView wrapper)
+- **Menu Items:**
+  - Vietnamese Mode toggle (checkmark state)
+  - Input Method submenu (Telex/VNI radio selection)
+  - Preferences panel (Cmd+,)
+  - Quit EndKey (Cmd+Q)
+- **Architecture:**
+  - NSStatusItem management with NSMenu
+  - SwiftUI ConfigView wrapped in NSWindow + NSHostingView
+  - Singleton window pattern for preferences (reuse if exists)
+  - NotificationCenter observer for .modeChanged
+- **Lines:** 127
+
+### 5. UI/ConfigView.swift
+- **Purpose:** SwiftUI preferences panel for app configuration
+- **Key Features:**
+  - Input method picker (Telex/VNI segmented control)
+  - Launch at login toggle with SMAppService integration
+  - Keyboard shortcut display (⌘ + ⇧)
+  - App version footer
+- **Sections:**
+  - Input Method: Segmented picker for Telex/VNI
+  - Settings: Launch at login toggle
+  - Shortcut: Read-only display of global hotkey
+  - Footer: App version info
+- **LaunchAtLoginHelper:**
+  - Uses SMAppService.mainApp (macOS 13+)
+  - Falls back to SMLoginItemSetEnabled (older macOS)
+- **Architecture:**
+  - @ObservedObject binding to AppState.shared
+  - Binding wrappers for computed properties
+  - Fixed size: 300x220 points
+- **Lines:** 84
+
+### 6. Core/VietnameseData.swift
 - **Purpose:** Central data store for Vietnamese character mappings
 - **Data Structures:**
   - `baseVowels`: Set of base vowels (a, e, i, o, u, y)
@@ -71,7 +137,7 @@ EndKey/
   - `isVowel(_:)`: Check if character is Vietnamese vowel
 - **Lines:** 74
 
-### 4. Core/InputEngine.swift
+### 7. Core/InputEngine.swift
 - **Purpose:** Protocol and types for input engines
 - **Components:**
   - `ProcessResult`: Result struct with backspaceCount + replacement string
@@ -80,7 +146,7 @@ EndKey/
 - **Architecture:** Protocol-based design for extensibility
 - **Lines:** 31
 
-### 5. Core/TelexEngine.swift
+### 8. Core/TelexEngine.swift
 - **Purpose:** Telex input method implementation
 - **Rules:**
   - Doubling: aa→â, aw→ă, ee→ê, oo→ô, ow→ơ, uw→ư
@@ -96,7 +162,7 @@ EndKey/
   - `findTonePosition()`: Vietnamese tone placement rules
 - **Lines:** 129
 
-### 6. Core/VNIEngine.swift
+### 9. Core/VNIEngine.swift
 - **Purpose:** VNI input method implementation
 - **Rules:**
   - Numbers 1-5 for tones
@@ -112,7 +178,7 @@ EndKey/
   - `applyVowelModifier(_:)`: Backward search for applicable vowel
 - **Lines:** 134
 
-### 7. Core/KeyboardManager.swift
+### 10. Core/KeyboardManager.swift
 - **Purpose:** Singleton manager for EventTap and input processing
 - **Key Features:**
   - EventTap lifecycle: setup, cleanup, re-enable on timeout
@@ -133,7 +199,7 @@ EndKey/
   - EventTap callback runs on dedicated thread (synchronous event sending)
 - **Lines:** 187
 
-### 8. Utils/PermissionHelper.swift
+### 11. Utils/PermissionHelper.swift
 - **Purpose:** Accessibility permission utilities
 - **Capabilities:**
   - Check if Accessibility is enabled: `isAccessibilityEnabled`
@@ -142,7 +208,7 @@ EndKey/
 - **Architecture:** Static utility struct wrapping AXIsProcessTrusted APIs
 - **Lines:** 18
 
-### 9. Info.plist
+### 12. Info.plist
 - **Key Configurations:**
   - `LSUIElement: true` - Runs as background agent (no dock icon/menu bar)
   - `NSAccessibilityUsageDescription` - Permission request message
@@ -172,11 +238,21 @@ EndKey/
 - Word boundary detection and buffer reset
 - Case preservation for uppercase letters
 
-⏳ **Deferred to Phase 03:**
-- UI/StatusBar for mode switching and settings
-- Keyboard shortcuts for toggle Vietnamese mode
-- Settings panel for customization
-- App icon and menu bar icon
+✅ **Phase 03 - UI Components (Completed):**
+- AppState singleton with @AppStorage persistence
+- MenuBarManager with V/E status icon
+- Dropdown menu with mode toggle, input method, preferences, quit
+- ConfigView SwiftUI preferences panel
+- Global hotkey (Cmd+Shift) for mode toggle
+- Launch at login integration (SMAppService)
+- NotificationCenter-based UI updates
+- Keyboard shortcut display in preferences
+
+⏳ **Future Enhancements:**
+- Custom keyboard shortcuts configuration
+- App icon and asset catalog
+- Advanced preferences (exclude apps, custom shortcuts)
+- Statistics and usage tracking
 
 ## Key Design Decisions
 
@@ -218,12 +294,32 @@ EndKey/
    - Priority 3: No ending consonant → tone on penultimate vowel
    - Handles edge cases: single vowel, double vowels, complex syllables
 
+8. **AppState Persistence:**
+   - @AppStorage for automatic UserDefaults sync
+   - Bidirectional binding: AppState ↔ KeyboardManager
+   - NotificationCenter for decoupled UI updates
+   - Singleton pattern for global state access
+
+9. **Menu Bar UI:**
+   - NSStatusItem for macOS-native menu bar integration
+   - V/E icon for quick mode identification
+   - Dynamic menu rebuilds on state changes
+   - SwiftUI preferences wrapped in NSHostingView
+
+10. **Global Hotkey:**
+    - NSEvent.addGlobalMonitorForEvents for system-wide detection
+    - Cmd+Shift combination (no third key needed)
+    - State tracking to avoid double-toggle on key repeat
+    - Works even when app is not frontmost
+
 ## Code Statistics
 
-- **Total Swift Files:** 8
-- **Total Lines:** ~657 (excluding comments/blank lines)
+- **Total Swift Files:** 12
+- **Total Lines:** ~1,040 (excluding comments/blank lines)
 - **Configuration Files:** 1 (Info.plist)
 - **Core Modules:** 5 (VietnameseData, InputEngine, TelexEngine, VNIEngine, KeyboardManager)
+- **UI Modules:** 2 (MenuBarManager, ConfigView)
+- **Models:** 1 (AppState)
 - **Utilities:** 1 module (PermissionHelper)
 - **Protocols:** 1 (InputEngine)
 - **Enums:** 1 (InputMethod)
@@ -261,21 +357,62 @@ EndKey/
 4. **Buffer Append:** Regular character → add to buffer
 5. **Buffer Trim:** Keep max 7 characters
 
-## Next Steps (Phase 03)
+## UI Architecture (Phase 03)
 
-1. Add menu bar icon with status indicator
-2. Implement keyboard shortcuts (Cmd+Shift+V to toggle Vietnamese mode)
-3. Create settings panel for input method switching
-4. Add visual feedback for mode status
-5. Implement auto-save for user preferences
-6. Add app icon and bundle resources
+### State Management Flow
+```
+User Action (Menu/Hotkey)
+    ↓
+AppState.toggleMode() / AppState.inputMethod = .telex
+    ↓
+@AppStorage didSet triggers
+    ↓
+┌─────────────────────────┬───────────────────────────┐
+│ KeyboardManager.shared  │ NotificationCenter.post   │
+│ .setVietnameseMode()    │ (.modeChanged)            │
+└─────────────────────────┴───────────────────────────┘
+    ↓                           ↓
+EventTap filters input    MenuBarManager updates icon/menu
+```
+
+### UI Components Interaction
+```
+MenuBarManager (NSStatusItem)
+    ├── Status Icon (V/E)
+    ├── Menu Items
+    │   ├── Vietnamese Mode Toggle → AppState.toggleMode()
+    │   ├── Input Method Submenu → AppState.inputMethod = method
+    │   ├── Preferences → Opens ConfigView window
+    │   └── Quit → NSApp.terminate()
+    └── Observer: .modeChanged → updateIcon() + setupMenu()
+
+ConfigView (SwiftUI)
+    ├── @ObservedObject appState
+    ├── Input Method Picker → Binding to appState.inputMethod
+    ├── Launch at Login Toggle → SMAppService.mainApp.register/unregister
+    └── Keyboard Shortcut Display (read-only)
+
+AppDelegate
+    ├── Global Hotkey (Cmd+Shift) → AppState.toggleMode()
+    ├── MenuBarManager lifecycle
+    └── KeyboardManager setup
+```
+
+### Persistence Layer
+- **UserDefaults Keys:**
+  - `isVietnameseMode: Bool` (default: true)
+  - `inputMethod: String` (default: "telex")
+  - `launchAtLogin: Bool` (default: false)
+- **Sync on Launch:** AppState.init() reads UserDefaults → syncs to KeyboardManager
+- **Sync on Change:** @AppStorage didSet → updates KeyboardManager + posts notification
 
 ## Dependencies
 
 - **System Frameworks:**
-  - Cocoa.framework (AppKit, Accessibility APIs)
+  - Cocoa.framework (AppKit, NSStatusItem, Accessibility APIs)
   - Carbon.framework (CGEvent, EventTap)
-  - SwiftUI.framework (UI layer)
+  - SwiftUI.framework (ConfigView UI layer)
+  - ServiceManagement.framework (Launch at login - SMAppService)
 
 - **External Dependencies:** None (pure Swift/system frameworks)
 
@@ -290,18 +427,24 @@ EndKey/
 
 - **Phase 01 Testing:** Manual verification of app launch, permission flow, EventTap setup ✅
 - **Phase 02 Testing:** Manual verification of Vietnamese input (Telex/VNI), tone placement, case preservation ✅
+- **Phase 03 Testing:** Manual verification of UI components, menu bar, preferences, global hotkey ✅
 - **Test Cases Verified:**
   - Telex transformations: aa→â, aw→ă, dd→đ, tone marks (s/f/r/x/j)
   - VNI transformations: d9→đ, a6→â, a7→ă, tone marks (1-5)
   - Tone placement: modified vowels, ending consonants, penultimate vowels
   - Case preservation: Uppercase input → uppercase output
   - Word boundaries: Buffer reset on space/enter/punctuation
-  - Mode toggle: Vietnamese on/off functionality
+  - Mode toggle: Vietnamese on/off via menu + global hotkey (Cmd+Shift)
+  - Menu bar icon: V/E status indicator updates correctly
+  - Input method switching: Telex ↔ VNI via menu
+  - Preferences panel: Opens, closes, persists settings
+  - Launch at login: SMAppService registration/unregistration
+  - State persistence: UserDefaults sync on app restart
 - **Automated Tests:** Not implemented (future consideration)
 - **User Testing:** Not started
 
 ---
 
-**Document Version:** 2.0
-**Last Updated:** 2025-11-26 (Phase 02 Core Engine completion)
+**Document Version:** 3.0
+**Last Updated:** 2025-11-26 (Phase 03 UI Components completion)
 **Maintained By:** Technical Documentation Agent
