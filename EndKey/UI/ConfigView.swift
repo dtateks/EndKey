@@ -64,7 +64,9 @@ struct ConfigView: View {
 
 /// Helper for managing launch at login functionality
 enum LaunchAtLoginHelper {
-    static func setEnabled(_ enabled: Bool) {
+    /// Sets launch at login state, returns true if successful
+    @discardableResult
+    static func setEnabled(_ enabled: Bool) -> Bool {
         if #available(macOS 13.0, *) {
             do {
                 if enabled {
@@ -72,12 +74,19 @@ enum LaunchAtLoginHelper {
                 } else {
                     try SMAppService.mainApp.unregister()
                 }
+                return true
             } catch {
                 print("Launch at login error: \(error)")
+                // Revert state on failure
+                DispatchQueue.main.async {
+                    AppState.shared.launchAtLogin = !enabled
+                }
+                return false
             }
         } else {
             // Fallback for older macOS versions - uses deprecated API
-            SMLoginItemSetEnabled("com.endkey.EndKey" as CFString, enabled)
+            let bundleID = Bundle.main.bundleIdentifier ?? "com.endkey.EndKey"
+            return SMLoginItemSetEnabled(bundleID as CFString, enabled)
         }
     }
 }
