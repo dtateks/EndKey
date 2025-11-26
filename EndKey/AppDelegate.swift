@@ -1,8 +1,6 @@
 import Cocoa
-import Carbon
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private var eventTap: CFMachPort?
     private var permissionRetryCount = 0
     private let maxPermissionRetries = 5
 
@@ -12,7 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func checkAccessibilityPermission() {
         if PermissionHelper.isAccessibilityEnabled {
-            setupEventTap()
+            setupKeyboardManager()
             return
         }
 
@@ -59,31 +57,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func setupEventTap() {
-        let eventMask = (1 << CGEventType.keyDown.rawValue)
-
-        eventTap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .defaultTap,
-            eventsOfInterest: CGEventMask(eventMask),
-            callback: { (proxy, type, event, refcon) -> Unmanaged<CGEvent>? in
-                // Skeleton - will be implemented in Phase 2
-                return Unmanaged.passUnretained(event)
-            },
-            userInfo: nil
-        )
-
-        guard let eventTap = eventTap else {
+    private func setupKeyboardManager() {
+        if KeyboardManager.shared.setupEventTap() {
+            print("KeyboardManager setup complete - Vietnamese mode active")
+        } else {
             showEventTapError()
-            return
         }
-
-        let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
-        CGEvent.tapEnable(tap: eventTap, enable: true)
-
-        print("EventTap setup complete")
     }
 
     private func showEventTapError() {
@@ -104,8 +83,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        if let eventTap = eventTap {
-            CGEvent.tapEnable(tap: eventTap, enable: false)
-        }
+        KeyboardManager.shared.cleanup()
     }
 }

@@ -10,6 +10,11 @@
 		001 /* EndKeyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101 /* EndKeyApp.swift */; };
 		002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102 /* AppDelegate.swift */; };
 		003 /* PermissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103 /* PermissionHelper.swift */; };
+		004 /* VietnameseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105 /* VietnameseData.swift */; };
+		005 /* InputEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106 /* InputEngine.swift */; };
+		006 /* TelexEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107 /* TelexEngine.swift */; };
+		007 /* VNIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108 /* VNIEngine.swift */; };
+		008 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109 /* KeyboardManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +23,11 @@
 		102 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		103 /* PermissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionHelper.swift; sourceTree = "<group>"; };
 		104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		105 /* VietnameseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VietnameseData.swift; sourceTree = "<group>"; };
+		106 /* InputEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEngine.swift; sourceTree = "<group>"; };
+		107 /* TelexEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelexEngine.swift; sourceTree = "<group>"; };
+		108 /* VNIEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNIEngine.swift; sourceTree = "<group>"; };
+		109 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +54,7 @@
 			children = (
 				101 /* EndKeyApp.swift */,
 				102 /* AppDelegate.swift */,
+				304 /* Core */,
 				303 /* Utils */,
 				104 /* Info.plist */,
 			);
@@ -64,6 +75,18 @@
 				103 /* PermissionHelper.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		304 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				105 /* VietnameseData.swift */,
+				106 /* InputEngine.swift */,
+				107 /* TelexEngine.swift */,
+				108 /* VNIEngine.swift */,
+				109 /* KeyboardManager.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +160,11 @@
 				001 /* EndKeyApp.swift in Sources */,
 				002 /* AppDelegate.swift in Sources */,
 				003 /* PermissionHelper.swift in Sources */,
+				004 /* VietnameseData.swift in Sources */,
+				005 /* InputEngine.swift in Sources */,
+				006 /* TelexEngine.swift in Sources */,
+				007 /* VNIEngine.swift in Sources */,
+				008 /* KeyboardManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
