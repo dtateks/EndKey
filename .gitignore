@@ -1,9 +1,11 @@
 # Xcode
 build/
+.build/
 DerivedData/
 *.xcuserstate
 *.xcworkspacedata
 xcuserdata/
+*.backup.*
 
 # macOS
 .DS_Store
