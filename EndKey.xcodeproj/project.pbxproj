@@ -18,6 +18,7 @@
 		009 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110 /* AppState.swift */; };
 		010 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111 /* MenuBarManager.swift */; };
 		011 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112 /* ConfigView.swift */; };
+		012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 113 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		110 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		111 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		112 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
+		113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				305 /* Models */,
 				306 /* UI */,
 				303 /* Utils */,
+				113 /* Assets.xcassets */,
 				104 /* Info.plist */,
 			);
 			path = EndKey;
@@ -172,6 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				012 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

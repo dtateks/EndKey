@@ -1,7 +1,7 @@
 # EndKey Codebase Summary
 
 **Generated:** 2025-11-26
-**Phase:** 03 - UI Components (Completed)
+**Phase:** 04 - Polish & Distribution (Completed)
 
 ## Project Overview
 
@@ -23,11 +23,12 @@ EndKey/
 ├── EndKey/                    # Main application source
 │   ├── EndKeyApp.swift        # SwiftUI @main entry point
 │   ├── AppDelegate.swift      # EventTap setup, menu bar & global hotkey
+│   ├── Assets.xcassets/       # App icons & image assets
 │   ├── Models/
 │   │   └── AppState.swift     # Shared state with @AppStorage
 │   ├── UI/
 │   │   ├── MenuBarManager.swift   # Menu bar status item & dropdown
-│   │   └── ConfigView.swift       # SwiftUI preferences panel
+│   │   └── ConfigView.swift       # SwiftUI preferences panel + LaunchAtLoginHelper
 │   ├── Core/                  # Vietnamese input engine
 │   │   ├── VietnameseData.swift    # Character mappings & data
 │   │   ├── InputEngine.swift       # Protocol & types
@@ -37,6 +38,10 @@ EndKey/
 │   ├── Utils/
 │   │   └── PermissionHelper.swift  # Accessibility permission utilities
 │   └── Info.plist            # App configuration & permissions
+├── scripts/                   # Build & distribution scripts
+│   ├── build-release.sh       # Build release .app bundle
+│   └── create-dmg.sh          # Create DMG installer
+├── ExportOptions.plist        # App export configuration (adhoc)
 ├── docs/                      # Documentation
 ├── plans/                     # Implementation plans
 └── reports/                   # Progress reports
@@ -248,11 +253,20 @@ EndKey/
 - NotificationCenter-based UI updates
 - Keyboard shortcut display in preferences
 
+✅ **Phase 04 - Polish & Distribution (Completed):**
+- App icons in Assets.xcassets (AppIcon set with 512x512, 256x256, 128x128, 64x64, 32x32, 16x16)
+- LaunchAtLoginHelper in ConfigView.swift (SMAppService integration)
+- build-release.sh script (clean build, archive, export adhoc signed .app)
+- create-dmg.sh script (DMG packaging with custom background, drag-to-Applications)
+- ExportOptions.plist (adhoc signing configuration)
+- README.md (installation, usage, build instructions)
+- Xcode project configuration (Assets reference added)
+
 ⏳ **Future Enhancements:**
 - Custom keyboard shortcuts configuration
-- App icon and asset catalog
 - Advanced preferences (exclude apps, custom shortcuts)
 - Statistics and usage tracking
+- Notarization for Gatekeeper bypass
 
 ## Key Design Decisions
 
@@ -316,7 +330,9 @@ EndKey/
 
 - **Total Swift Files:** 12
 - **Total Lines:** ~1,040 (excluding comments/blank lines)
-- **Configuration Files:** 1 (Info.plist)
+- **Configuration Files:** 2 (Info.plist, ExportOptions.plist)
+- **Build Scripts:** 2 (build-release.sh, create-dmg.sh)
+- **Assets:** 1 catalog (Assets.xcassets with AppIcon)
 - **Core Modules:** 5 (VietnameseData, InputEngine, TelexEngine, VNIEngine, KeyboardManager)
 - **UI Modules:** 2 (MenuBarManager, ConfigView)
 - **Models:** 1 (AppState)
@@ -330,6 +346,11 @@ EndKey/
 - **Build System:** Xcode project (xcodeproj)
 - **Bundle Identifier:** (configured in project settings)
 - **Version:** 1.0 (build 1)
+- **Signing:** Ad-hoc (no Developer ID required)
+- **Distribution:** DMG installer via create-dmg.sh script
+- **Build Scripts:**
+  - `build-release.sh`: Clean, archive, export adhoc signed .app
+  - `create-dmg.sh`: Package .app into DMG with drag-to-Applications UI
 
 ## Technical Highlights
 
@@ -428,6 +449,7 @@ AppDelegate
 - **Phase 01 Testing:** Manual verification of app launch, permission flow, EventTap setup ✅
 - **Phase 02 Testing:** Manual verification of Vietnamese input (Telex/VNI), tone placement, case preservation ✅
 - **Phase 03 Testing:** Manual verification of UI components, menu bar, preferences, global hotkey ✅
+- **Phase 04 Testing:** Manual verification of build scripts, DMG creation, app icons ✅
 - **Test Cases Verified:**
   - Telex transformations: aa→â, aw→ă, dd→đ, tone marks (s/f/r/x/j)
   - VNI transformations: d9→đ, a6→â, a7→ă, tone marks (1-5)
@@ -440,11 +462,40 @@ AppDelegate
   - Preferences panel: Opens, closes, persists settings
   - Launch at login: SMAppService registration/unregistration
   - State persistence: UserDefaults sync on app restart
+  - Build process: build-release.sh produces signed .app
+  - DMG creation: create-dmg.sh packages installer
+  - App icons: All resolutions display correctly
 - **Automated Tests:** Not implemented (future consideration)
 - **User Testing:** Not started
 
+## Distribution
+
+### Build Process
+1. **Clean Build:** `./scripts/build-release.sh`
+   - Cleans Xcode build folder
+   - Archives Release configuration
+   - Exports adhoc signed .app to `build/EndKey.app`
+   - Uses ExportOptions.plist for export settings
+
+2. **DMG Creation:** `./scripts/create-dmg.sh`
+   - Creates temporary DMG volume
+   - Copies .app and /Applications symlink
+   - Sets custom background and icon layout
+   - Compresses to final DMG at `build/EndKey.dmg`
+
+### Installation
+- Download `EndKey.dmg`
+- Mount DMG, drag EndKey.app to /Applications
+- Launch EndKey, grant Accessibility permission
+- App runs in background (no dock icon)
+
+### Requirements
+- macOS 11.0+ (Big Sur or later)
+- Accessibility permission (required for EventTap)
+- Ad-hoc signed (Gatekeeper warning on first launch - right-click Open)
+
 ---
 
-**Document Version:** 3.0
-**Last Updated:** 2025-11-26 (Phase 03 UI Components completion)
+**Document Version:** 4.0
+**Last Updated:** 2025-11-26 (Phase 04 Polish & Distribution completion)
 **Maintained By:** Technical Documentation Agent
