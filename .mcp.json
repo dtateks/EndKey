@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "Ref": {
+      "type": "http",
+      "url": "https://api.ref.tools/mcp?apiKey=ref-8ee3b830cb34f9f491ac"
+    },
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp?exaApiKey=767a45b8-24f4-40e5-8592-a3125ed0b787"
+    }
+  }
+}
